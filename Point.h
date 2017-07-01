@@ -27,6 +27,20 @@ struct Point
 	}
 
 	/*--------------------------------------------------------*/
+	Point(int x, int y)
+	{
+		this->x = static_cast<float>(x);
+		this->y = static_cast<float>(y);
+	}
+
+	/*--------------------------------------------------------*/
+	Point(double x, double y)
+	{
+		this->x = static_cast<float>(x);
+		this->y = static_cast<float>(y);
+	}
+
+	/*--------------------------------------------------------*/
 	Point(float alpha)
 	{
 		this->x = cos(alpha);

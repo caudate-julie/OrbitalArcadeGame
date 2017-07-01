@@ -42,7 +42,7 @@ public:
 	void set_game_difficulty(int game_move, float engine, float g_const);
 
 private:
-	static Configuration* instance;
+	//static Configuration* instance;
 	Configuration();
 
 	int width_;

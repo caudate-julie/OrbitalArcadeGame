@@ -28,7 +28,7 @@ Game::Game()
 {
 	Configuration& conf = Configuration::get();
 
-	this->flyer = BotFlyer();
+	this->flyer = new BotFlyer();
 	this->distance = 0;
 
 	this->stars.resize(conf.STAR_NUMBER);
@@ -49,7 +49,7 @@ Game::Game()
   -----------------------------------------------------------*/
 Game::~Game(void)
 {
-	delete this->instance;	
+	delete this->flyer;
 }
 
 /**------------------------------------------------------------
@@ -57,10 +57,10 @@ Game::~Game(void)
   -----------------------------------------------------------*/
 void Game::start()
 {
-	((BotFlyer&)this->flyer).start();   // <-- WHILE FLYER IS BOT
-	for (BotFlyer f : this->bots)
+	((BotFlyer*)this->flyer)->start();   // <-- WHILE FLYER IS BOT
+	for (BotFlyer* f : this->bots)
 	{
-		f.start();
+		f->start();
 	}
 }
 
@@ -70,11 +70,11 @@ void Game::start()
   -----------------------------------------------------------*/
 void Game::make_move()
 {
-	this->flyer.move(this->summ_acceleration(this->flyer.position));
-	this->distance += (this->flyer.velocity.module());
-	for (BotFlyer f : bots)
+	this->flyer->move(this->summ_acceleration(this->flyer->position));
+	this->distance += (this->flyer->velocity.module());
+	for (BotFlyer* f : bots)
 	{
-		f.move(this->summ_acceleration(f.position));
+		f->move(this->summ_acceleration(f->position));
 	}
 }
 
@@ -83,8 +83,8 @@ void Game::make_move()
   -----------------------------------------------------------*/
 void Game::call_bots_action()
 {
-	((BotFlyer&)this->flyer).action();       // <-- WHILE FLYER IS BOT
-	for (BotFlyer f : bots) { f.action(); }
+	((BotFlyer*)this->flyer)->action();       // <-- WHILE FLYER IS BOT
+	for (BotFlyer* f : bots) { f->action(); }
 }
 
 /**------------------------------------------------------------
@@ -94,7 +94,7 @@ void Game::call_bots_action()
   -----------------------------------------------------------*/
 void Game::user_turn_on_engine(char direction)
 {
-	this->flyer.velocity += this->flyer.engine_acceleration(direction);
+	this->flyer->velocity += this->flyer->engine_acceleration(direction);
 }
 
 /**------------------------------------------------------------
@@ -107,14 +107,14 @@ void Game::revise_stars()
 	Configuration& conf = Configuration::get();
 	for (int i = 0; i < stars.size(); i++)
 	{
-		if ((stars[i].position - flyer.position).module() > conf.STAR_SCOPE)
+		if ((stars[i].position - flyer->position).module() > conf.STAR_SCOPE)
 		{
 			this->change_star(i, false);
 		}
 	}
 	for (int i = 0; i < bots.size(); i++)
 	{
-		if ((bots[i].position - flyer.position).module() > 800)
+		if ((bots[i]->position - flyer->position).module() > 800)
 		{
 			this->change_bot(i);
 		}
@@ -188,7 +188,7 @@ void Game::change_star(int index, bool initial)
 
 		Star s;
 		float radius = (float)((initial ? (sqrt(rand() % 10000) / 100) : 1) * conf.STAR_SCOPE);
-		s.position = unit * radius + this->flyer.position;
+		s.position = unit * radius + this->flyer->position;
 		if (this->no_star_collision(s.position, s.size, 0, index)
 			&& (initial || this->no_star_collision(s.position, s.size, index, conf.STAR_NUMBER)))
 		{ 
@@ -207,11 +207,11 @@ void Game::change_bot(int index)
 {
 	Configuration& conf = Configuration::get();
 	while (true) {
-		BotFlyer f;
+		BotFlyer* f = new BotFlyer();
 		float angle = (float)((double)(rand() % 10000) / 10000 * 2 * M_PI);
-		f.position = Point(angle) * 800 + this->flyer.position;
-		f.velocity = -Point(angle);
-		if (this->no_star_collision(f.position, conf.FLYER_SIZE, 0, stars.size()))
+		f->position = Point(angle) * 800 + this->flyer->position;
+		f->velocity = -Point(angle);
+		if (this->no_star_collision(f->position, conf.FLYER_SIZE, 0, stars.size()))
 		{
 			this->bots[index] = f;
 			return;
@@ -242,6 +242,6 @@ bool Game::no_star_collision(const Point& obj_coord, float obj_size, int start_i
   -----------------------------------------------------------*/
 bool Game::in_sight_semisphere(const Point& direction) const
 {
-	return (this->flyer.velocity.x * direction.x 
-		  + this->flyer.velocity.y * direction.y) > 0;
+	return (this->flyer->velocity.x * direction.x 
+		  + this->flyer->velocity.y * direction.y) > 0;
 }

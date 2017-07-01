@@ -18,8 +18,8 @@ public:
 	~Game(void);
 
 	vector<Star> stars;
-	vector<BotFlyer> bots;
-	Flyer flyer;
+	vector<BotFlyer*> bots;
+	Flyer* flyer;
 	float distance;
 
 	void start();

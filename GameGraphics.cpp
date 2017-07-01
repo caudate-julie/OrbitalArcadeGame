@@ -4,15 +4,16 @@
 #include "Background.h"
 #
 
-GameGraphics* GameGraphics::instance = nullptr;
+//GameGraphics* GameGraphics::instance = nullptr;
 
 /**------------------------------------------------------------
   One more singleton.
   -----------------------------------------------------------*/
 GameGraphics& GameGraphics::get()
 {
-	if (!instance) { instance = new GameGraphics(); }
-	return *instance;
+	//if (!instance) { instance = new GameGraphics(); }
+	static GameGraphics instance;
+	return instance;
 }
 
 /**------------------------------------------------------------
@@ -41,7 +42,7 @@ GameGraphics::GameGraphics()
   -----------------------------------------------------------*/
 GameGraphics::~GameGraphics()
 {
-	delete this->instance;
+	/*delete this->instance;*/
 }
 
 
@@ -66,7 +67,7 @@ void GameGraphics::redraw_game_screen()
 
 	Background::get().draw();
 	for (Star s : game.stars) { draw_star(s); }
-	for (BotFlyer f : game.bots) { draw_flyer(f); }
+	for (BotFlyer* f : game.bots) { draw_flyer(f); }
 	draw_flyer(game.flyer);
 
 	this->show_flyer_stats();
@@ -119,12 +120,12 @@ void GameGraphics::draw_star(const Star& star)
 /**------------------------------------------------------------
   Draws a flyer.
   -----------------------------------------------------------*/
-void GameGraphics::draw_flyer(const Flyer& f)
+void GameGraphics::draw_flyer(Flyer* f)
 {
 	Configuration& conf = Configuration::get();
 	sf::CircleShape s(conf.FLYER_SIZE);
 	s.setFillColor(sf::Color::Red);
-	Point p = this->get_screen_position(f.position, conf.FLYER_SIZE);
+	Point p = this->get_screen_position(f->position, conf.FLYER_SIZE);
 	s.setPosition(p.x, p.y);
 	this->window.draw(s);
 }
@@ -135,7 +136,7 @@ void GameGraphics::draw_flyer(const Flyer& f)
 void GameGraphics::draw_single_vector()
 {
 	Game& game = Game::get();
-	this->draw_vector(game.summ_acceleration(game.flyer.position));
+	this->draw_vector(game.summ_acceleration(game.flyer->position));
 }
 
 /**------------------------------------------------------------
@@ -149,7 +150,7 @@ void GameGraphics::draw_all_vectors()
   -----------------------------------------------------------*/
 void GameGraphics::draw_vector(const Point& p)
 {
-	Point position = Game::get().flyer.position - this->corner;
+	Point position = Game::get().flyer->position - this->corner;
 	sf::Vertex line[] = { sf::Vertex(), sf::Vertex() };
 	line[0].position = sf::Vector2f(position.x, position.y);
 	line[0].color = sf::Color::White;
@@ -206,7 +207,7 @@ void GameGraphics::update_corner()
 {
 	Configuration& conf = Configuration::get();
 	Game& game = Game::get();
-	Point p = this->get_screen_position(game.flyer.position, 0);
+	Point p = this->get_screen_position(game.flyer->position, 0);
 	float x_move = 0, y_move = 0;
 	if (p.x < conf.MARGIN) { x_move = (p.x - conf.MARGIN); }
 	if (p.x > conf.WIDTH - conf.MARGIN) { x_move = (p.x - conf.WIDTH + conf.MARGIN); }

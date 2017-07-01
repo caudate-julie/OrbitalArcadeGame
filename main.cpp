@@ -34,7 +34,7 @@ void gameloop()
 		{
 			game_clock.restart();
 			game.make_move();
-			if (game.crashed(game.flyer.position, conf.FLYER_SIZE)) { 
+			if (game.crashed(game.flyer->position, conf.FLYER_SIZE)) { 
 				screen.show_end_screen(); 
 				return;
 			}

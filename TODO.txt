@@ -1,0 +1,22 @@
+
+	add opening screen
+	add ending screen
+	on_close 
+	save config function
+	exceptions in opening and closing file
+	timed event
+	reset for all singletons (game, gamegraphics)
+	make nice stars
+	make nice flyers
+	starter velocity => const
+	bot timespan => conf const
+	bot distance => conf const
+	config reading - make better
+	move back - one layer
+=>	pointers to references
+	flyers crash
+	bots crash
+	achievement class
+	bot main flyer as config
+	botflyer - change mutex to lockguard
+	vector_show_mode - to configs

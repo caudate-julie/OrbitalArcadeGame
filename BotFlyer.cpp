@@ -14,7 +14,12 @@ const int BotFlyer::MAX_STEPS = 50;
 /**------------------------------------------------------------
   Creates a new bot. Count is for debug output.
   -----------------------------------------------------------*/
-BotFlyer::BotFlyer(void) : prediction() {}
+BotFlyer::BotFlyer(void) : prediction() 
+{
+	this->stop_thread = false;
+	this->turn = 'N';
+
+}
 
 BotFlyer::BotFlyer(const BotFlyer& other) : prediction() { *this = other; }
 
@@ -24,9 +29,8 @@ BotFlyer::BotFlyer(const BotFlyer& other) : prediction() { *this = other; }
   -----------------------------------------------------------*/
 void BotFlyer::start()
 {
-	this->stop_thread = false;
-	this->turn = 'N';
-//	this->prediction.swap(std::thread(&BotFlyer::predict, this));
+	this->prediction.swap(std::thread(&BotFlyer::predict, this));
+
 }
 
 /**------------------------------------------------------------
@@ -35,7 +39,7 @@ void BotFlyer::start()
 BotFlyer::~BotFlyer(void) 
 {
 	this->stop_thread = true;
-//	if (this->prediction && this->prediction->joinable()) this->prediction->join();
+	if (this->prediction.joinable()) this->prediction.join();
 //	delete this->prediction;
 	//delete this->changing_turn;
 }
@@ -85,7 +89,6 @@ void BotFlyer::predict()
 		this->turn = (left_crash > right_crash) ? 'L' : 'R';
 		//this->velocity += this->turn_on_engine(turn);
 	}
-	return;
 }
 
 /**------------------------------------------------------------

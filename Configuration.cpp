@@ -3,23 +3,19 @@
 #include <string>
 #include <sstream>
 
-Configuration* Configuration::instance = nullptr;
-
 /**------------------------------------------------------------
   Singletonus vulgaris.
   -----------------------------------------------------------*/
 Configuration& Configuration::get()
 {
-	if (!instance) { 
-		instance = new Configuration(); 
-	}
-	return *instance;
+	static Configuration instance;
+	return instance;
 }
 
 /**------------------------------------------------------------
   Destructor.
   -----------------------------------------------------------*/
-Configuration::~Configuration() { delete this->instance; }
+Configuration::~Configuration() { /*delete this->instance;*/ }
 
 
 /**------------------------------------------------------------

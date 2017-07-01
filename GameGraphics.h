@@ -31,7 +31,7 @@ public:
 
 private:
 	GameGraphics();
-	static GameGraphics* instance;
+//	static GameGraphics* instance;
 
 	sf::Text text;
 	sf::Font font;
@@ -44,7 +44,7 @@ private:
 
 	// single element drawing
 	void draw_star(const Star&);
-	void draw_flyer(const Flyer&);
+	void draw_flyer(Flyer*);
 	void show_flyer_stats();
 	void draw_single_vector();
 	void draw_all_vectors();

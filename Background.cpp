@@ -1,15 +1,15 @@
 #include "Background.h"
 #include <random>
 
-Background* Background::instance = nullptr;
+//Background* Background::instance = nullptr;
 
 /**------------------------------------------------------------
   It's a singleton day!
   -----------------------------------------------------------*/
 Background& Background::get()
 {
-	if (!instance) { instance = new Background(); }
-	return *instance;
+	static Background instance;
+	return instance;
 }
 
 /**------------------------------------------------------------
@@ -19,7 +19,7 @@ Background::Background(void)
 {
 	Configuration& conf = Configuration::get();
 	this->galaxy.create(conf.WIDTH * 2, conf.HEIGHT * 2);
-	this->corner = Point(conf.WIDTH / 2, conf.HEIGHT / 2);
+	this->corner = Point((conf.WIDTH / 2), (conf.HEIGHT / 2));
 	int BACK_STAR_N = 20000;
 	this->backstars.reserve(BACK_STAR_N);
 	this->galaxy.clear();
@@ -44,7 +44,7 @@ Background::Background(void)
 /**------------------------------------------------------------
   Destructor.
   -----------------------------------------------------------*/
-Background::~Background(void) { delete this->instance; }
+Background::~Background(void) { /*delete this->instance;*/ }
 
 /**------------------------------------------------------------
   
