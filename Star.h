@@ -19,7 +19,7 @@ public:
 	~Star(void);
 
 	Point position;
-	float size;
+	double size;
 	char type;
 
 	virtual GalaxyObject info() const;

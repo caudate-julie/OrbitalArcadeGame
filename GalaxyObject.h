@@ -8,7 +8,7 @@ struct GalaxyObject
 {
 	Point position;
 	Point direction;
-	float size;
+	double size;
 	Type type;
 	Subtype subtype;
 };

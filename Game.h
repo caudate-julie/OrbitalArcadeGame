@@ -26,16 +26,16 @@ public:
 	int n_bots() const;
 	GalaxyObject star(int i) const;
 	GalaxyObject bot(int i) const;
-	float distance() const;
+	double distance() const;
 
 	void start();
 	void make_move();
 	void call_bots_action();
 	void user_turn_on_engine(char direction);
 	void revise_stars();
-	bool crashed(const Point& flyer_coord, float flyer_size) const;
+	bool crashed(const Point& flyer_coord, double flyer_size) const;
 
-	Point acceleration(const Point&  flyer_coord, const Point&  star_coord, float mass) const;
+	Point acceleration(const Point&  flyer_coord, const Point&  star_coord, double mass) const;
 	Point summ_acceleration(const Point&  flyer_coord) const;
 
 private:
@@ -44,11 +44,11 @@ private:
 	vector<Star> _stars;
 	vector<unique_ptr<BotFlyer>> _bots;
 	unique_ptr<Flyer> _flyer;
-	float _dist;
+	double _dist;
 
 	void change_star(int index, bool initial);
 	void change_bot(int index);
 
-	bool no_star_collision(const Point&  obj_coord, float obj_size, int start_index, int end_index) const;
+	bool no_star_collision(const Point&  obj_coord, double obj_size, int start_index, int end_index) const;
 	bool in_sight_semisphere(const Point&  obj_coord) const;
 };

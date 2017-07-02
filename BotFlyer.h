@@ -17,7 +17,6 @@ public:
 	BotFlyer& operator=(const BotFlyer& other);
 
 private:
-	static const int MAX_STEPS;
 	std::thread prediction;
 	std::mutex mutex_on_turn;
 	bool stop_thread;

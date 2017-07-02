@@ -38,11 +38,17 @@ Configuration::Configuration()
 		STAR_SCOPE(star_scope_),
 		STAR_DENSITY(star_density_),
 		STAR_MIN_SPACE(star_min_space_),
+
 		TIME_UNIT(time_unit_),
 		G_CONST(g_const_),
 		ENGINE(engine_),
+		INIT_VELOCITY(init_velocity_),
+
 		BOT_NUMBER(bot_number_),
 		BOT_ACTION(bot_action_),
+		BOT_SCOPE(bot_scope_),
+		BOT_MAX_STEPS(bot_max_steps_),
+
 		OUTPUT_DIST_COEFF(output_dist_coeff_)
 {
 	this->default_values();
@@ -59,34 +65,40 @@ Configuration::Configuration()
 	std::string line;
 	while (getline(conf_file, line))
 	{
-		std::stringstream s;
+		if (line.size() <= 1 || line[0] == '#') continue;    // <-- comment symbol
+		std::stringstream key;
 		std::stringstream value;
 		int i = 0;
-		while (i < line.size() && line[i] != ' ')
-		{
-			s << line[i++];
-		}
+		while (i < line.size() && line[i] != ' ') { key << line[i++]; }
 		i++;
-		while (i < line.size())
-		{
-			value << line[i++];
-		}
-		
-		if (s.str() == "width_") { width_ = std::stoi(value.str()); }
-		else if (s.str() == "height_") { height_ = std::stoi(value.str()); }
-		else if (s.str() == "margin_") { margin_ = std::stoi(value.str()); }
-		else if (s.str() == "flyer_size_") { flyer_size_ = std::stof(value.str()); }
-		else if (s.str() == "star_min_size_") { star_min_size_ = std::stof(value.str()); }
-		else if (s.str() == "star_max_size_") { star_max_size_ = std::stof(value.str()); }
-		else if (s.str() == "star_density_") { star_density_ = std::stof(value.str()); }
-		else if (s.str() == "star_min_space_") { star_min_space_ = std::stof(value.str()); }
-		else if (s.str() == "star_number_") { star_number_ = std::stoi(value.str()); }
-		else if (s.str() == "star_scope_") { star_scope_= std::stof(value.str()); }
-		else if (s.str() == "time_unit_") { time_unit_ = std::stoi(value.str()); }
-		else if (s.str() == "g_const_") { g_const_ = std::stof(value.str()); }
-		else if (s.str() == "engine_") { engine_ = std::stof(value.str()); }
-		else if (s.str() == "output_dist_coeff_") { output_dist_coeff_ = std::stof(value.str()); }
-		else if (s.str() == "star_revise_time_") { star_revise_time_ = std::stoi(value.str()); }
+		while (i < line.size()) { value << line[i++]; }
+
+		if (key.str() == "width_") { width_ = std::stoi(value.str()); }
+		else if (key.str() == "height_") { height_ = std::stoi(value.str()); }
+		else if (key.str() == "margin_") { margin_ = std::stoi(value.str()); }
+
+		else if (key.str() == "flyer_size_") { flyer_size_ = std::stod(value.str()); }
+		else if (key.str() == "star_min_size_") { star_min_size_ = std::stod(value.str()); }
+		else if (key.str() == "star_max_size_") { star_max_size_ = std::stod(value.str()); }
+
+		else if (key.str() == "star_revise_time_") { star_revise_time_ = std::stoi(value.str()); }
+		else if (key.str() == "star_density_") { star_density_ = std::stod(value.str()); }
+		else if (key.str() == "star_min_space_") { star_min_space_ = std::stod(value.str()); }
+		else if (key.str() == "star_number_") { star_number_ = std::stoi(value.str()); }
+		else if (key.str() == "star_scope_") { star_scope_= std::stod(value.str()); }
+
+		else if (key.str() == "time_unit_") { time_unit_ = std::stoi(value.str()); }
+		else if (key.str() == "g_const_") { g_const_ = std::stod(value.str()); }
+		else if (key.str() == "engine_") { engine_ = std::stod(value.str()); }
+		else if (key.str() == "init_velocity_") { init_velocity_ = std::stod(value.str()); }
+
+		else if (key.str() == "bot_number_") { bot_number_ = std::stoi(value.str()); }
+		else if (key.str() == "bot_action_") { bot_action_ = std::stoi(value.str()); }
+		else if (key.str() == "bot_scope_") { bot_scope_ = std::stod(value.str()); }
+		else if (key.str() == "bot_max_steps_") { bot_max_steps_ = std::stoi(value.str()); }
+
+
+		else if (key.str() == "output_dist_coeff_") { output_dist_coeff_ = std::stod(value.str()); }
 	}
 	conf_file.close();
 }
@@ -107,7 +119,7 @@ void Configuration::set_screen_size(int width, int height)
   Sets user-changeable constants, that affect game difficulty:
   time_unit (resets speed), engine power and gravity.
   -----------------------------------------------------------*/
-void Configuration::set_game_difficulty(int time_unit, float engine, float g_const)
+void Configuration::set_game_difficulty(int time_unit, double engine, double g_const)
 {
 	this->time_unit_ = time_unit;
 	this->engine_ = engine;
@@ -126,7 +138,7 @@ void Configuration::set_star_generation_consts()
 
 	// how much linear space does one star need for average - proportional to max size.
 	float living_space = (star_max_size_) * star_density_;
-	this->star_number_ = pow(star_scope_ / living_space, 2);
+	this->star_number_ = static_cast<int>(pow(star_scope_ / living_space, 2));
 }
 
 /**------------------------------------------------------------
@@ -148,10 +160,13 @@ void Configuration::default_values()
 	// speed and gravity settings
 	time_unit_ = 5;
 	g_const_ = 10;   // gravitation constant
-	engine_ = 0.7;   // engine (user invervention)
+	engine_ = 0.7f;   // engine (user invervention)
+	init_velocity_ = 2;
 
 	bot_number_ = 15;
 	bot_action_ = 100;
+	bot_scope_ = (width_ > height_) ? width_ : height_;
+	bot_max_steps_ = 200;
 
 	output_dist_coeff_ = 20;
 	star_revise_time_ = 5;

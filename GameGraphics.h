@@ -53,7 +53,7 @@ private:
 	void draw_all_vectors();
 	void draw_vector(const Point& p);
 
-	Point get_screen_position(const Point& galaxy_coord, float size) const;
+	Point get_screen_position(const Point& galaxy_coord, double size) const;
 	void update_corner();
 };
 

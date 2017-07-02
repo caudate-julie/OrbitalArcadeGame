@@ -111,10 +111,10 @@ void GameGraphics::show_message(std::string s)
   -----------------------------------------------------------*/
 void GameGraphics::draw_star(const GalaxyObject star)
 {
-	sf::CircleShape s(star.size);
+	sf::CircleShape s(static_cast<float>(star.size));
 	s.setFillColor(sf::Color::Yellow);
 	Point p = this->get_screen_position(star.position, star.size);
-	s.setPosition(p.x, p.y);
+	s.setPosition(p.vector());
 	this->window.draw(s);
 }
 
@@ -123,10 +123,10 @@ void GameGraphics::draw_star(const GalaxyObject star)
   -----------------------------------------------------------*/
 void GameGraphics::draw_flyer(const GalaxyObject flyer)
 {
-	sf::CircleShape s(flyer.size);
+	sf::CircleShape s(static_cast<float>(flyer.size));
 	s.setFillColor(sf::Color::Red);
 	Point p = this->get_screen_position(flyer.position, flyer.size);
-	s.setPosition(p.x, p.y);
+	s.setPosition(p.vector());
 	this->window.draw(s);
 }
 
@@ -152,10 +152,10 @@ void GameGraphics::draw_vector(const Point& p)
 {
 	Point position = Game::get().flyer().position - this->corner;
 	sf::Vertex line[] = { sf::Vertex(), sf::Vertex() };
-	line[0].position = sf::Vector2f(position.x, position.y);
+	line[0].position = position.vector();
 	line[0].color = sf::Color::White;
 	position += p * 1000;
-	line[1].position = sf::Vector2f(position.x, position.y);
+	line[1].position = position.vector();
 	line[1].color = sf::Color::White;
 	window.draw(line, 2, sf::Lines);
 }
@@ -195,7 +195,7 @@ void GameGraphics::show_flyer_stats()
   into the window (convert galaxy coordinates to screen and
   center - shapes are drawn from corner).
   -----------------------------------------------------------*/
-Point GameGraphics::get_screen_position(const Point& galaxy_coord, float size) const
+Point GameGraphics::get_screen_position(const Point& galaxy_coord, double size) const
 {
 	return galaxy_coord - Point(size, size) - this->corner;
 }
@@ -208,7 +208,7 @@ void GameGraphics::update_corner()
 	Configuration& conf = Configuration::get();
 	Game& game = Game::get();
 	Point p = this->get_screen_position(game.flyer().position, 0);
-	float x_move = 0, y_move = 0;
+	double x_move = 0, y_move = 0;
 	if (p.x < conf.MARGIN) { x_move = (p.x - conf.MARGIN); }
 	if (p.x > conf.WIDTH - conf.MARGIN) { x_move = (p.x - conf.WIDTH + conf.MARGIN); }
 	if (p.y < conf.MARGIN) { y_move = (p.y - conf.MARGIN); }

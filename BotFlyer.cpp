@@ -3,12 +3,6 @@
 #include "GameGraphics.h"
 #include <cassert>
 
-
-/**------------------------------------------------------------
-  Number of calculated steps of flat flights.
-  -----------------------------------------------------------*/
-const int BotFlyer::MAX_STEPS = 300;
-
 /**------------------------------------------------------------
   Creates a new bot. Count is for debug output.
   -----------------------------------------------------------*/
@@ -87,7 +81,8 @@ void BotFlyer::predict()
 {
 	while (!this->stop_thread) {
 		int flat_crash = this->mock_flight(this->position, this->velocity);
-		if (flat_crash == MAX_STEPS + 1) { continue; }      // no crash happened - no interaction needed.
+		if (flat_crash == (Configuration::get().BOT_MAX_STEPS + 1)) { continue; }
+		// no crash happened - no interaction needed.
 	
 		int left_crash = this->mock_flight(this->position, this->velocity + this->engine_acceleration('L'));
 		int right_crash = this->mock_flight(this->position, this->velocity + this->engine_acceleration('R'));
@@ -104,14 +99,15 @@ void BotFlyer::predict()
   -----------------------------------------------------------*/
 int BotFlyer::mock_flight(Point p, Point v) const
 {
+	Configuration& conf = Configuration::get();
 	int step = 0;
 	Game& game = Game::get();
-	while (step < MAX_STEPS)
+	while (step <conf.BOT_MAX_STEPS)
 	{
 		v += game.summ_acceleration(p);
 		p += v;
-		if (game.crashed(p, Configuration::get().FLYER_SIZE)) { return step; }
+		if (game.crashed(p, conf.FLYER_SIZE)) { return step; }
 		step++;
 	}
-	return MAX_STEPS + 1;
+	return conf.BOT_MAX_STEPS + 1;
 }

@@ -52,7 +52,7 @@ int Game::n_stars() const { return static_cast<int>(this->_stars.size()); }
 int Game::n_bots() const { return static_cast<int>(this->_bots.size()); }
 GalaxyObject  Game::star(int i) const { return this->_stars[i].info(); }
 GalaxyObject  Game::bot(int i) const  { return this->_bots[i]->info(); }
-float Game::distance() const { return this->_dist; }
+double Game::distance() const { return this->_dist; }
 
 /**------------------------------------------------------------
   Starts prediction threads for all bots.
@@ -127,7 +127,7 @@ void Game::revise_stars()
   Checks if the given point lies inside a star - for flyer
   means that it is crashed (for main flyer - that game's over).
   -----------------------------------------------------------*/
-bool Game::crashed(const Point& flyer_coord, float flyer_size) const
+bool Game::crashed(const Point& flyer_coord, double flyer_size) const
 {
 	Configuration& conf = Configuration::get();
 	for (int i = 0; i < _stars.size(); i++)
@@ -143,11 +143,11 @@ bool Game::crashed(const Point& flyer_coord, float flyer_size) const
 /**------------------------------------------------------------
   Calculates the acceleration towards given star.
   -----------------------------------------------------------*/
-Point Game::acceleration(const Point& flyer_coord, const Point& star_coord, float mass) const
+Point Game::acceleration(const Point& flyer_coord, const Point& star_coord, double mass) const
 {
 	Point r = flyer_coord - star_coord;
-	float power = pow(r.module(), 3);
-	float C = - mass / pow(r.module(), 3) * Configuration::get().G_CONST;
+	double power = pow(r.module(), 3);
+	double C = - mass / pow(r.module(), 3) * Configuration::get().G_CONST;
 	Point p = r * C;
 	return r * (- mass / pow(r.module(), 3) * Configuration::get().G_CONST);
 }
@@ -182,14 +182,14 @@ void Game::change_star(int index, bool initial)
 	Configuration& conf = Configuration::get();
 	while (true) 
 	{
-		float angle = f_random(0., M_PI * 2);
+		double angle = f_random(0., M_PI * 2);
 		Point unit(angle);
 
 		// if we need a star towards flyer velocity, we may need another angle.
 		if (!initial && !this->in_sight_semisphere(unit)) continue;
 
 		Star s;
-		float radius = (initial ? sqrt(f_random(0., 1.)) : f_random(0.8, 1.)) * conf.STAR_SCOPE;
+		double radius = (initial ? sqrt(f_random(0., 1.)) : f_random(0.8, 1.)) * conf.STAR_SCOPE;
 		s.position = unit * radius + this->_flyer->position;
 		if (this->no_star_collision(s.position, s.size, 0, index)
 			&& (initial || this->no_star_collision(s.position, s.size, index, conf.STAR_NUMBER)))
@@ -210,9 +210,9 @@ void Game::change_bot(int index)
 	Configuration& conf = Configuration::get();
 	while (true) {
 		unique_ptr<BotFlyer> f (new BotFlyer());
-		float angle = f_random(0., M_PI * 2);
-		f->position = Point(angle) * 800 + this->_flyer->position;
-		f->velocity = -Point(angle);
+		double angle = f_random(0., M_PI * 2);
+		f->position = Point(angle) * conf.BOT_SCOPE + this->_flyer->position;
+		f->velocity = -Point(angle) * conf.INIT_VELOCITY;
 		if (this->no_star_collision(f->position, conf.FLYER_SIZE, 0, _stars.size()))
 		{
 			this->_bots[index] = std::move(f);
@@ -225,11 +225,11 @@ void Game::change_bot(int index)
   Checks that object with given position and size does not
   overlap with stars int [start_index, end_index] slice.
   -----------------------------------------------------------*/
-bool Game::no_star_collision(const Point& obj_coord, float obj_size, int start_index, int end_index) const
+bool Game::no_star_collision(const Point& obj_coord, double obj_size, int start_index, int end_index) const
 {
 	for (int i = start_index; i < end_index; i++)
 	{
-		float min_distance = Configuration::get().STAR_MIN_SPACE + obj_size + _stars[i].size;
+		double min_distance = Configuration::get().STAR_MIN_SPACE + obj_size + _stars[i].size;
 		if ((_stars[i].position - obj_coord).module() < min_distance) { return false; }
 	}
 	return true;
