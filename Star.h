@@ -1,5 +1,6 @@
 #pragma once
 #include "Point.h"
+#include "GalaxyObject.h"
 
 /**------------------------------------------------------------
   Stars are centers of gravitation.
@@ -20,4 +21,6 @@ public:
 	Point position;
 	float size;
 	char type;
+
+	virtual GalaxyObject info() const;
 };

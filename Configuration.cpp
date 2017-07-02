@@ -31,7 +31,7 @@ Configuration::Configuration()
 
 		FLYER_SIZE(flyer_size_),
 		STAR_MIN_SIZE(star_min_size_),
-		STAR_ADD_SIZE(star_add_size_),
+		STAR_MAX_SIZE(star_max_size_),
 
 		STAR_REVISE_TIME(star_revise_time_),
 		STAR_NUMBER(star_number_),
@@ -76,8 +76,8 @@ Configuration::Configuration()
 		else if (s.str() == "height_") { height_ = std::stoi(value.str()); }
 		else if (s.str() == "margin_") { margin_ = std::stoi(value.str()); }
 		else if (s.str() == "flyer_size_") { flyer_size_ = std::stof(value.str()); }
-		else if (s.str() == "star_min_size_") { star_min_size_ = std::stoi(value.str()); }
-		else if (s.str() == "star_add_size_") { star_add_size_ = std::stoi(value.str()); }
+		else if (s.str() == "star_min_size_") { star_min_size_ = std::stof(value.str()); }
+		else if (s.str() == "star_max_size_") { star_max_size_ = std::stof(value.str()); }
 		else if (s.str() == "star_density_") { star_density_ = std::stof(value.str()); }
 		else if (s.str() == "star_min_space_") { star_min_space_ = std::stof(value.str()); }
 		else if (s.str() == "star_number_") { star_number_ = std::stoi(value.str()); }
@@ -125,7 +125,7 @@ void Configuration::set_star_generation_consts()
 	this->star_scope_ = sqrt(width_ * width_ + height_ * height_) * 1.5;
 
 	// how much linear space does one star need for average - proportional to max size.
-	float living_space = (star_min_size_ + star_add_size_) * star_density_;
+	float living_space = (star_max_size_) * star_density_;
 	this->star_number_ = pow(star_scope_ / living_space, 2);
 }
 
@@ -138,7 +138,7 @@ void Configuration::default_values()
 	// objects' size
 	flyer_size_ = 6;
 	star_min_size_ = 10;
-	star_add_size_ = 30;
+	star_max_size_ = 30;
 
 	star_density_ = 6;
 	star_min_space_ = 10;
@@ -150,7 +150,7 @@ void Configuration::default_values()
 	g_const_ = 10;   // gravitation constant
 	engine_ = 0.7;   // engine (user invervention)
 
-	bot_number_ = 5;
+	bot_number_ = 15;
 	bot_action_ = 100;
 
 	output_dist_coeff_ = 20;

@@ -44,7 +44,7 @@ Background::Background(void)
 /**------------------------------------------------------------
   Destructor.
   -----------------------------------------------------------*/
-Background::~Background(void) { /*delete this->instance;*/ }
+Background::~Background(void) {  }
 
 /**------------------------------------------------------------
   

@@ -34,14 +34,11 @@ void gameloop()
 		{
 			game_clock.restart();
 			game.make_move();
-			if (game.crashed(game.flyer->position, conf.FLYER_SIZE)) { 
+			if (game.crashed(game.flyer().position, conf.FLYER_SIZE)) { 
 				screen.show_end_screen(); 
 				return;
 			}
 			screen.redraw_game_screen();
-			screen.show_message(std::to_string(
-				(game_clock.getElapsedTime().asMicroseconds() - conf.TIME_UNIT) / 100
-				));
 		}
 		if (star_revision_clock.getElapsedTime() > sf::milliseconds(conf.STAR_REVISE_TIME))
 		{

@@ -3,13 +3,11 @@
 #include "GameGraphics.h"
 #include <cassert>
 
-#include <sstream>
-
 
 /**------------------------------------------------------------
   Number of calculated steps of flat flights.
   -----------------------------------------------------------*/
-const int BotFlyer::MAX_STEPS = 50;
+const int BotFlyer::MAX_STEPS = 300;
 
 /**------------------------------------------------------------
   Creates a new bot. Count is for debug output.
@@ -21,6 +19,10 @@ BotFlyer::BotFlyer(void) : prediction()
 
 }
 
+/**------------------------------------------------------------
+  Makes class with info about the object to pass outside
+  Game class (mainly to graphics class).
+  -----------------------------------------------------------*/
 BotFlyer::BotFlyer(const BotFlyer& other) : prediction() { *this = other; }
 
 /**------------------------------------------------------------
@@ -40,8 +42,6 @@ BotFlyer::~BotFlyer(void)
 {
 	this->stop_thread = true;
 	if (this->prediction.joinable()) this->prediction.join();
-//	delete this->prediction;
-	//delete this->changing_turn;
 }
 
 /**------------------------------------------------------------
@@ -55,14 +55,21 @@ void BotFlyer::action()
 	if (this->turn != 'N')
 	{
 		char t;
-		while (!this->mutex_on_turn.try_lock()) {}
-		//std::lock_guard<std::mutex> lock(*mutex_on_turn);
+		//while (!this->mutex_on_turn.try_lock()) {}
+		std::lock_guard<std::mutex> lock(mutex_on_turn);
 		t = this->turn;
 		this->turn = 'N';
-		this->mutex_on_turn.unlock();
+		//this->mutex_on_turn.unlock();
 		this->velocity += this->engine_acceleration(t);
 	}
 
+}
+
+GalaxyObject BotFlyer::info() const 
+{
+	GalaxyObject my_info = Flyer::info();
+	my_info.subtype = bot;
+	return my_info;
 }
 
 BotFlyer& BotFlyer::operator=(const BotFlyer& other)
@@ -87,7 +94,6 @@ void BotFlyer::predict()
 
 		if ((left_crash < flat_crash) && (right_crash < flat_crash)) continue; // flat flight is longest.
 		this->turn = (left_crash > right_crash) ? 'L' : 'R';
-		//this->velocity += this->turn_on_engine(turn);
 	}
 }
 

@@ -18,7 +18,6 @@ public:
 
 private:
 	Background(void);
-	//static Background* instance;
 
 	std::vector<sf::CircleShape> backstars;
 	void draw_stars();

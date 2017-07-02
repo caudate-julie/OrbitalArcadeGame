@@ -2,8 +2,8 @@ width_ 800
 height_ 600
 margin_ 200
 flyer_size_ 5
-star_min_size_ 10
-star_add_size_ 25
+star_min_size_ 9
+star_max_size_ 36
 star_revise_time_ 5
 star_number_ 60
 star_distance_ 1500

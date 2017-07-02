@@ -3,7 +3,6 @@
 #include <thread>
 #include <mutex>
 
-
 class BotFlyer :
 	public Flyer
 {
@@ -13,6 +12,7 @@ public:
 	~BotFlyer(void);
 	void start();
 	void action();
+	virtual GalaxyObject info() const;
 
 	BotFlyer& operator=(const BotFlyer& other);
 

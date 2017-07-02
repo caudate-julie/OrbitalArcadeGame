@@ -1,23 +1,18 @@
 #include "Game.h"
+
 #define _USE_MATH_DEFINES
 #include <math.h>
-#include "Configuration.h"
-#include <random>
 
-/**------------------------------------------------------------
-  Single game instance.
-  -----------------------------------------------------------*/
-Game* Game::instance = nullptr;
+#include "Configuration.h"
+#include "auxiliary.h"
 
 /**------------------------------------------------------------
   Singleton it all!
   -----------------------------------------------------------*/
 Game& Game::get()
 {
-	if (!instance) { 
-		instance = new Game(); 
-	}
-	return *instance;
+	static Game instance;
+	return instance;
 }
 
 /**------------------------------------------------------------
@@ -28,16 +23,16 @@ Game::Game()
 {
 	Configuration& conf = Configuration::get();
 
-	this->flyer = new BotFlyer();
-	this->distance = 0;
+	this->_flyer = std::move(unique_ptr<Flyer>(new BotFlyer())); //std::make_unique<BotFlyer>(BotFlyer());
+	this->_dist = 0;
 
-	this->stars.resize(conf.STAR_NUMBER);
+	this->_stars.resize(conf.STAR_NUMBER);
 	for (int i = 0; i < conf.STAR_NUMBER; i++)
 	{
 		this->change_star(i, true);
 	}
 
-	this->bots.resize(conf.BOT_NUMBER);
+	this->_bots.resize(conf.BOT_NUMBER);
 	for (int i = 0; i < conf.BOT_NUMBER; i++)
 	{
 		this->change_bot(i);
@@ -47,20 +42,27 @@ Game::Game()
 /**------------------------------------------------------------
   Destructor =)
   -----------------------------------------------------------*/
-Game::~Game(void)
-{
-	delete this->flyer;
-}
+Game::~Game(void) { }
+
+/**------------------------------------------------------------
+  Getters for private fields.
+  -----------------------------------------------------------*/
+GalaxyObject  Game::flyer() const { return this->_flyer->info(); }
+int Game::n_stars() const { return static_cast<int>(this->_stars.size()); }
+int Game::n_bots() const { return static_cast<int>(this->_bots.size()); }
+GalaxyObject  Game::star(int i) const { return this->_stars[i].info(); }
+GalaxyObject  Game::bot(int i) const  { return this->_bots[i]->info(); }
+float Game::distance() const { return this->_dist; }
 
 /**------------------------------------------------------------
   Starts prediction threads for all bots.
   -----------------------------------------------------------*/
 void Game::start()
 {
-	((BotFlyer*)this->flyer)->start();   // <-- WHILE FLYER IS BOT
-	for (BotFlyer* f : this->bots)
+	(static_cast<BotFlyer*>(this->_flyer.get()))->start();   // <-- WHILE FLYER IS BOT
+	for (int i = 0; i < this->_bots.size(); i++) 
 	{
-		f->start();
+		this->_bots[i]->start();
 	}
 }
 
@@ -70,11 +72,11 @@ void Game::start()
   -----------------------------------------------------------*/
 void Game::make_move()
 {
-	this->flyer->move(this->summ_acceleration(this->flyer->position));
-	this->distance += (this->flyer->velocity.module());
-	for (BotFlyer* f : bots)
+	this->_flyer->move(this->summ_acceleration(this->_flyer->position));
+	this->_dist += (this->_flyer->velocity.module());
+	for (int i = 0; i < this->_bots.size(); i++) 
 	{
-		f->move(this->summ_acceleration(f->position));
+		this->_bots[i]->move(this->summ_acceleration(this->_bots[i]->position));
 	}
 }
 
@@ -83,8 +85,8 @@ void Game::make_move()
   -----------------------------------------------------------*/
 void Game::call_bots_action()
 {
-	((BotFlyer*)this->flyer)->action();       // <-- WHILE FLYER IS BOT
-	for (BotFlyer* f : bots) { f->action(); }
+	(static_cast<BotFlyer*>(this->_flyer.get()))->action();      // <-- WHILE FLYER IS BOT
+	for (int i = 0; i < _bots.size(); i++) { _bots[i]->action(); }
 }
 
 /**------------------------------------------------------------
@@ -94,7 +96,7 @@ void Game::call_bots_action()
   -----------------------------------------------------------*/
 void Game::user_turn_on_engine(char direction)
 {
-	this->flyer->velocity += this->flyer->engine_acceleration(direction);
+	this->_flyer->velocity += this->_flyer->engine_acceleration(direction);
 }
 
 /**------------------------------------------------------------
@@ -105,16 +107,16 @@ void Game::user_turn_on_engine(char direction)
 void Game::revise_stars()
 {
 	Configuration& conf = Configuration::get();
-	for (int i = 0; i < stars.size(); i++)
+	for (int i = 0; i < _stars.size(); i++)
 	{
-		if ((stars[i].position - flyer->position).module() > conf.STAR_SCOPE)
+		if ((_stars[i].position - _flyer->position).module() > conf.STAR_SCOPE)
 		{
 			this->change_star(i, false);
 		}
 	}
-	for (int i = 0; i < bots.size(); i++)
+	for (int i = 0; i < _bots.size(); i++)
 	{
-		if ((bots[i]->position - flyer->position).module() > 800)
+		if ((_bots[i]->position - _flyer->position).module() > 800)
 		{
 			this->change_bot(i);
 		}
@@ -128,9 +130,9 @@ void Game::revise_stars()
 bool Game::crashed(const Point& flyer_coord, float flyer_size) const
 {
 	Configuration& conf = Configuration::get();
-	for (int i = 0; i < stars.size(); i++)
+	for (int i = 0; i < _stars.size(); i++)
 	{
-		if ((stars[i].position - flyer_coord).module() < (stars[i].size + flyer_size)) 
+		if ((_stars[i].position - flyer_coord).module() < (_stars[i].size + flyer_size)) 
 		{ 
 			return true; 
 		}
@@ -157,7 +159,7 @@ Point Game::acceleration(const Point& flyer_coord, const Point& star_coord, floa
 Point Game::summ_acceleration(const Point& flyer_coord) const
 {
 	Point a;
-	for (Star s : this->stars)
+	for (Star s : this->_stars)
 	{
 		a += acceleration(flyer_coord, s.position, s.size);
 	}
@@ -180,19 +182,19 @@ void Game::change_star(int index, bool initial)
 	Configuration& conf = Configuration::get();
 	while (true) 
 	{
-		float angle = (float)((float)(rand() % 10000) / 10000 * 2 * M_PI);
+		float angle = f_random(0., M_PI * 2);
 		Point unit(angle);
 
 		// if we need a star towards flyer velocity, we may need another angle.
 		if (!initial && !this->in_sight_semisphere(unit)) continue;
 
 		Star s;
-		float radius = (float)((initial ? (sqrt(rand() % 10000) / 100) : 1) * conf.STAR_SCOPE);
-		s.position = unit * radius + this->flyer->position;
+		float radius = (initial ? sqrt(f_random(0., 1.)) : f_random(0.8, 1.)) * conf.STAR_SCOPE;
+		s.position = unit * radius + this->_flyer->position;
 		if (this->no_star_collision(s.position, s.size, 0, index)
 			&& (initial || this->no_star_collision(s.position, s.size, index, conf.STAR_NUMBER)))
 		{ 
-			this->stars[index] = s;
+			this->_stars[index] = s;
 			return;
 		}
 	}
@@ -207,13 +209,13 @@ void Game::change_bot(int index)
 {
 	Configuration& conf = Configuration::get();
 	while (true) {
-		BotFlyer* f = new BotFlyer();
-		float angle = (float)((double)(rand() % 10000) / 10000 * 2 * M_PI);
-		f->position = Point(angle) * 800 + this->flyer->position;
+		unique_ptr<BotFlyer> f (new BotFlyer());
+		float angle = f_random(0., M_PI * 2);
+		f->position = Point(angle) * 800 + this->_flyer->position;
 		f->velocity = -Point(angle);
-		if (this->no_star_collision(f->position, conf.FLYER_SIZE, 0, stars.size()))
+		if (this->no_star_collision(f->position, conf.FLYER_SIZE, 0, _stars.size()))
 		{
-			this->bots[index] = f;
+			this->_bots[index] = std::move(f);
 			return;
 		}
 	}
@@ -227,11 +229,8 @@ bool Game::no_star_collision(const Point& obj_coord, float obj_size, int start_i
 {
 	for (int i = start_index; i < end_index; i++)
 	{
-		if (
-			(stars[i].position - obj_coord).module() 
-			< (Configuration::get().STAR_MIN_SPACE + obj_size + stars[i].size)
-			) 
-		{ return false; }
+		float min_distance = Configuration::get().STAR_MIN_SPACE + obj_size + _stars[i].size;
+		if ((_stars[i].position - obj_coord).module() < min_distance) { return false; }
 	}
 	return true;
 }
@@ -242,6 +241,6 @@ bool Game::no_star_collision(const Point& obj_coord, float obj_size, int start_i
   -----------------------------------------------------------*/
 bool Game::in_sight_semisphere(const Point& direction) const
 {
-	return (this->flyer->velocity.x * direction.x 
-		  + this->flyer->velocity.y * direction.y) > 0;
+	return (this->_flyer->velocity.x * direction.x 
+		  + this->_flyer->velocity.y * direction.y) > 0;
 }

@@ -44,3 +44,18 @@ Point Flyer::engine_acceleration(char direction) const
 	int orientation = (direction == 'R') ? 1 : -1;
 	return this->velocity.T() * (orientation / this->velocity.module() * conf.ENGINE);
 }
+
+/**------------------------------------------------------------
+  Makes class with info about the object to pass outside
+  Game class (mainly to graphics class).
+  -----------------------------------------------------------*/
+GalaxyObject Flyer::info() const 
+{
+	GalaxyObject my_info;
+	my_info.position = this->position;
+	my_info.direction = this->velocity;
+	my_info.type = flyer;
+	my_info.subtype = main;
+	my_info.size = Configuration::get().FLYER_SIZE;
+	return my_info;
+}

@@ -14,8 +14,8 @@ public:
 
 	// objects' size
 	const float& FLYER_SIZE;    // to centralize and determine collisions.
-	const int& STAR_MIN_SIZE;
-	const int& STAR_ADD_SIZE;   // rand() % ADD_SIZE + MIN_SIZE
+	const float& STAR_MIN_SIZE;
+	const float& STAR_MAX_SIZE;   // rand() % ADD_SIZE + MIN_SIZE
 
 	// star generation
 	const int& STAR_REVISE_TIME;     // frequency in milliseconds of recalculating.
@@ -50,8 +50,8 @@ private:
 	int margin_;
 
 	float flyer_size_;
-	int star_min_size_;
-	int star_add_size_;
+	float star_min_size_;
+	float star_max_size_;
 
 	int star_revise_time_;
 	int star_number_;

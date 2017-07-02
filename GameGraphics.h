@@ -1,9 +1,12 @@
 #pragma once
 #include <SFML\Graphics.hpp>
-#include "Star.h"
-#include "Flyer.h"
 #include "Game.h"
 #include <string>
+#include <memory>
+
+class Star;
+class Flyer;
+using std::unique_ptr;
 
 /**------------------------------------------------------------
   This class is responsible for all actual drawing of objects.
@@ -43,8 +46,8 @@ private:
 	bool show_all_vectors;
 
 	// single element drawing
-	void draw_star(const Star&);
-	void draw_flyer(Flyer*);
+	void draw_star(const GalaxyObject);
+	void draw_flyer(const GalaxyObject);
 	void show_flyer_stats();
 	void draw_single_vector();
 	void draw_all_vectors();

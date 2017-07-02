@@ -12,11 +12,17 @@
 	bot timespan => conf const
 	bot distance => conf const
 	config reading - make better
-	move back - one layer
-=>	pointers to references
+	move background - one layer
+	generating back and double buffering
 	flyers crash
 	bots crash
 	achievement class
 	bot main flyer as config
 	botflyer - change mutex to lockguard
 	vector_show_mode - to configs
+=>	unique ptrs for botflyers
+	what's the matter with background destructor?
+	forward declaration instead of including
+	make iterator for stars and bots
+	merge draw_flyer and draw_star
+	invisible stars - pointers

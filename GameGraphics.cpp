@@ -66,9 +66,10 @@ void GameGraphics::redraw_game_screen()
 	this->update_corner();
 
 	Background::get().draw();
-	for (Star s : game.stars) { draw_star(s); }
-	for (BotFlyer* f : game.bots) { draw_flyer(f); }
-	draw_flyer(game.flyer);
+	//for (Star s : game.stars) { draw_star(s); }
+	for (int i = 0; i < game.n_stars(); i++) { draw_star(game.star(i)); }
+	for (int i = 0; i < game.n_bots(); i++) { draw_flyer(game.bot(i)); }
+	draw_flyer(game.flyer());
 
 	this->show_flyer_stats();
 	if (show_single_vector) { this->draw_single_vector(); }
@@ -108,7 +109,7 @@ void GameGraphics::show_message(std::string s)
 /**------------------------------------------------------------
   Draws a star.
   -----------------------------------------------------------*/
-void GameGraphics::draw_star(const Star& star)
+void GameGraphics::draw_star(const GalaxyObject star)
 {
 	sf::CircleShape s(star.size);
 	s.setFillColor(sf::Color::Yellow);
@@ -120,12 +121,11 @@ void GameGraphics::draw_star(const Star& star)
 /**------------------------------------------------------------
   Draws a flyer.
   -----------------------------------------------------------*/
-void GameGraphics::draw_flyer(Flyer* f)
+void GameGraphics::draw_flyer(const GalaxyObject flyer)
 {
-	Configuration& conf = Configuration::get();
-	sf::CircleShape s(conf.FLYER_SIZE);
+	sf::CircleShape s(flyer.size);
 	s.setFillColor(sf::Color::Red);
-	Point p = this->get_screen_position(f->position, conf.FLYER_SIZE);
+	Point p = this->get_screen_position(flyer.position, flyer.size);
 	s.setPosition(p.x, p.y);
 	this->window.draw(s);
 }
@@ -136,7 +136,7 @@ void GameGraphics::draw_flyer(Flyer* f)
 void GameGraphics::draw_single_vector()
 {
 	Game& game = Game::get();
-	this->draw_vector(game.summ_acceleration(game.flyer->position));
+	this->draw_vector(game.summ_acceleration(game.flyer().position));
 }
 
 /**------------------------------------------------------------
@@ -150,7 +150,7 @@ void GameGraphics::draw_all_vectors()
   -----------------------------------------------------------*/
 void GameGraphics::draw_vector(const Point& p)
 {
-	Point position = Game::get().flyer->position - this->corner;
+	Point position = Game::get().flyer().position - this->corner;
 	sf::Vertex line[] = { sf::Vertex(), sf::Vertex() };
 	line[0].position = sf::Vector2f(position.x, position.y);
 	line[0].color = sf::Color::White;
@@ -183,7 +183,7 @@ void GameGraphics::show_flyer_stats()
 		<< "\n\nvel_X: " << (f->velocity.x * 100) 
 		<< "\n\nvel_Y: " << (f->velocity.y * 100)
 		<< "\n\nstars: " << this->game.stars.size() << "\n\n";*/
-	ss << "distance: " << (int)(game.distance / conf.OUTPUT_DIST_COEFF) 
+	ss << "distance: " << (int)(game.distance() / conf.OUTPUT_DIST_COEFF) 
 		<< "\n\n" << message;
 	this->text.setString(ss.str());
 	
@@ -207,7 +207,7 @@ void GameGraphics::update_corner()
 {
 	Configuration& conf = Configuration::get();
 	Game& game = Game::get();
-	Point p = this->get_screen_position(game.flyer->position, 0);
+	Point p = this->get_screen_position(game.flyer().position, 0);
 	float x_move = 0, y_move = 0;
 	if (p.x < conf.MARGIN) { x_move = (p.x - conf.MARGIN); }
 	if (p.x > conf.WIDTH - conf.MARGIN) { x_move = (p.x - conf.WIDTH + conf.MARGIN); }

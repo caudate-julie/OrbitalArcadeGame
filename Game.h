@@ -1,11 +1,15 @@
 #pragma once
 #include <vector>
+#include <memory>
+
 #include "Star.h"
 #include "Flyer.h"
 #include "BotFlyer.h"
 #include "Configuration.h"
+#include "GalaxyObject.h"
 
 using std::vector;
+using std::unique_ptr;
 
 /**------------------------------------------------------------
   This class is holding all the inner game logic: stores all
@@ -17,10 +21,12 @@ public:
 	static Game& get();
 	~Game(void);
 
-	vector<Star> stars;
-	vector<BotFlyer*> bots;
-	Flyer* flyer;
-	float distance;
+	GalaxyObject flyer() const;
+	int n_stars() const;
+	int n_bots() const;
+	GalaxyObject star(int i) const;
+	GalaxyObject bot(int i) const;
+	float distance() const;
 
 	void start();
 	void make_move();
@@ -33,8 +39,12 @@ public:
 	Point summ_acceleration(const Point&  flyer_coord) const;
 
 private:
-	static Game* instance;
 	Game();
+
+	vector<Star> _stars;
+	vector<unique_ptr<BotFlyer>> _bots;
+	unique_ptr<Flyer> _flyer;
+	float _dist;
 
 	void change_star(int index, bool initial);
 	void change_bot(int index);
