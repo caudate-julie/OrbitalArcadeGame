@@ -18,8 +18,10 @@ public:
 
 private:
 	Background(void);
+	Point add_corner;    // (WIDTH, HEIGHT) from image corner to screen corner
 
-	std::vector<sf::CircleShape> backstars;
-	void draw_stars();
+//	std::vector<sf::CircleShape> backstars;
+	//void draw_stars();
+
 };
 

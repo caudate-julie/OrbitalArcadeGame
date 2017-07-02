@@ -9,7 +9,7 @@ Flyer::Flyer(void)
 {
 	Configuration& conf = Configuration::get();
 	this->velocity = Point(conf.INIT_VELOCITY, 0.f);
-	this->position = Point(conf.WIDTH / 2, conf.HEIGHT / 2);
+	this->position = Point(0, 0);
 }
 
 /**------------------------------------------------------------

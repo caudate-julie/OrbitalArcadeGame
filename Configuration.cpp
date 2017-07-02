@@ -163,7 +163,7 @@ void Configuration::default_values()
 	engine_ = 0.7f;   // engine (user invervention)
 	init_velocity_ = 2;
 
-	bot_number_ = 15;
+	bot_number_ = 5;
 	bot_action_ = 100;
 	bot_scope_ = (width_ > height_) ? width_ : height_;
 	bot_max_steps_ = 200;

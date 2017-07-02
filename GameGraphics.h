@@ -47,7 +47,7 @@ private:
 
 	// single element drawing
 	void draw_star(const GalaxyObject);
-	void draw_flyer(const GalaxyObject);
+	void draw_flyer(const GalaxyObject, char type);
 	void show_flyer_stats();
 	void draw_single_vector();
 	void draw_all_vectors();
@@ -55,5 +55,9 @@ private:
 
 	Point get_screen_position(const Point& galaxy_coord, double size) const;
 	void update_corner();
+
+
+	sf::RenderTexture star;
+	sf::CircleShape flyershape;
 };
 

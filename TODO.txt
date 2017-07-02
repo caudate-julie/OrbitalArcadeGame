@@ -5,12 +5,13 @@
 	exceptions in opening and closing file
 	timed event
 	reset for all singletons (game, gamegraphics)
-	make nice stars
-	make nice flyers
+	make beautiful stars
+	make beautiful flyers
 	config reading - make better
-	move background - one layer
+	vector of backgrounds
 	generating back and double buffering
-	flyers crash
+	generating back in separate thread
+=>	flyers crash
 	bots crash
 	achievement class
 	bot main flyer as config
@@ -21,4 +22,4 @@
 	make iterator for stars and bots
 	merge draw_flyer and draw_star
 	invisible stars - pointers
-=>	all floats back to doubles!
+	view for frontground

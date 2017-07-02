@@ -2,7 +2,7 @@
 #include "GameGraphics.h"
 #include "Configuration.h"
 #include "Background.h"
-#
+#include "auxiliary.h"
 
 //GameGraphics* GameGraphics::instance = nullptr;
 
@@ -23,6 +23,8 @@ GameGraphics::GameGraphics()
 {
 	Configuration& conf = Configuration::get();
 	this->window.create(sf::VideoMode(conf.WIDTH, conf.HEIGHT), "Orbital");
+
+	this->corner = Point(-conf.WIDTH / 2, -conf.HEIGHT / 2);
 	
 	this->font.loadFromFile("a_nova.ttf");
 
@@ -33,8 +35,27 @@ GameGraphics::GameGraphics()
 
 	this->message = "";
 
-	this->show_single_vector = false;
+	this->show_single_vector = true;//false;
 	this->show_all_vectors = false;
+
+
+	this->star.create(50, 50);
+	this->star.clear(sf::Color::Transparent);
+	for (int i = 0; i < 1000; i++) 
+	{ 
+		Point p(f_random(0, asin(1) * 4));
+		p *= f_random(0, 25);
+		p += Point(25, 25);
+		sf::Vertex v;
+		v.position = p.vector();
+		v.color = sf::Color(255, 255, 50, 255);
+		this->star.draw(&v, 1, sf::Points);
+	}
+	this->star.display();
+
+	this->flyershape = sf::CircleShape(10, 3);
+	this->flyershape.setScale(0.8, 1);
+	this->flyershape.rotate(asin(1));
 }
 
 /**------------------------------------------------------------
@@ -68,8 +89,8 @@ void GameGraphics::redraw_game_screen()
 	Background::get().draw();
 	//for (Star s : game.stars) { draw_star(s); }
 	for (int i = 0; i < game.n_stars(); i++) { draw_star(game.star(i)); }
-	for (int i = 0; i < game.n_bots(); i++) { draw_flyer(game.bot(i)); }
-	draw_flyer(game.flyer());
+	for (int i = 0; i < game.n_bots(); i++) { draw_flyer(game.bot(i), 'B'); }
+	draw_flyer(game.flyer(), 'M');
 
 	this->show_flyer_stats();
 	if (show_single_vector) { this->draw_single_vector(); }
@@ -111,9 +132,11 @@ void GameGraphics::show_message(std::string s)
   -----------------------------------------------------------*/
 void GameGraphics::draw_star(const GalaxyObject star)
 {
-	sf::CircleShape s(static_cast<float>(star.size));
-	s.setFillColor(sf::Color::Yellow);
+//	sf::CircleShape s(static_cast<float>(star.size));
+//	s.setFillColor(sf::Color::Yellow);
 	Point p = this->get_screen_position(star.position, star.size);
+	sf::Sprite s = sf::Sprite(this->star.getTexture());
+	s.setScale(star.size / 50, star.size / 50);
 	s.setPosition(p.vector());
 	this->window.draw(s);
 }
@@ -121,13 +144,23 @@ void GameGraphics::draw_star(const GalaxyObject star)
 /**------------------------------------------------------------
   Draws a flyer.
   -----------------------------------------------------------*/
-void GameGraphics::draw_flyer(const GalaxyObject flyer)
+void GameGraphics::draw_flyer(const GalaxyObject flyer, char type)
 {
-	sf::CircleShape s(static_cast<float>(flyer.size));
-	s.setFillColor(sf::Color::Red);
+	//sf::CircleShape s(static_cast<float>(flyer.size));
+	switch (type)
+	{
+	case 'B': this->flyershape.setFillColor(sf::Color(150, 0, 150, 255)); break;
+	case 'M': this->flyershape.setFillColor(sf::Color::Red); break;
+	}
+	
 	Point p = this->get_screen_position(flyer.position, flyer.size);
-	s.setPosition(p.vector());
-	this->window.draw(s);
+	this->flyershape.setPosition(p.vector());
+	this->flyershape.setRotation(0);
+	//this->flyershape.rotate(this->flyershape.getRotation());
+	double angle = acos(flyer.direction.x / flyer.direction.module());
+	if (flyer.direction.y < 0) angle = -angle;
+	this->flyershape.setRotation(angle / 3.141592 * 180 + 90);
+	this->window.draw(this->flyershape);
 }
 
 /**------------------------------------------------------------
