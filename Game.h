@@ -18,11 +18,11 @@ using std::unique_ptr;
 class Game
 {
 public:
-	static Game& get();
+	Game();
 	~Game(void);
 
-	GalaxyObject flyer() const;
 	int n_stars() const;
+	GalaxyObject player() const;
 	int n_bots() const;
 	GalaxyObject star(int i) const;
 	GalaxyObject bot(int i) const;
@@ -33,18 +33,19 @@ public:
 	void call_bots_action();
 	void user_turn_on_engine(char direction);
 	void revise_stars();
+	bool crashed() const;
 	bool crashed(const Point& flyer_coord, double flyer_size) const;
 
 	Point acceleration(const Point&  flyer_coord, const Point&  star_coord, double mass) const;
 	Point summ_acceleration(const Point&  flyer_coord) const;
 
 private:
-	Game();
 
-	vector<Star> _stars;
-	vector<unique_ptr<BotFlyer>> _bots;
-	unique_ptr<Flyer> _flyer;
-	double _dist;
+	vector<Star> stars;
+	vector<unique_ptr<BotFlyer>> bots;
+	unique_ptr<Flyer> flyer;
+	double dist;
+	bool main_is_bot;
 
 	void change_star(int index, bool initial);
 	void change_bot(int index);

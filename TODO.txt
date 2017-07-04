@@ -5,21 +5,20 @@
 	exceptions in opening and closing file
 	timed event
 	reset for all singletons (game, gamegraphics)
-	make beautiful stars
-	make beautiful flyers
+	nice stars
+	nice flyers
 	config reading - make better
 	vector of backgrounds
 	generating back and double buffering
 	generating back in separate thread
-=>	flyers crash
+	flyers crash
 	bots crash
 	achievement class
 	bot main flyer as config
-	botflyer - change mutex to lockguard
 	vector_show_mode - to configs
 	what's the matter with background destructor?
-	forward declaration instead of including
+=>	forward declaration instead of including
 	make iterator for stars and bots
 	merge draw_flyer and draw_star
 	invisible stars - pointers
-	view for frontground
+	sf::View for frontground

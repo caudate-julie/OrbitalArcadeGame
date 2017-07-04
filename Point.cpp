@@ -4,7 +4,7 @@
 
 Point::Point()
 {
-	this->x = this->y = 0;
+	x = y = 0;
 }
 
 
@@ -18,59 +18,59 @@ Point::Point(double x, double y)
 /*--------------------------------------------------------*/
 Point::Point(double alpha)
 {
-	this->x = cos(alpha);
-	this->y = sin(alpha);
+	x = cos(alpha);
+	y = sin(alpha);
 }
 
 /*--------------------------------------------------------*/
 Point Point::T() const
 {
-	return Point(-this->y, this->x);
+	return Point(-y, x);
 }
 
 /*--------------------------------------------------------*/
 double Point::module() const
 {
-	return sqrt(this->x * this->x + this->y * this->y);
+	return sqrt(x * x + y * y);
 }
 
 /*--------------------------------------------------------*/
 Point Point::operator+(const Point &other) const
 {
-	return Point(this->x + other.x, this->y + other.y);
+	return Point(x + other.x, y + other.y);
 }
 
 /*--------------------------------------------------------*/
 Point Point::operator-(const Point &other) const
 {
-	return Point(this->x - other.x, this->y - other.y);
+	return Point(x - other.x, y - other.y);
 }
 
 /*--------------------------------------------------------*/
 Point Point::operator-() const
 {
-	return Point(-this->x, -this->y);
+	return Point(-x, -y);
 }
 
 /*--------------------------------------------------------*/
 bool Point::operator==(const Point &other) const
 {
-	return this->x == other.x && this->y == other.y;
+	return x == other.x && y == other.y;
 }
 
 /*--------------------------------------------------------*/
 Point& Point::operator+=(const Point &other)
 {
-	this->x += other.x;
-	this->y += other.y;
+	x += other.x;
+	y += other.y;
 	return *this;
 }
 
 /*--------------------------------------------------------*/
 Point& Point::operator-=(const Point &other)
 {
-	this->x -= other.x;
-	this->y -= other.y;
+	x -= other.x;
+	y -= other.y;
 	return *this;	
 }
 
@@ -83,15 +83,15 @@ Point Point::operator*(const double C) const
 /*--------------------------------------------------------*/
 Point& Point::operator*=(const double C)
 {
-	this->x *= C;
-	this->y *= C;
+	x *= C;
+	y *= C;
 	return *this;	
 }
 
 sf::Vector2f Point::vector()
 {
 	return sf::Vector2f(
-		static_cast<float>(this->x), 
-		static_cast<float>(this->y)
+		static_cast<float>(x), 
+		static_cast<float>(y)
 		);
 }

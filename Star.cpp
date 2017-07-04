@@ -1,17 +1,18 @@
 #include "Star.h"
 #include "Configuration.h"
 #include "auxiliary.h"
+//#include <memory>
 
+extern Configuration* config;
 /**------------------------------------------------------------
   Constructor - given position, makes random size and (once)
   size-based or random type.
   -----------------------------------------------------------*/
 Star::Star()
 {
-	Configuration& conf = Configuration::get();
-	this->position = Point(0, 0);
-	this->size = pow(f_random(sqrt(conf.STAR_MIN_SIZE), sqrt(conf.STAR_MAX_SIZE)), 2);
-	this->type = 'W';
+	position = Point(0, 0);
+	size = pow(d_random(sqrt(config->STAR_MIN_SIZE), sqrt(config->STAR_MAX_SIZE)), 2);
+	type = 'W';
 }
 
 /**------------------------------------------------------------
@@ -26,10 +27,10 @@ Star::~Star(void) {}
 GalaxyObject Star::info() const 
 {
 	GalaxyObject my_info;
-	my_info.position = this->position;
+	my_info.position = position;
 	my_info.direction = Point();
 	my_info.type = star;
 	my_info.subtype = regular;
-	my_info.size = this->size;
+	my_info.size = size;
 	return my_info;
 }

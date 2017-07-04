@@ -10,7 +10,7 @@ class Flyer
 {
 public:
 	Flyer();
-	~Flyer(void);
+	virtual ~Flyer(void);
 
 	Point position;
 	Point velocity;

@@ -1,49 +1,52 @@
 #include "Background.h"
 #include <random>
 #include "auxiliary.h"
+//#include <memory>
 
+extern Configuration* config;
+extern GameGraphics* gamegraphics;
 //Background* Background::instance = nullptr;
 
 /**------------------------------------------------------------
   It's a singleton day!
   -----------------------------------------------------------*/
-Background& Background::get()
-{
-	static Background instance;
-	return instance;
-}
+//Background& Background::get()
+//{
+//	static Background instance;
+//	return instance;
+//}
 
 /**------------------------------------------------------------
   
   -----------------------------------------------------------*/
 Background::Background(void)
 {
-	Configuration& conf = Configuration::get();
-	this->galaxy.create(conf.WIDTH * 3, conf.HEIGHT * 3);
+	//Configuration& conf = Configuration::get();
+	galaxy.create(config->WIDTH * 3, config->HEIGHT * 3);
+	//galaxy.create(50, 50);
 	
-	this->corner = Point(0, 0);
-	this->add_corner = Point((conf.WIDTH), (conf.HEIGHT));
+	corner = Point(0, 0);
+	add_corner = Point((config->WIDTH), (config->HEIGHT));
 
 	int BACK_STAR_N = 50000;
-//	this->backstars.reserve(BACK_STAR_N);
-	this->galaxy.clear();
+//	backstars.reserve(BACK_STAR_N);
+	galaxy.clear();
 	for (int i = 0; i < BACK_STAR_N; i++)
 	{
 		sf::Vertex v;
-		Point p(rand() % conf.WIDTH * 3, rand() % conf.HEIGHT * 3);
-		int color = pow(rand() % 5 + 2, 3);
+		Point p(rand() % config->WIDTH * 3, rand() % config->HEIGHT * 3);
+		int color = static_cast<int>(pow(rand() % 5 + 2, 3));
 		v.color = sf::Color(
 			color + rand() % 50,
 			color + rand() % 50,
 			color + rand() % 50,
-			pow(rand() % 5 + 2, 3) + 50
+			static_cast<sf::Uint8>(pow(rand() % 5 + 2, 3) + 50)
 			);
-		v.position = sf::Vector2f(p.x, p.y);
-		this->galaxy.draw(&v, 1, sf::Points);
+		v.position = p.vector();
+		galaxy.draw(&v, 1, sf::Points);
 	}
 
-
-	this->galaxy.display();
+	galaxy.display();
 
 }
 
@@ -57,12 +60,12 @@ Background::~Background(void) {  }
   -----------------------------------------------------------*/
 void Background::draw()
 {
-	sf::Sprite sprite (this->galaxy.getTexture(), sf::IntRect(
+	sf::Sprite sprite (galaxy.getTexture(), sf::IntRect(
 												 (sf::Vector2<int>)(corner * 0.2).vector(),
 												 sf::Vector2<int>(800, 600)
 												 ));
-	GameGraphics::get().window.draw(sprite);
-	GameGraphics::get().window.draw(sprite);
+	/*GameGraphics::get().*/gamegraphics->window.draw(sprite);
+	/*GameGraphics::get().*/gamegraphics->window.draw(sprite);
 }
 
 /**------------------------------------------------------------
@@ -70,8 +73,16 @@ void Background::draw()
   -----------------------------------------------------------*/
 //void Background::draw_stars()
 //{
-//	for (sf::CircleShape s : this->backstars)
+//	for (sf::CircleShape s : backstars)
 //	{
 //		GameGraphics::get().window.draw(s);
 //	}
 //}
+
+/**============================================================
+  ===================== PRIVATE MEMBERS =======================
+  ===========================================================*/
+
+
+
+Background* background = nullptr;

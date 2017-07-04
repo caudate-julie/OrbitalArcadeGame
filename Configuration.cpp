@@ -1,22 +1,24 @@
-#include "Configuration.h"
 #include <fstream>
 #include <string>
 #include <sstream>
+//#include <memory>
+#include "Configuration.h"
+
+Configuration* config = nullptr;
 
 /**------------------------------------------------------------
   Singletonus vulgaris.
   -----------------------------------------------------------*/
-Configuration& Configuration::get()
-{
-	static Configuration instance;
-	return instance;
-}
+//Configuration& Configuration::get()
+//{
+//	static Configuration instance;
+//	return instance;
+//}
 
 /**------------------------------------------------------------
   Destructor.
   -----------------------------------------------------------*/
-Configuration::~Configuration() { /*delete this->instance;*/ }
-
+Configuration::~Configuration() { /*delete instance;*/ }
 
 /**------------------------------------------------------------
   Pre-defined (default) settings.
@@ -51,7 +53,7 @@ Configuration::Configuration()
 
 		OUTPUT_DIST_COEFF(output_dist_coeff_)
 {
-	this->default_values();
+	default_values();
 	std::ifstream conf_file;
 	try 
 	{
@@ -109,10 +111,10 @@ Configuration::Configuration()
   -----------------------------------------------------------*/
 void Configuration::set_screen_size(int width, int height)
 {
-	this->width_ = width;
-	this->height_ = height;
-	this->margin_ = ((width < height) ? width : height) / 4;
-	this->set_star_generation_consts();
+	width_ = width;
+	height_ = height;
+	margin_ = ((width < height) ? width : height) / 4;
+	set_star_generation_consts();
 }
 
 /**------------------------------------------------------------
@@ -121,9 +123,9 @@ void Configuration::set_screen_size(int width, int height)
   -----------------------------------------------------------*/
 void Configuration::set_game_difficulty(int time_unit, double engine, double g_const)
 {
-	this->time_unit_ = time_unit;
-	this->engine_ = engine;
-	this->g_const_ = g_const;
+	time_unit_ = time_unit;
+	engine_ = engine;
+	g_const_ = g_const;
 }
 
 /**------------------------------------------------------------
@@ -134,11 +136,11 @@ void Configuration::set_game_difficulty(int time_unit, double engine, double g_c
 void Configuration::set_star_generation_consts()
 {
 	// !!!!! MAGICAL_NUMBER! 1.5 of screen diagonal
-	this->star_scope_ = sqrt(width_ * width_ + height_ * height_) * 1.5;
+	star_scope_ = sqrt(width_ * width_ + height_ * height_) * 1.5;
 
 	// how much linear space does one star need for average - proportional to max size.
 	float living_space = (star_max_size_) * star_density_;
-	this->star_number_ = static_cast<int>(pow(star_scope_ / living_space, 2));
+	star_number_ = static_cast<int>(pow(star_scope_ / living_space, 2));
 }
 
 /**------------------------------------------------------------
@@ -147,14 +149,13 @@ void Configuration::set_star_generation_consts()
   -----------------------------------------------------------*/
 void Configuration::default_values()
 {
-	// objects' size
 	flyer_size_ = 6;
 	star_min_size_ = 10;
 	star_max_size_ = 30;
 
 	star_density_ = 6;
 	star_min_space_ = 10;
-	this->set_screen_size(800, 600);
+	set_screen_size(800, 600);
 	// star_number and star_dist are also calculated here.
 
 	// speed and gravity settings
@@ -171,3 +172,4 @@ void Configuration::default_values()
 	output_dist_coeff_ = 20;
 	star_revise_time_ = 5;
 }
+

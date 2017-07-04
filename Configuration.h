@@ -4,7 +4,8 @@
 class Configuration
 {
 public:
-	static Configuration& get();
+	//static Configuration& get();
+	Configuration();
 	~Configuration();
 
 	// screen size
@@ -15,7 +16,7 @@ public:
 	// objects' size
 	const double& FLYER_SIZE;    // to centralize and determine collisions.
 	const double& STAR_MIN_SIZE;
-	const double& STAR_MAX_SIZE;   // rand() % ADD_SIZE + MIN_SIZE
+	const double& STAR_MAX_SIZE;
 
 	// star generation
 	const int& STAR_REVISE_TIME;     // frequency in milliseconds of recalculating.
@@ -46,8 +47,6 @@ public:
 
 private:
 	//static Configuration* instance;
-	Configuration();
-
 	int width_;
 	int height_;
 	int margin_;

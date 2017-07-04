@@ -2,6 +2,7 @@
 #include "GameGraphics.h"
 #include "Game.h"
 #include "Configuration.h"
+#include "Background.h"
 
 
 /**------------------------------------------------------------

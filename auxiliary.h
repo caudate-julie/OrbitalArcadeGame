@@ -1,3 +1,3 @@
 #pragma once
 
-double f_random(double, double);
+double d_random(double, double);

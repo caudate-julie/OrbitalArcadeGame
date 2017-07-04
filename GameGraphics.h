@@ -19,7 +19,8 @@ using std::unique_ptr;
 class GameGraphics
 {
 public:
-	static GameGraphics& get();
+	// static GameGraphics& get();
+	GameGraphics();
 	~GameGraphics();
 
 	sf::RenderWindow window;
@@ -33,7 +34,7 @@ public:
 	void show_message(std::string s);
 
 private:
-	GameGraphics();
+	
 //	static GameGraphics* instance;
 
 	sf::Text text;
@@ -57,7 +58,7 @@ private:
 	void update_corner();
 
 
-	sf::RenderTexture star;
+	sf::RenderTexture star_render;
 	sf::CircleShape flyershape;
 };
 

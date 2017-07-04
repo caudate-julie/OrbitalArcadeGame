@@ -1,5 +1,8 @@
 #include "Flyer.h"
 #include "Configuration.h"
+//#include <memory>
+
+extern Configuration* config;
 
 /**------------------------------------------------------------
   Creates a flyer with starting velocity in the middle
@@ -7,9 +10,8 @@
   -----------------------------------------------------------*/
 Flyer::Flyer(void) 
 {
-	Configuration& conf = Configuration::get();
-	this->velocity = Point(conf.INIT_VELOCITY, 0.f);
-	this->position = Point(0, 0);
+	velocity = Point(config->INIT_VELOCITY, 0.f);
+	position = Point(0, 0);
 }
 
 /**------------------------------------------------------------
@@ -23,8 +25,8 @@ Flyer::~Flyer(void) {}
   -----------------------------------------------------------*/
 void Flyer::move(const Point& acceleration)
 {
-	this->velocity += acceleration;
-	this->position += this->velocity;
+	velocity += acceleration;
+	position += velocity;
 }
 
 /**------------------------------------------------------------
@@ -40,22 +42,21 @@ void Flyer::move(const Point& acceleration)
 Point Flyer::engine_acceleration(char direction) const
 {
 	if (direction == 'N') return Point(0, 0);
-	Configuration& conf = Configuration::get();
 	int orientation = (direction == 'R') ? 1 : -1;
-	return this->velocity.T() * (orientation / this->velocity.module() * conf.ENGINE);
+	return velocity.T() * (orientation / velocity.module() * config->ENGINE);
 }
 
 /**------------------------------------------------------------
   Makes class with info about the object to pass outside
-  Game class (mainly to graphics class).
+  game class (mainly to graphics class).
   -----------------------------------------------------------*/
 GalaxyObject Flyer::info() const 
 {
 	GalaxyObject my_info;
-	my_info.position = this->position;
-	my_info.direction = this->velocity;
+	my_info.position = position;
+	my_info.direction = velocity;
 	my_info.type = flyer;
 	my_info.subtype = main;
-	my_info.size = Configuration::get().FLYER_SIZE;
+	my_info.size = config->FLYER_SIZE;
 	return my_info;
 }

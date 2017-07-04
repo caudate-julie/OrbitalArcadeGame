@@ -8,11 +8,11 @@ class BotFlyer :
 {
 public:
 	BotFlyer(void);
-	BotFlyer(const BotFlyer&);
-	~BotFlyer(void);
+	~BotFlyer(void) override;
+	virtual GalaxyObject info() const;
+
 	void start();
 	void action();
-	virtual GalaxyObject info() const;
 
 	BotFlyer& operator=(const BotFlyer& other);
 
@@ -20,7 +20,7 @@ private:
 	std::thread prediction;
 	std::mutex mutex_on_turn;
 	bool stop_thread;
-	char turn;
+	char recommendation;
 
 	void predict();
 	int mock_flight(Point p, Point v) const;
