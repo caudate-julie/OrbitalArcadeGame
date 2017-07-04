@@ -1,6 +1,5 @@
 #include "Flyer.h"
 #include "Configuration.h"
-//#include <memory>
 
 extern Configuration* config;
 

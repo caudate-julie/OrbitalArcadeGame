@@ -1,6 +1,8 @@
+
 	add opening screen
 	add ending screen
 	on_close 
+	configs as map<str, ???>
 	save config function
 	exceptions in opening and closing file
 	timed event
@@ -14,11 +16,10 @@
 	flyers crash
 	bots crash
 	achievement class
-	bot main flyer as config
 	vector_show_mode - to configs
-	what's the matter with background destructor?
-=>	forward declaration instead of including
 	make iterator for stars and bots
 	merge draw_flyer and draw_star
 	invisible stars - pointers
 	sf::View for frontground
+	centralize flyers
+	while-load screen

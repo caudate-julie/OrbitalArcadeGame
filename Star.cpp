@@ -1,7 +1,6 @@
 #include "Star.h"
 #include "Configuration.h"
 #include "auxiliary.h"
-//#include <memory>
 
 extern Configuration* config;
 /**------------------------------------------------------------

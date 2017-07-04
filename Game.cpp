@@ -6,6 +6,8 @@
 
 #include "Configuration.h"
 #include "auxiliary.h"
+#include "Flyer.h"
+#include "BotFlyer.h"
 
 extern Configuration* config;
 
@@ -21,24 +23,20 @@ Game::Game()
 		change_star(i, true); 
 	}
 
+	flyer = std::move(unique_ptr<Flyer>(config->PLAYER_IS_BOT ? new BotFlyer() : new Flyer()));
+	dist = 0;
+
 	bots.resize(config->BOT_NUMBER);
 	for (int i = 0; i < config->BOT_NUMBER; i++)
 	{ 
 		change_bot(i); 
 	}
-
-	main_is_bot = true;
-	flyer = std::move(unique_ptr<Flyer>(main_is_bot ? new BotFlyer() : new Flyer()));
-	dist = 0;
 }
 
 /**------------------------------------------------------------
   Destructor =)
   -----------------------------------------------------------*/
-Game::~Game(void) 
-{
-     //for (int i = 0; i < bots.size(); i++) bots[i]->stop();
-}
+Game::~Game(void) { }
 
 /**------------------------------------------------------------
   Getters for private fields.
@@ -55,7 +53,7 @@ double Game::distance() const          { return dist; }
   -----------------------------------------------------------*/
 void Game::start()
 {
-	if (main_is_bot) { (static_cast<BotFlyer*>(flyer.get()))-> start(); }
+	if (config->PLAYER_IS_BOT) { (static_cast<BotFlyer*>(flyer.get()))-> start(); }
 	for (int i = 0; i < bots.size(); i++) 
 	{
 		bots[i]->start();
@@ -81,7 +79,7 @@ void Game::make_move()
   -----------------------------------------------------------*/
 void Game::call_bots_action()
 {
-	if (main_is_bot) { (static_cast<BotFlyer*>(flyer.get()))->action(); }
+	if (config->PLAYER_IS_BOT) { (static_cast<BotFlyer*>(flyer.get()))->action(); }
 	for (int i = 0; i < bots.size(); i++) { bots[i]->action(); }
 }
 
@@ -150,8 +148,6 @@ Point Game::acceleration(const Point& flyer_coord, const Point& star_coord, doub
 {
 	Point r = flyer_coord - star_coord;
 	double power = pow(r.module(), 3);
-	double C = - mass / pow(r.module(), 3) * config->G_CONST;
-	Point p = r * C;
 	return r * (- mass / pow(r.module(), 3) * config->G_CONST);
 }
 
@@ -175,26 +171,25 @@ Point Game::summ_acceleration(const Point& flyer_coord) const
 
 /**------------------------------------------------------------
   Adds a new star in the index position.
-  Initial sets the mode of adding star: initial star is added
-  anywhere in the scope (in-game - only at the end of it),
-  might not be towards flyer's velocity and only checks the
-  collision with previous stars.
+  * initial sets the mode of adding star: initial star is added
+  anywhere in the scope,
+  * not initial (in-game) must be at the edge of the scope and
+  only towards players' direction.
   -----------------------------------------------------------*/
 void Game::change_star(int index, bool initial)
 {
 	while (true) 
 	{
-		double angle = d_random(0., M_PI * 2);
-		Point unit(angle);
+		Point direction(d_random(0., M_PI * 2));   // shows direction from player to new star.
 
 		// if we need a star towards flyer velocity, we may need another angle.
-		if (!initial && !in_sight_semisphere(unit)) continue;
+		if (!initial && !in_sight_semisphere(direction)) continue;
+		double radius = (initial ? sqrt(d_random(0., 1.)) : d_random(0.8, 1.)) * config->STAR_SCOPE;
 
 		Star s;
-		double radius = (initial ? sqrt(d_random(0., 1.)) : d_random(0.8, 1.)) * config->STAR_SCOPE;
-		s.position = unit * radius + flyer->position;
-		if (no_star_collision(s.position, s.size, 0, index)
-			&& (initial || no_star_collision(s.position, s.size, index, config->STAR_NUMBER)))
+		// if star is initial, flyer is not yet created. That's needed for proper destruction order.
+		s.position = direction * radius + (initial ? Point() : flyer->position);
+		if (no_star_collision(s.position, s.size))
 		{ 
 			stars[index] = s;
 			return;
@@ -209,13 +204,13 @@ void Game::change_star(int index, bool initial)
   -----------------------------------------------------------*/
 void Game::change_bot(int index)
 {
-	//Configuration& conf = Configuration::get();
-	while (true) {
+	while (true) 
+	{
 		unique_ptr<BotFlyer> f (new BotFlyer());
 		double angle = d_random(0., M_PI * 2);
 		f->position = Point(angle) * config->BOT_SCOPE + flyer->position;
 		f->velocity = -Point(angle) * config->INIT_VELOCITY;
-		if (no_star_collision(f->position, config->FLYER_SIZE, 0, stars.size()))
+		if (no_star_collision(f->position, config->FLYER_SIZE))
 		{
 			bots[index] = std::move(f);
 			return;
@@ -225,11 +220,12 @@ void Game::change_bot(int index)
 
 /**------------------------------------------------------------
   Checks that object with given position and size does not
-  overlap with stars int [start_index, end_index] slice.
+  overlap with stars. Auto-generated stars are at (0, 0) 
+  position, so method works for star initiating as well.
   -----------------------------------------------------------*/
-bool Game::no_star_collision(const Point& obj_coord, double obj_size, int start_index, int end_index) const
+bool Game::no_star_collision(const Point& obj_coord, double obj_size) const
 {
-	for (int i = start_index; i < end_index; i++)
+	for (int i = 0; i < stars.size(); i++)
 	{
 		double mindistance = config->STAR_MIN_SPACE + obj_size + stars[i].size;
 		if ((stars[i].position - obj_coord).module() < mindistance) { return false; }

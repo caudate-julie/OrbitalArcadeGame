@@ -1,8 +1,14 @@
 #include "main.h"
 #include <random>
-#include <ctime>*/
+#include <ctime>
 #include <SFML\Graphics.hpp>
 //#include <memory>
+
+#include <SFML\Graphics.hpp>
+#include "GameGraphics.h"
+#include "Game.h"
+#include "Configuration.h"
+#include "Background.h"
 
 extern Configuration* config;
 extern GameGraphics* gamegraphics;

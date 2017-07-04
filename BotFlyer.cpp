@@ -1,7 +1,10 @@
 #include "BotFlyer.h"
+
+#include <cassert>
+
 #include "Game.h"
 #include "GameGraphics.h"
-#include <cassert>
+#include "Configuration.h"
 
 extern Configuration* config;
 extern Game* game;
@@ -44,13 +47,13 @@ void BotFlyer::action()
 	if (recommendation != 'N')
 	{
 		char turn;
-		{
+//		{
 			// we don't double-check turn here, so in case it happened to change
 			// engine_acceleration can also handle 'N'-symbol.
 			std::lock_guard<std::mutex> recommendationGuard(mutex_on_turn);
 			turn = recommendation;
 			recommendation = 'N';
-		}
+	//	}
 		// engine_acceleration is a long method, so is held out of lock scope.
 		velocity += engine_acceleration(turn);
 	}
@@ -90,15 +93,24 @@ BotFlyer& BotFlyer::operator=(const BotFlyer& other)
   -----------------------------------------------------------*/
 void BotFlyer::predict()
 {
-	while (!this->stop_thread) {
+	while (!this->stop_thread) 
+	{
 		int flat_crash = mock_flight(position, velocity);
-		if (flat_crash == (config->BOT_MAX_STEPS + 1)) { continue; }
+		if (flat_crash >= config->BOT_MAX_STEPS) 
+		{ 
+			recommendation = 'N';
+			continue; 
+		}
 		// no crash happened - no interaction needed.
 	
 		int left_crash = mock_flight(position, velocity + engine_acceleration('L'));
 		int right_crash = mock_flight(position, velocity + engine_acceleration('R'));
 
-		if ((left_crash < flat_crash) && (right_crash < flat_crash)) continue;  // flat flight is longest.
+		if ((left_crash <= flat_crash) && (right_crash <= flat_crash)) 
+		{
+			recommendation = 'N';
+			continue;  // flat flight is longest.
+		}
 		recommendation = (left_crash > right_crash) ? 'L' : 'R';
 	}
 }
@@ -116,6 +128,7 @@ int BotFlyer::mock_flight(Point p, Point v) const
 		v += game->summ_acceleration(p);
 		p += v;
 		if (game->crashed(p, config->FLYER_SIZE)) { break; }
+		step++;
 	}
 	return step + 1;
 }

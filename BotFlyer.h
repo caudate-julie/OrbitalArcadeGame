@@ -1,7 +1,9 @@
 #pragma once
-#include "flyer.h"
+
 #include <thread>
 #include <mutex>
+
+#include "flyer.h"
 
 class BotFlyer :
 	public Flyer

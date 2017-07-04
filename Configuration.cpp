@@ -1,19 +1,9 @@
 #include <fstream>
 #include <string>
 #include <sstream>
-//#include <memory>
 #include "Configuration.h"
 
 Configuration* config = nullptr;
-
-/**------------------------------------------------------------
-  Singletonus vulgaris.
-  -----------------------------------------------------------*/
-//Configuration& Configuration::get()
-//{
-//	static Configuration instance;
-//	return instance;
-//}
 
 /**------------------------------------------------------------
   Destructor.
@@ -50,8 +40,10 @@ Configuration::Configuration()
 		BOT_ACTION(bot_action_),
 		BOT_SCOPE(bot_scope_),
 		BOT_MAX_STEPS(bot_max_steps_),
+		PLAYER_IS_BOT(player_is_bot_),
 
 		OUTPUT_DIST_COEFF(output_dist_coeff_)
+
 {
 	default_values();
 	std::ifstream conf_file;
@@ -98,7 +90,7 @@ Configuration::Configuration()
 		else if (key.str() == "bot_action_") { bot_action_ = std::stoi(value.str()); }
 		else if (key.str() == "bot_scope_") { bot_scope_ = std::stod(value.str()); }
 		else if (key.str() == "bot_max_steps_") { bot_max_steps_ = std::stoi(value.str()); }
-
+		else if (key.str() == "player_is_bot_") { player_is_bot_ = std::stoi(value.str()); }
 
 		else if (key.str() == "output_dist_coeff_") { output_dist_coeff_ = std::stod(value.str()); }
 	}
@@ -167,7 +159,8 @@ void Configuration::default_values()
 	bot_number_ = 5;
 	bot_action_ = 100;
 	bot_scope_ = (width_ > height_) ? width_ : height_;
-	bot_max_steps_ = 200;
+	bot_max_steps_ = 400;
+	player_is_bot_ = false;
 
 	output_dist_coeff_ = 20;
 	star_revise_time_ = 5;

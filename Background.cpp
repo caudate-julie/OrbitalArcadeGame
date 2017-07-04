@@ -1,20 +1,13 @@
 #include "Background.h"
+
 #include <random>
+
 #include "auxiliary.h"
+#include "GameGraphics.h"
 //#include <memory>
 
 extern Configuration* config;
 extern GameGraphics* gamegraphics;
-//Background* Background::instance = nullptr;
-
-/**------------------------------------------------------------
-  It's a singleton day!
-  -----------------------------------------------------------*/
-//Background& Background::get()
-//{
-//	static Background instance;
-//	return instance;
-//}
 
 /**------------------------------------------------------------
   

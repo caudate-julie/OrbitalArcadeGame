@@ -1,11 +1,14 @@
 #pragma once
 #include <SFML\Graphics.hpp>
-#include "Game.h"
 #include <string>
 #include <memory>
 
-class Star;
-class Flyer;
+#include "Point.h"
+#include "GalaxyObject.h"
+
+//class Star;
+//class Flyer;
+
 using std::unique_ptr;
 
 /**------------------------------------------------------------
@@ -43,18 +46,15 @@ private:
 	Point back_corner;       // same for background (other layer)
 	std::string message;     // running debug output
 
-	bool show_single_vector;
-	bool show_all_vectors;
+	bool show_acceleration_vector;
 
 	// single element drawing
 	void draw_star(const GalaxyObject);
 	void draw_flyer(const GalaxyObject, char type);
 	void show_flyer_stats();
-	void draw_single_vector();
-	void draw_all_vectors();
-	void draw_vector(const Point& p);
+	void draw_acceleration_vector();
 
-	Point get_screen_position(const Point& galaxy_coord, double size) const;
+	Point get_screen_position(const Point& galaxy_coord) const;
 	void update_corner();
 
 

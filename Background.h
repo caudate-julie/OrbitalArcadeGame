@@ -1,15 +1,14 @@
 #pragma once
 #include <SFML\Graphics.hpp>
+//#include <vector>
+
 #include "Point.h"
 #include "Configuration.h"
-#include "GameGraphics.h"
-//#include <vector>
 
 class Background
 {
 public:
-	//static Background& get();
-	Background(void);  // <== TEMP!
+	Background(void);
 	~Background(void);
 
 	sf::RenderTexture galaxy;
@@ -18,7 +17,6 @@ public:
 	void draw();
 
 private:
-	//Background(void);
 	Point add_corner;    // (WIDTH, HEIGHT) from image corner to screen corner
 
 //	std::vector<sf::CircleShape> backstars;

@@ -36,6 +36,7 @@ public:
 	const double& BOT_SCOPE;         // bot that is farther is deleted and a new is generated
 	const int& BOT_ACTION;          // in millisecs - time when bots are asked to do action.
 	const int& BOT_MAX_STEPS;       // number of prediction steps
+	const bool& PLAYER_IS_BOT;      // if true, player's flyer is self-operated.
 
 	// other
 	const double& OUTPUT_DIST_COEFF; // recalculate distance for conveniency of screen showing
@@ -70,6 +71,7 @@ private:
 	int bot_action_;
 	double bot_scope_;
 	int bot_max_steps_;
+	bool player_is_bot_;
 
 	double output_dist_coeff_;
 

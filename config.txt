@@ -9,8 +9,8 @@ star_number_ 60
 star_distance_ 1500
 star_density_ 6
 star_min_space_ 10 
-time_unit_ 2000
+time_unit_ 100000
 engine_ 0.6
-g_const_ 12
+g_const_ 3
 output_dist_coeff_ 20
 bot_number_ 5

@@ -3,10 +3,10 @@
 #include <memory>
 
 #include "Star.h"
-#include "Flyer.h"
-#include "BotFlyer.h"
-#include "Configuration.h"
 #include "GalaxyObject.h"
+
+class BotFlyer;
+class Flyer;
 
 using std::vector;
 using std::unique_ptr;
@@ -40,16 +40,14 @@ public:
 	Point summ_acceleration(const Point&  flyer_coord) const;
 
 private:
-
 	vector<Star> stars;
 	vector<unique_ptr<BotFlyer>> bots;
 	unique_ptr<Flyer> flyer;
 	double dist;
-	bool main_is_bot;
 
 	void change_star(int index, bool initial);
 	void change_bot(int index);
 
-	bool no_star_collision(const Point&  obj_coord, double obj_size, int start_index, int end_index) const;
+	bool no_star_collision(const Point&  obj_coord, double obj_size) const;
 	bool in_sight_semisphere(const Point&  obj_coord) const;
 };
