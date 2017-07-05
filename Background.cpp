@@ -4,7 +4,6 @@
 
 #include "auxiliary.h"
 #include "GameGraphics.h"
-//#include <memory>
 
 extern Configuration* config;
 extern GameGraphics* gamegraphics;
@@ -38,15 +37,18 @@ Background::Background(void)
 		v.position = p.vector();
 		galaxy.draw(&v, 1, sf::Points);
 	}
-
 	galaxy.display();
-
 }
 
 /**------------------------------------------------------------
   Destructor.
   -----------------------------------------------------------*/
 Background::~Background(void) {  }
+
+void Background::reset()
+{
+	corner = Point(0, 0);
+}
 
 /**------------------------------------------------------------
   
@@ -61,21 +63,9 @@ void Background::draw()
 	/*GameGraphics::get().*/gamegraphics->window.draw(sprite);
 }
 
-/**------------------------------------------------------------
-  
-  -----------------------------------------------------------*/
-//void Background::draw_stars()
-//{
-//	for (sf::CircleShape s : backstars)
-//	{
-//		GameGraphics::get().window.draw(s);
-//	}
-//}
-
 /**============================================================
   ===================== PRIVATE MEMBERS =======================
   ===========================================================*/
-
 
 
 Background* background = nullptr;

@@ -27,25 +27,24 @@ public:
 	~GameGraphics();
 
 	sf::RenderWindow window;
+	sf::Font font;
 
+	void reset();
 	// whole screens
 	void show_start_screen();
 	void redraw_game_screen();
-	void show_end_screen();
 	
 	// running debug output
 	void show_message(std::string s);
 
 private:
+	void show_end_screen(int dist);   // <-- stub - here must be the whole Achievement class
 	
 //	static GameGraphics* instance;
 
 	sf::Text text;
-	sf::Font font;
 	Point corner;            // join screen and galaxy position
-	Point back_corner;       // same for background (other layer)
 	std::string message;     // running debug output
-
 	bool show_acceleration_vector;
 
 	// single element drawing

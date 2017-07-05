@@ -5,6 +5,7 @@
 #include "Configuration.h"
 #include "Background.h"
 #include "auxiliary.h"
+#include "InterimScreen.h"
 
 extern Background* background;
 extern Configuration* config;
@@ -16,15 +17,12 @@ extern Game* game;
 GameGraphics::GameGraphics() 
 {
 	window.create(sf::VideoMode(config->WIDTH, config->HEIGHT), "Orbital");
-
-	corner = Point(-config->WIDTH / 2, -config->HEIGHT / 2);
 	
 	font.loadFromFile("a_nova.ttf");
 	text = sf::Text();
 	text.setFont(font);
 	text.setCharacterSize(14);
 	text.setPosition(5, 5);
-	message = "";
 
 	show_acceleration_vector = true;
 
@@ -45,6 +43,8 @@ GameGraphics::GameGraphics()
 	flyershape = sf::CircleShape(6, 3);
 //	flyershape.setScale(0.8f, 1.f);
 	flyershape.setOrigin(3, 3);
+
+	reset();
 }
 
 /**------------------------------------------------------------
@@ -52,6 +52,13 @@ GameGraphics::GameGraphics()
   -----------------------------------------------------------*/
 GameGraphics::~GameGraphics() { }
 
+void GameGraphics::reset()
+{
+	corner = Point(-config->WIDTH / 2, -config->HEIGHT / 2);
+	message = "";
+
+
+}
 
 /////////////////////
 // Drawing screens //
@@ -60,7 +67,11 @@ GameGraphics::~GameGraphics() { }
 /**------------------------------------------------------------
   Start screen (nothing here).
   -----------------------------------------------------------*/
-void GameGraphics::show_start_screen() {}
+void GameGraphics::show_start_screen() 
+{
+	show_end_screen(-1);
+
+}
 
 /**------------------------------------------------------------
   Main function for game screen redrawing every turn.
@@ -85,14 +96,16 @@ void GameGraphics::redraw_game_screen()
   End screen. Probably should be in separate class -
   too many elements.
   -----------------------------------------------------------*/
-void GameGraphics::show_end_screen() 
+void GameGraphics::show_end_screen(int dist) 
 {
-	// STUB
-	window.clear(sf::Color::Color(50, 50, 50, 0));
-	window.display();
-	sf::Clock end_time;
-	while(end_time.getElapsedTime() < sf::milliseconds(500)) {}
-	window.close();
+	InterimScreen startscreen;
+	startscreen.show(dist);	
+	
+	//window.clear(sf::Color::Color(50, 50, 50, 0));
+	//window.display();
+	//sf::Clock end_time;
+	//while(end_time.getElapsedTime() < sf::milliseconds(500)) {}
+	//window.close();
 }
 
 /**------------------------------------------------------------
@@ -174,7 +187,7 @@ void GameGraphics::draw_acceleration_vector()
 void GameGraphics::show_flyer_stats()
 {
 	std::stringstream ss;
-	ss << "distance: " << (int)(game->distance() / config->OUTPUT_DIST_COEFF) 
+	ss << "distance: " << (int)(game->distance()) 
 		<< "\n\n" << message;
 	text.setString(ss.str());
 	

@@ -90,7 +90,7 @@ Configuration::Configuration()
 		else if (key.str() == "bot_action_") { bot_action_ = std::stoi(value.str()); }
 		else if (key.str() == "bot_scope_") { bot_scope_ = std::stod(value.str()); }
 		else if (key.str() == "bot_max_steps_") { bot_max_steps_ = std::stoi(value.str()); }
-		else if (key.str() == "player_is_bot_") { player_is_bot_ = std::stoi(value.str()); }
+		else if (key.str() == "player_is_bot_") { player_is_bot_ = (bool)std::stoi(value.str()); }
 
 		else if (key.str() == "output_dist_coeff_") { output_dist_coeff_ = std::stod(value.str()); }
 	}
@@ -131,7 +131,7 @@ void Configuration::set_star_generation_consts()
 	star_scope_ = sqrt(width_ * width_ + height_ * height_) * 1.5;
 
 	// how much linear space does one star need for average - proportional to max size.
-	float living_space = (star_max_size_) * star_density_;
+	double living_space = (star_max_size_) * star_density_;
 	star_number_ = static_cast<int>(pow(star_scope_ / living_space, 2));
 }
 

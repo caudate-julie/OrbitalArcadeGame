@@ -9,6 +9,7 @@
 #include "Game.h"
 #include "Configuration.h"
 #include "Background.h"
+#include "TimedEvent.h"
 
 extern Configuration* config;
 extern GameGraphics* gamegraphics;
@@ -18,11 +19,54 @@ extern Game* game;
 /**------------------------------------------------------------
   Main game loop.  
   -----------------------------------------------------------*/
+
+bool menuscreen()
+{
+	int dist = game->distance();
+
+	background->reset();
+	game->reset();
+	gamegraphics->reset();
+
+	gamegraphics->show_start_screen();
+	while(gamegraphics->window.isOpen())
+	{
+		sf::Event event;
+		while(gamegraphics->window.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+			{
+				gamegraphics->window.close();
+			}
+			if (event.type == sf::Event::KeyPressed)
+			{
+				switch(event.key.code)
+				{
+				case sf::Keyboard::Space:
+					return true;
+				case sf::Keyboard::Q:
+					gamegraphics->window.close();
+					return false;
+				}
+			}
+		}
+	}
+	return false;
+}
+
+/**------------------------------------------------------------
+  Main game loop.  
+  -----------------------------------------------------------*/
 void gameloop()
 {
-	sf::Clock game_clock;
-	sf::Clock star_revision_clock;
-	sf::Clock bot_action_clock;
+	sf::Clock clock;
+
+	vector<unique_ptr<TimedEvent>> timers;
+	timers.push_back(unique_ptr<TimedEvent>(new TimedGameMove()));
+	timers.push_back(unique_ptr<TimedEvent>(new TimedStarRevision()));
+	timers.push_back(unique_ptr<TimedEvent>(new TimedBotAction()));
+
+
 	game->start();
 	while (gamegraphics->window.isOpen())
 	{
@@ -40,26 +84,13 @@ void gameloop()
 			}
 			// обработка событий
 		}
-		if (game_clock.getElapsedTime() > sf::microseconds(config->TIME_UNIT))
-		{
-			game_clock.restart();
-			game->make_move();
-			if (game->crashed()) { 
-				gamegraphics->show_end_screen(); 
-				return;
-			}
-			gamegraphics->redraw_game_screen();
-		}
-		if (star_revision_clock.getElapsedTime() > sf::milliseconds(config->STAR_REVISE_TIME))
-		{
-			game->revise_stars();
-			star_revision_clock.restart();
-		}
-		if (bot_action_clock.getElapsedTime() > sf::milliseconds(config->BOT_ACTION))
-		{
-			game->call_bots_action();
-		}
 
+		int time_elapsed = clock.getElapsedTime().asMicroseconds();
+		for (int i = 0; i < timers.size(); i++) { timers[i]->on_time(time_elapsed); }
+
+		if (game->crashed()) { 
+				return;
+		}
 	}
 }
 
@@ -71,11 +102,16 @@ int WinMain(int argc, char* argv[])
 	srand((unsigned)time(NULL));   // for Game and GameGraphics.
 	
 	config = new Configuration();
-	background = new Background();
 	gamegraphics =new GameGraphics();
-	game = new Game();
 
-	gameloop();
+	game = new Game();
+	background = new Background();
+
+	while (menuscreen()) 
+	{
+		gameloop(); 
+	};
+	
 
 	delete game;
 	delete gamegraphics;

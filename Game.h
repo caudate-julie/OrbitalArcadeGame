@@ -21,12 +21,14 @@ public:
 	Game();
 	~Game(void);
 
+	void reset();
+
 	int n_stars() const;
 	GalaxyObject player() const;
 	int n_bots() const;
 	GalaxyObject star(int i) const;
 	GalaxyObject bot(int i) const;
-	double distance() const;
+	int distance() const;
 
 	void start();
 	void make_move();

@@ -5,13 +5,13 @@
 	configs as map<str, ???>
 	save config function
 	exceptions in opening and closing file
-	timed event
+=>	timed event
 	reset for all singletons (game, gamegraphics)
 	nice stars
 	nice flyers
 	config reading - make better
 	vector of backgrounds
-	generating back and double buffering
+	generating b+ack and double buffering
 	generating back in separate thread
 	flyers crash
 	bots crash
@@ -23,3 +23,5 @@
 	sf::View for frontground
 	centralize flyers
 	while-load screen
+	l10n =)
+	reset game and background

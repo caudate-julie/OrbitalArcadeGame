@@ -1,11 +1,63 @@
 #include "TimedEvent.h"
+#include "Configuration.h"
+#include "Game.h"
+#include "GameGraphics.h"
 
+extern Configuration* config;
+extern Game* game;
+extern GameGraphics* gamegraphics;
 
-TimedEvent::TimedEvent(void)
+TimedEvent::TimedEvent(int interval)
+	: interval(interval),
+	  trigger_time(interval)
+{}
+
+/**------------------------------------------------------------
+  Checkes whether current time exceeded time to trigger
+  execution. If did, sets up next trigger time
+  -----------------------------------------------------------*/
+void TimedEvent::on_time(int current_time)
 {
+	if (current_time > trigger_time)
+	{
+		trigger_time += interval;
+		// triggered_time - current_time + interval
+		execute();
+	}
 }
 
+/*-------------------------------------------------------------*/
 
-TimedEvent::~TimedEvent(void)
+TimedGameMove::TimedGameMove()
+	: TimedEvent(config->TIME_UNIT)
+{}
+
+void TimedGameMove::execute()
 {
+	game->make_move();
+	// !!!!! if (game->crashed())
+	gamegraphics->redraw_game_screen();
+
+}
+
+/*-------------------------------------------------------------*/
+
+TimedStarRevision::TimedStarRevision()
+	: TimedEvent(config->STAR_REVISE_TIME)
+{}
+
+void TimedStarRevision::execute()
+{
+	game->revise_stars();
+}
+
+/*-------------------------------------------------------------*/
+
+TimedBotAction::TimedBotAction()
+	: TimedEvent(config->BOT_ACTION)
+{}
+
+void TimedBotAction::execute()
+{
+	game->call_bots_action();
 }

@@ -11,6 +11,8 @@ public:
 	Background(void);
 	~Background(void);
 
+	void reset();
+
 	sf::RenderTexture galaxy;
 	Point corner;
 

@@ -17,6 +17,16 @@ extern Configuration* config;
   -----------------------------------------------------------*/
 Game::Game()
 {
+	reset();
+}
+
+/**------------------------------------------------------------
+  Destructor =)
+  -----------------------------------------------------------*/
+Game::~Game(void) { }
+
+void Game::reset()
+{
 	stars.resize(config->STAR_NUMBER);
 	for (int i = 0; i < config->STAR_NUMBER; i++) 
 	{ 
@@ -34,11 +44,6 @@ Game::Game()
 }
 
 /**------------------------------------------------------------
-  Destructor =)
-  -----------------------------------------------------------*/
-Game::~Game(void) { }
-
-/**------------------------------------------------------------
   Getters for private fields.
   -----------------------------------------------------------*/
 GalaxyObject  Game::player() const     { return flyer->info(); }
@@ -46,7 +51,7 @@ int Game::n_stars() const              { return static_cast<int>(stars.size()); 
 int Game::n_bots() const               { return static_cast<int>(bots.size()); }
 GalaxyObject  Game::star(int i) const  { return stars[i].info(); }
 GalaxyObject  Game::bot(int i) const   { return bots[i]->info(); }
-double Game::distance() const          { return dist; }
+int Game::distance() const             { return static_cast<int>(dist / config->OUTPUT_DIST_COEFF); }
 
 /**------------------------------------------------------------
   Starts prediction threads for all bots.
