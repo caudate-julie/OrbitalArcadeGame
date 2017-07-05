@@ -8,6 +8,7 @@
 
 extern Configuration* config;
 extern Game* game;
+extern GameGraphics* gamegraphics;
 
 /**------------------------------------------------------------
   Creates a new bot. Count is for debug output.
@@ -47,14 +48,9 @@ void BotFlyer::action()
 	if (recommendation != 'N')
 	{
 		char turn;
-//		{
-			// we don't double-check turn here, so in case it happened to change
-			// engine_acceleration can also handle 'N'-symbol.
-			std::lock_guard<std::mutex> recommendationGuard(mutex_on_turn);
-			turn = recommendation;
-			recommendation = 'N';
-	//	}
-		// engine_acceleration is a long method, so is held out of lock scope.
+//		std::lock_guard<std::mutex> recommendationGuard(mutex_on_turn);
+		turn = recommendation;
+		recommendation = 'N';
 		velocity += engine_acceleration(turn);
 	}
 }
@@ -93,8 +89,9 @@ BotFlyer& BotFlyer::operator=(const BotFlyer& other)
   -----------------------------------------------------------*/
 void BotFlyer::predict()
 {
-	while (!this->stop_thread) 
+ 	while (!this->stop_thread) 
 	{
+		gamegraphics->show_message(std::to_string(stop_thread));
 		int flat_crash = mock_flight(position, velocity);
 		if (flat_crash >= config->BOT_MAX_STEPS) 
 		{ 
@@ -113,6 +110,7 @@ void BotFlyer::predict()
 		}
 		recommendation = (left_crash > right_crash) ? 'L' : 'R';
 	}
+	int k = 5;
 }
 
 /**------------------------------------------------------------

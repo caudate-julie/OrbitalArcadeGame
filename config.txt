@@ -13,4 +13,4 @@ time_unit_ 2000
 engine_ 0.6
 g_const_ 3
 output_dist_coeff_ 20
-bot_number_ 5
+bot_number_ 1

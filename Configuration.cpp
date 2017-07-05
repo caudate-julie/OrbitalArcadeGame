@@ -160,7 +160,7 @@ void Configuration::default_values()
 	bot_action_ = 100;
 	bot_scope_ = (width_ > height_) ? width_ : height_;
 	bot_max_steps_ = 400;
-	player_is_bot_ = false;
+	player_is_bot_ = true;
 
 	output_dist_coeff_ = 20;
 	star_revise_time_ = 5;

@@ -4,7 +4,6 @@
 #include <SFML\Graphics.hpp>
 //#include <memory>
 
-#include <SFML\Graphics.hpp>
 #include "GameGraphics.h"
 #include "Game.h"
 #include "Configuration.h"
@@ -66,7 +65,6 @@ void gameloop()
 	timers.push_back(unique_ptr<TimedEvent>(new TimedStarRevision()));
 	timers.push_back(unique_ptr<TimedEvent>(new TimedBotAction()));
 
-
 	game->start();
 	while (gamegraphics->window.isOpen())
 	{
@@ -85,6 +83,7 @@ void gameloop()
 			// обработка событий
 		}
 
+		// события по времени
 		int time_elapsed = clock.getElapsedTime().asMicroseconds();
 		for (int i = 0; i < timers.size(); i++) { timers[i]->on_time(time_elapsed); }
 
