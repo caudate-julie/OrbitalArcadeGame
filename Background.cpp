@@ -6,23 +6,20 @@
 #include "GameGraphics.h"
 
 extern Configuration* config;
-extern GameGraphics* gamegraphics;
+extern sf::RenderWindow* window;
 
 /**------------------------------------------------------------
   
   -----------------------------------------------------------*/
 Background::Background(void)
 {
-	//Configuration& conf = Configuration::get();
 	galaxy.create(config->WIDTH * 3, config->HEIGHT * 3);
-	//galaxy.create(50, 50);
 	
 	corner = Point(0, 0);
 	add_corner = Point((config->WIDTH), (config->HEIGHT));
 
 	int BACK_STAR_N = 50000;
-//	backstars.reserve(BACK_STAR_N);
-	galaxy.clear();
+	galaxy.clear(sf::Color::Transparent);
 	for (int i = 0; i < BACK_STAR_N; i++)
 	{
 		sf::Vertex v;
@@ -55,12 +52,13 @@ void Background::reset()
   -----------------------------------------------------------*/
 void Background::draw()
 {
-	sf::Sprite sprite (galaxy.getTexture(), sf::IntRect(
-												 (sf::Vector2<int>)(corner * 0.2).vector(),
-												 sf::Vector2<int>(800, 600)
+	sf::Sprite sprite(galaxy.getTexture(), sf::IntRect(
+												 sf::Vector2<int>(config->WIDTH * 1.5, config->HEIGHT * 1.5)
+												 + (sf::Vector2<int>)(corner * 0.2).vector(),
+												 sf::Vector2<int>(config->WIDTH, config->HEIGHT)
 												 ));
-	/*GameGraphics::get().*/gamegraphics->window.draw(sprite);
-	/*GameGraphics::get().*/gamegraphics->window.draw(sprite);
+	sprite.setOrigin(sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height / 2);
+	window->draw(sprite);
 }
 
 /**============================================================

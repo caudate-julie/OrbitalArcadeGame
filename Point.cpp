@@ -3,17 +3,16 @@
 #include <cmath>
 
 Point::Point()
-{
-	x = y = 0;
-}
+	: x(0)
+	, y(0)
+{}
 
 
 /*--------------------------------------------------------*/
 Point::Point(double x, double y)
-{
-	this->x = x;
-	this->y = y;
-}
+	: x(x)
+	, y(y)
+{}
 
 /*--------------------------------------------------------*/
 Point::Point(double alpha)

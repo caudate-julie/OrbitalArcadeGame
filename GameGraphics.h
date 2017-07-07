@@ -26,10 +26,8 @@ public:
 	GameGraphics();
 	~GameGraphics();
 
-	sf::RenderWindow window;
-	sf::Font font;
-
 	void reset();
+
 	// whole screens
 	void show_start_screen();
 	void redraw_game_screen();
@@ -40,24 +38,25 @@ public:
 private:
 	void show_end_screen(int dist);   // <-- stub - here must be the whole Achievement class
 	
-//	static GameGraphics* instance;
-
 	sf::Text text;
-	Point corner;            // join screen and galaxy position
+	sf::Font font;
+	Point corner;            // joins screen and galaxy position
+	Point foreground_corner;       // joins foreground stars and galaxy
 	std::string message;     // running debug output
 	bool show_acceleration_vector;
 
+	sf::RenderTexture forestars;
+	sf::CircleShape flyershape;
+
 	// single element drawing
-	void draw_star(const GalaxyObject);
-	void draw_flyer(const GalaxyObject, char type);
+	void draw_stars();
+	void draw_flyer(const GalaxyObject flyer, char type);
 	void show_flyer_stats();
 	void draw_acceleration_vector();
 
+	void set_forestar_layer();
 	Point get_screen_position(const Point& galaxy_coord) const;
 	void update_corner();
 
-
-	sf::RenderTexture star_render;
-	sf::CircleShape flyershape;
 };
 

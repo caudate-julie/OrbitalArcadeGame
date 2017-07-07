@@ -29,13 +29,13 @@ public:
 	GalaxyObject star(int i) const;
 	GalaxyObject bot(int i) const;
 	int distance() const;
-
+	const bool& game_over;
+	
 	void start();
 	void make_move();
 	void call_bots_action();
 	void user_turn_on_engine(char direction);
 	void revise_stars();
-	bool crashed() const;
 	bool crashed(const Point& flyer_coord, double flyer_size) const;
 
 	Point acceleration(const Point&  flyer_coord, const Point&  star_coord, double mass) const;
@@ -44,8 +44,9 @@ public:
 private:
 	vector<Star> stars;
 	vector<unique_ptr<BotFlyer>> bots;
-	unique_ptr<Flyer> flyer;
+	unique_ptr<Flyer> mainflyer;
 	double dist;
+	bool player_crashed;
 
 	void change_star(int index, bool initial);
 	void change_bot(int index);

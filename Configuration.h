@@ -45,6 +45,7 @@ public:
 	// reassignment functions
 	void set_screen_size(int width, int height);
 	void set_game_difficulty(int game_move, double engine, double g_const);
+	void set_bot_player(bool is_bot);
 
 private:
 	//static Configuration* instance;

@@ -1,17 +1,12 @@
-
 	add opening screen
 	add ending screen
 	on_close 
 	configs as map<str, ???>
 	save config function
 	exceptions in opening and closing file
-=>	timed event
-	reset for all singletons (game, gamegraphics)
-	nice stars
-	nice flyers
 	config reading - make better
 	vector of backgrounds
-	generating b+ack and double buffering
+	generating back and double buffering
 	generating back in separate thread
 	flyers crash
 	bots crash
@@ -21,7 +16,11 @@
 	merge draw_flyer and draw_star
 	invisible stars - pointers
 	sf::View for frontground
-	centralize flyers
+	centralize flyers 
 	while-load screen
 	l10n =)
-	reset game and background
+->	queue of events (like crashes)
+
+NICE GRAPHICS PART
+	nice stars
+	nice flyers

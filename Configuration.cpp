@@ -120,6 +120,11 @@ void Configuration::set_game_difficulty(int time_unit, double engine, double g_c
 	g_const_ = g_const;
 }
 
+void Configuration::set_bot_player(bool is_bot)
+{
+	player_is_bot_ = is_bot;
+}
+
 /**------------------------------------------------------------
   Given size of screen, recalculates number of stars generated
   at every time and distance, where one stars disappear and
@@ -157,10 +162,10 @@ void Configuration::default_values()
 	init_velocity_ = 2;
 
 	bot_number_ = 5;
-	bot_action_ = 100;
+	bot_action_ = 10000;
 	bot_scope_ = (width_ > height_) ? width_ : height_;
 	bot_max_steps_ = 400;
-	player_is_bot_ = true;
+	player_is_bot_ = false;
 
 	output_dist_coeff_ = 20;
 	star_revise_time_ = 5;

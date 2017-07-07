@@ -4,13 +4,13 @@ margin_ 200
 flyer_size_ 10
 star_min_size_ 9
 star_max_size_ 36
-star_revise_time_ 5
+star_revise_time_ 10000
 star_number_ 60
 star_distance_ 1500
 star_density_ 6
 star_min_space_ 10 
 time_unit_ 2000
 engine_ 0.6
-g_const_ 3
+g_const_ 10
 output_dist_coeff_ 20
-bot_number_ 1
+bot_number_ 10

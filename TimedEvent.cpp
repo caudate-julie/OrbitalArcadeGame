@@ -35,9 +35,7 @@ TimedGameMove::TimedGameMove()
 void TimedGameMove::execute()
 {
 	game->make_move();
-	// !!!!! if (game->crashed())
-	gamegraphics->redraw_game_screen();
-
+	
 }
 
 /*-------------------------------------------------------------*/

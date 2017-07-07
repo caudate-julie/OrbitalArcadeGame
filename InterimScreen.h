@@ -12,6 +12,5 @@ public:
 
 private:
 	void showMenu(int dist);
-	sf::RenderWindow& window;
 };
 

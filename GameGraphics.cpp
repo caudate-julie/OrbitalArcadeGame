@@ -10,41 +10,24 @@
 extern Background* background;
 extern Configuration* config;
 extern Game* game;
+extern sf::RenderWindow* window;
 
 /**------------------------------------------------------------
-  Creates new GameGraphics, sets up the window.
+  Creates new GameGraphics, sets up the window->
   -----------------------------------------------------------*/
 GameGraphics::GameGraphics() 
 {
-	window.create(sf::VideoMode(config->WIDTH, config->HEIGHT), "Orbital");
-	
 	font.loadFromFile("a_nova.ttf");
 	text = sf::Text();
 	text.setFont(font);
 	text.setCharacterSize(14);
-	text.setPosition(5, 5);
+	text.setPosition(-config->WIDTH / 2 + 5, -config->HEIGHT / 2 + 5);
 
 	show_acceleration_vector = true;
-
-	star_render.create(50, 50);
-	star_render.clear(sf::Color::Transparent);
-	for (int i = 0; i < 1000; i++) 
-	{ 
-		Point p(d_random(0, asin(1) * 4));
-		p *= d_random(0, 25);
-		p += Point(25, 25);
-		sf::Vertex v;
-		v.position = p.vector();
-		v.color = sf::Color(255, 255, 50, 255);
-		star_render.draw(&v, 1, sf::Points);
-	}
-	star_render.display();
 
 	flyershape = sf::CircleShape(6, 3);
 //	flyershape.setScale(0.8f, 1.f);
 	flyershape.setOrigin(3, 3);
-
-	reset();
 }
 
 /**------------------------------------------------------------
@@ -52,12 +35,13 @@ GameGraphics::GameGraphics()
   -----------------------------------------------------------*/
 GameGraphics::~GameGraphics() { }
 
+
 void GameGraphics::reset()
 {
-	corner = Point(-config->WIDTH / 2, -config->HEIGHT / 2);
+	corner = Point(0, 0);
+	foreground_corner = Point(0, 0);
 	message = "";
-
-
+	set_forestar_layer();
 }
 
 /////////////////////
@@ -70,7 +54,6 @@ void GameGraphics::reset()
 void GameGraphics::show_start_screen() 
 {
 	show_end_screen(-1);
-
 }
 
 /**------------------------------------------------------------
@@ -78,18 +61,19 @@ void GameGraphics::show_start_screen()
   -----------------------------------------------------------*/
 void GameGraphics::redraw_game_screen()
 {
-	window.clear(sf::Color::Black);
+	window->clear(sf::Color::Black);
 	update_corner();
 
 	background->draw();
-	for (int i = 0; i < game->n_stars(); i++) { draw_star(game->star(i)); }
+	draw_stars(); 
+
 	for (int i = 0; i < game->n_bots(); i++) { draw_flyer(game->bot(i), 'B'); }
 	draw_flyer(game->player(), 'M');
 
 	show_flyer_stats();
 	if (show_acceleration_vector) { draw_acceleration_vector(); }
 
-	window.display();
+	window->display();
 }
 
 /**------------------------------------------------------------
@@ -101,11 +85,11 @@ void GameGraphics::show_end_screen(int dist)
 	InterimScreen startscreen;
 	startscreen.show(dist);	
 	
-	//window.clear(sf::Color::Color(50, 50, 50, 0));
-	//window.display();
+	//window->clear(sf::Color::Color(50, 50, 50, 0));
+	//window->display();
 	//sf::Clock end_time;
 	//while(end_time.getElapsedTime() < sf::milliseconds(500)) {}
-	//window.close();
+	//window->close();
 }
 
 /**------------------------------------------------------------
@@ -129,16 +113,16 @@ void GameGraphics::show_message(std::string s)
 /**------------------------------------------------------------
   Draws a star.
   -----------------------------------------------------------*/
-void GameGraphics::draw_star(const GalaxyObject star)
+void GameGraphics::draw_stars()
 {
-	Point p = get_screen_position(star.position) - Point(25, 25);
-	sf::Sprite sp(star_render.getTexture());
-	sp.setScale(static_cast<float>(star.size / 25), static_cast<float>(star.size / 25));
-	sp.setPosition(p.vector());
-	window.pushGLStates();
-	window.draw(sp);
-	window.popGLStates();
-	}
+	sf::Sprite sprite (forestars.getTexture(), sf::IntRect(
+								sf::Vector2<int>(-config->WIDTH * 0.5, -config->HEIGHT * 0.5)
+								+ (sf::Vector2<int>)corner.vector(),
+								sf::Vector2<int>(config->WIDTH, config->HEIGHT)
+								));
+	sprite.setOrigin(config->WIDTH * 0.5, config->HEIGHT * 0.5);
+	window->draw(sprite);
+}
 
 /**------------------------------------------------------------
   Draws a flyer.
@@ -157,7 +141,7 @@ void GameGraphics::draw_flyer(const GalaxyObject flyer, char type)
 	double angle = acos(flyer.direction.x / flyer.direction.module());
 	if (flyer.direction.y < 0) angle = -angle;
 	flyershape.setRotation(static_cast<float>(angle / 3.141592 * 180 + 90));
-	window.draw(flyershape);
+	window->draw(flyershape);
 }
 
 /**------------------------------------------------------------
@@ -173,12 +157,56 @@ void GameGraphics::draw_acceleration_vector()
 	position += p * 1000;
 	line[1].position = position.vector();
 	line[1].color = sf::Color::White;
-	window.draw(line, 2, sf::Lines);
+	window->draw(line, 2, sf::Lines);
 }
 
 //////////////////////
 // Auxiliary stuff  //
 //////////////////////
+
+void GameGraphics::set_forestar_layer()
+{
+	// ---- this is a stub for creating single star render ---- 
+	sf::RenderTexture star_render;
+	star_render.create(50, 50);
+	
+	sf::View sv(star_render.getView());
+	sv.move(-25, -25);
+	star_render.setView(sv);
+	
+	for (int i = 0; i < 1000; i++) 
+	{ 
+		Point p(d_random(0, asin(1) * 4));
+		p *= d_random(0, 25);
+		//p += Point(25, 25);
+		sf::Vertex v;
+		v.position = p.vector();
+		v.color = sf::Color(255, 255, 50);
+		star_render.draw(&v, 1, sf::Points);
+	}
+	star_render.display();
+	// ---- up to here -----------------------
+
+	forestars.create(config->WIDTH * 3, config->HEIGHT * 3);
+	forestars.clear(sf::Color::Transparent);
+	
+	sf::View fv (forestars.getView());
+	fv.move(-config->WIDTH * 1.5, -config->HEIGHT * 1.5);
+	forestars.setView(fv);
+
+	for (int i = 0; i < game->n_stars(); i++)
+	{
+		Point p = get_screen_position(game->star(i).position) - Point(25, 25);
+
+		sf::Sprite sp(star_render.getTexture());
+		float scale = static_cast<float>(game->star(i).size / 25);
+		sp.setScale(scale, scale);
+		sp.setPosition(p.vector());
+		forestars.draw(sp);
+	}
+	
+	forestars.display();
+}
 
 /**------------------------------------------------------------
   Shows some stats (distance at the moment) and running debug
@@ -191,7 +219,7 @@ void GameGraphics::show_flyer_stats()
 		<< "\n\n" << message;
 	text.setString(ss.str());
 	
-	window.draw(text);
+	window->draw(text);
 }
 
 /**------------------------------------------------------------
@@ -201,7 +229,7 @@ void GameGraphics::show_flyer_stats()
   -----------------------------------------------------------*/
 Point GameGraphics::get_screen_position(const Point& galaxy_coord) const
 {
-	return galaxy_coord /*- Point(size / 2, size / 2)*/ - corner;
+	return galaxy_coord - corner;
 }
 
 /**------------------------------------------------------------
@@ -211,12 +239,17 @@ void GameGraphics::update_corner()
 {
 	Point p = get_screen_position(game->player().position);
 	double x_move = 0, y_move = 0;
-	if (p.x < config->MARGIN) { x_move = (p.x - config->MARGIN); }
-	if (p.x > config->WIDTH - config->MARGIN) { x_move = (p.x - config->WIDTH + config->MARGIN); }
-	if (p.y < config->MARGIN) { y_move = (p.y - config->MARGIN); }
-	if (p.y > config->HEIGHT - config->MARGIN) { y_move = (p.y - config->HEIGHT + config->MARGIN); }
-	corner += Point(x_move, y_move);
-	background->corner += Point(x_move, y_move);
+	double width_margin = config->WIDTH / 2 - config->MARGIN;
+	double height_margin = config->HEIGHT / 2 - config->MARGIN;
+
+	if (p.x < - width_margin) { x_move = (p.x + width_margin); }
+	if (p.x > width_margin) { x_move = (p.x - width_margin); }
+	if (p.y < - height_margin) { y_move = (p.y + height_margin); }
+	if (p.y > height_margin) { y_move = (p.y - height_margin); }
+	Point move(x_move, y_move);
+	corner += move;
+	foreground_corner += move;
+	background->corner += move;
 }
 
 
