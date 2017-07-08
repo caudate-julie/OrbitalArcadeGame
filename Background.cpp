@@ -15,7 +15,7 @@ Background::Background(void)
 {
 	galaxy.create(config->WIDTH * 3, config->HEIGHT * 3);
 	
-	corner = Point(0, 0);
+	back_shift = Point(0, 0);
 	add_corner = Point((config->WIDTH), (config->HEIGHT));
 
 	int BACK_STAR_N = 50000;
@@ -44,7 +44,7 @@ Background::~Background(void) {  }
 
 void Background::reset()
 {
-	corner = Point(0, 0);
+	back_shift = Point(0, 0);
 }
 
 /**------------------------------------------------------------
@@ -54,7 +54,7 @@ void Background::draw()
 {
 	sf::Sprite sprite(galaxy.getTexture(), sf::IntRect(
 												 sf::Vector2<int>(config->WIDTH * 1.5, config->HEIGHT * 1.5)
-												 + (sf::Vector2<int>)(corner * 0.2).vector(),
+												 + (sf::Vector2<int>)(back_shift * 0.2).vector(),
 												 sf::Vector2<int>(config->WIDTH, config->HEIGHT)
 												 ));
 	sprite.setOrigin(sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height / 2);

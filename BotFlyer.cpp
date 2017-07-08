@@ -14,11 +14,11 @@ extern GameGraphics* gamegraphics;
   Creates a new bot. Count is for debug output.
   -----------------------------------------------------------*/
 BotFlyer::BotFlyer(void) 
-	: prediction() 
-{
-	this->stop_thread = false;
-	recommendation = 'N';
-}
+	: prediction()
+	, crashed(false)
+	, stop_thread(false)
+	, recommendation('N')
+{}
 
 /**------------------------------------------------------------
   Void destructor.
@@ -86,12 +86,13 @@ BotFlyer& BotFlyer::operator=(const BotFlyer& other)
 /**------------------------------------------------------------
   This is a function to predict flight, running into separate
   thread. The result goes into this->recommendation.
+  Also it checks for already-crashed to relieve main thread.
   -----------------------------------------------------------*/
 void BotFlyer::predict()
 {
  	while (!this->stop_thread) 
 	{
-		gamegraphics->show_message(std::to_string(stop_thread));
+		if (game->crashed(position, config->FLYER_SIZE)) { crashed = true; }
 		int flat_crash = mock_flight(position, velocity);
 		if (flat_crash >= config->BOT_MAX_STEPS) 
 		{ 

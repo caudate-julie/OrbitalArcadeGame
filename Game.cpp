@@ -3,11 +3,13 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <memory>
+#include <queue>
 
 #include "Configuration.h"
 #include "auxiliary.h"
 #include "Flyer.h"
 #include "BotFlyer.h"
+#include "QueuedForGraphics.h"
 
 extern Configuration* config;
 
@@ -73,13 +75,16 @@ void Game::start()
   -----------------------------------------------------------*/
 void Game::make_move()
 {
+	// TODO: add crash animation
 	mainflyer->move(summ_acceleration(mainflyer->position));
 	dist += (mainflyer->velocity.module());
+	if (crashed(mainflyer->position, config->FLYER_SIZE)) { player_crashed = true; }
+
 	for (int i = 0; i < bots.size(); i++) 
 	{
 		bots[i]->move(summ_acceleration(bots[i]->position));
+		if (bots[i]->crashed) { change_bot(i); }
 	}
-	if (crashed(mainflyer->position, config->FLYER_SIZE)) { player_crashed = true; }
 }
 
 /**------------------------------------------------------------
@@ -106,13 +111,15 @@ void Game::user_turn_on_engine(char direction)
   (scopes differ for oblects). Creates a new object at the
   edge of scope instead of destroyed.
   -----------------------------------------------------------*/
-void Game::revise_stars()
+bool Game::revise_stars()
 {
+	bool changed = false;
 	for (int i = 0; i < stars.size(); i++)
 	{
 		if ((stars[i].position - mainflyer->position).module() > config->STAR_SCOPE)
 		{
 			change_star(i, false);
+			changed = true;
 		}
 	}
 	for (int i = 0; i < bots.size(); i++)
@@ -122,17 +129,18 @@ void Game::revise_stars()
 			change_bot(i);
 		}
 	}
+	return changed;
 }
 
 /**------------------------------------------------------------
   Checks if the given point (+- size) lies inside a star - 
   for flyer means that it is crashed.
   -----------------------------------------------------------*/
-bool Game::crashed(const Point& flyer_coord, double flyer_size) const
+bool Game::crashed(const Point& coord, double min_distance) const
 {
 	for (int i = 0; i < stars.size(); i++)
 	{
-		if ((stars[i].position - flyer_coord).module() < (stars[i].size + flyer_size)) 
+		if ((stars[i].position - coord).module() < (stars[i].size + min_distance)) 
 		{ 
 			return true; 
 		}
@@ -188,7 +196,7 @@ void Game::change_star(int index, bool initial)
 		Star s;
 		// if star is initial, flyer is not yet created. That's needed for proper destruction order.
 		s.position = direction * radius + (initial ? Point() : mainflyer->position);
-		if (no_star_collision(s.position, s.size))
+		if (!crashed(s.position, s.size + config->STAR_MIN_SPACE))
 		{ 
 			stars[index] = s;
 			return;
@@ -209,27 +217,12 @@ void Game::change_bot(int index)
 		double angle = d_random(0., M_PI * 2);
 		f->position = Point(angle) * config->BOT_SCOPE + mainflyer->position;
 		f->velocity = -Point(angle) * config->INIT_VELOCITY;
-		if (no_star_collision(f->position, config->FLYER_SIZE))
+		if (!crashed(f->position, config->FLYER_SIZE))
 		{
 			bots[index] = std::move(f);
 			return;
 		}
 	}
-}
-
-/**------------------------------------------------------------
-  Checks that object with given position and size does not
-  overlap with stars. Auto-generated stars are at (0, 0) 
-  position, so method works for star initiating as well.
-  -----------------------------------------------------------*/
-bool Game::no_star_collision(const Point& obj_coord, double obj_size) const
-{
-	for (int i = 0; i < stars.size(); i++)
-	{
-		double mindistance = config->STAR_MIN_SPACE + obj_size + stars[i].size;
-		if ((stars[i].position - obj_coord).module() < mindistance) { return false; }
-	}
-	return true;
 }
 
 /**------------------------------------------------------------

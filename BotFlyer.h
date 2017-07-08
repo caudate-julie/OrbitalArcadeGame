@@ -13,6 +13,8 @@ public:
 	~BotFlyer(void) override;
 	virtual GalaxyObject info() const;
 
+	bool crashed;
+
 	void start();
 	void action();
 
@@ -20,7 +22,6 @@ public:
 
 private:
 	std::thread prediction;
-	std::mutex mutex_on_turn;
 	bool stop_thread;
 	char recommendation;
 

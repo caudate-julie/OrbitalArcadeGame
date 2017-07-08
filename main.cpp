@@ -2,7 +2,6 @@
 #include <random>
 #include <ctime>
 #include <SFML\Graphics.hpp>
-//#include <memory>
 
 #include "GameGraphics.h"
 #include "Game.h"
@@ -47,6 +46,7 @@ bool menuscreen()
 					return false;
 				case sf::Keyboard::B:
 					config->set_bot_player(true);
+					gamegraphics->show_message("ESC to stop");
 					return true;
 				}
 			}
@@ -97,7 +97,12 @@ void gameloop()
 
 		gamegraphics->redraw_game_screen();
 
-		if (game->game_over) { return; }
+		if (game->game_over) 
+		{ 
+			sf::Clock pause;
+			while (pause.getElapsedTime().asSeconds() < 3) {}
+			return; 
+		}
 	}
 }
 

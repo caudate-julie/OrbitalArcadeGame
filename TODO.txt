@@ -9,17 +9,16 @@
 	generating back and double buffering
 	generating back in separate thread
 	flyers crash
-	bots crash
+?=>	bots crash
 	achievement class
 	vector_show_mode - to configs
 	make iterator for stars and bots
 	merge draw_flyer and draw_star
 	invisible stars - pointers
 	sf::View for frontground
-	centralize flyers 
 	while-load screen
 	l10n =)
-->	queue of events (like crashes)
+=>	queue of events (like crashes)
 
 NICE GRAPHICS PART
 	nice stars

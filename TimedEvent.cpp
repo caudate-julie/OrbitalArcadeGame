@@ -46,7 +46,10 @@ TimedStarRevision::TimedStarRevision()
 
 void TimedStarRevision::execute()
 {
-	game->revise_stars();
+	if (game->revise_stars())
+	{
+		gamegraphics->reset_forestar_layer();
+	}
 }
 
 /*-------------------------------------------------------------*/

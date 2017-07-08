@@ -1,24 +1,18 @@
 #pragma once
-/*
+
 class QueuedForGraphics
 {
 public:
 	//QueuedForGraphics(void);
-	~QueuedForGraphics(void);
+	//~QueuedForGraphics(void);
 	virtual void run() = 0;
 };
-
-class QueuedStarToDraw : public QueuedForGraphics
+ /*
+class QueuedStarUpdate : public QueuedForGraphics
 {
 public:
-
-private:
-
-};
-
-class QueuedStarToDelete : public QueuedForGraphics
-{
-public:
+	QueuedStarUpdate();
+	void run() override;
 
 private:
 
@@ -27,6 +21,8 @@ private:
 class QueuedFlyerCrash : public QueuedForGraphics
 {
 public:
+	QueuedFlyerCrash();
+	void run() override;
 
 private:
 

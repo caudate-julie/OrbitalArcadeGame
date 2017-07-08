@@ -35,8 +35,8 @@ public:
 	void make_move();
 	void call_bots_action();
 	void user_turn_on_engine(char direction);
-	void revise_stars();
-	bool crashed(const Point& flyer_coord, double flyer_size) const;
+	bool revise_stars();
+	bool crashed(const Point& flyer_coord, double min_distance) const;
 
 	Point acceleration(const Point&  flyer_coord, const Point&  star_coord, double mass) const;
 	Point summ_acceleration(const Point&  flyer_coord) const;
@@ -51,6 +51,5 @@ private:
 	void change_star(int index, bool initial);
 	void change_bot(int index);
 
-	bool no_star_collision(const Point&  obj_coord, double obj_size) const;
 	bool in_sight_semisphere(const Point&  obj_coord) const;
 };
