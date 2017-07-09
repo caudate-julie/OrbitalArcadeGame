@@ -154,9 +154,9 @@ bool Game::revise_stars()
 	{
 		if ((bots[i]->position - mainflyer->position).module() > config->BOT_SCOPE)
 		{
-			logger->start("bot changed");
+			//logger->start("bot changed");
 			change_bot(i);
-			logger->stop("bot changed");
+			//logger->stop("bot changed");
 			//bots[i]->start();							//  <-- FRIEND PREDICTION
 			//logger->logif("New bot thread started");	//  <-- FRIEND PREDICTION
 		}

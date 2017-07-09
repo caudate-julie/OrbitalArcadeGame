@@ -13,7 +13,7 @@ public:
 
 	void reset();
 
-	sf::RenderTexture galaxy;
+	sf::RenderTexture* primary_galaxy;
 	sf::Sprite* background_sprite;
 	Point background_shift;
 
@@ -24,5 +24,6 @@ private:
 
 //	std::vector<sf::CircleShape> backstars;
 	//void draw_stars();
+	sf::RenderTexture* secondary_galaxy;
 
 };

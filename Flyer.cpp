@@ -41,8 +41,11 @@ void Flyer::move(const Point& acceleration)
 Point Flyer::engine_acceleration(char direction) const
 {
 	if (direction == 'N') return Point(0, 0);
-	int orientation = (direction == 'R') ? 1 : -1;
-	return velocity.T() * (orientation / velocity.module() * config->ENGINE);
+
+	Point unit = velocity * (1 / velocity.module());
+	if (direction == 'R' || direction == 'L') { unit = unit.T(); }
+	if (direction == 'L' || direction == 'B') { unit *= -1; }
+	return unit * config->ENGINE;
 }
 
 /**------------------------------------------------------------

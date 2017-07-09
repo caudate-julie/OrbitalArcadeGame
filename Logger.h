@@ -5,6 +5,7 @@
 #include <map>
 #include <chrono>
 
+const int FRAMES = 200;
 typedef std::chrono::high_resolution_clock clocks;
 
 class Logger
@@ -20,7 +21,7 @@ public:
 private:
 	struct LogItem
 	{
-		float values[100];
+		float values[FRAMES];
 		float mean;
 		int i_max;
 		int current_index;

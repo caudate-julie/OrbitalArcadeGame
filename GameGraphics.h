@@ -52,7 +52,8 @@ private:
 	bool foreground_stop;
 
 	sf::RenderTexture* foreground;
-	sf::Sprite* foreground_sprite;
+	sf::RenderTexture* secondary_foreground;
+	//sf::Sprite* foreground_sprite;
 	sf::CircleShape flyershape;
 
 	// single element drawing

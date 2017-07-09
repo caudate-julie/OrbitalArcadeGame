@@ -39,16 +39,16 @@ std::string Logger::output()
 
 Logger::LogItem::LogItem()
 {
-	for (int i = 0; i < 100; i++) values[i] = 0;
+	for (int i = 0; i < FRAMES; i++) values[i] = 0;
 	mean = 0;
-	i_max = 99;
+	i_max = FRAMES - 1;
 	current_index = 0;
 }
 
 void Logger::LogItem::find_max()
 {
 	i_max = 0;
-	for (int i = 0; i < 100; i++) 
+	for (int i = 0; i < FRAMES; i++) 
 	{
 		if (values[i] > values[i_max]) i_max = i; 
 	}
@@ -58,12 +58,12 @@ void Logger::LogItem::stoptimer()
 {
 	std::chrono::duration<double, std::milli> duration_span = clocks::now() - start;
 	float duration = duration_span.count();
-	mean += (duration - values[current_index]) / 100.;
+	mean += (duration - values[current_index]) / (float)FRAMES;
 	if (duration > values[i_max]) { i_max = current_index; }
 	else if (i_max == current_index) { find_max(); }
 
 	values[current_index] = duration;
-	current_index = (current_index == 99) ? 0 : current_index + 1;
+	current_index = (current_index == FRAMES - 1) ? 0 : current_index + 1;
 }
 
 Logger* logger;

@@ -92,6 +92,7 @@ void gameloop()
 	int count = 0;
 	while (window->isOpen())
 	{
+		logger->start("one game loop");
 		count++;
 		sf::Event event;
 		while(window->pollEvent(event))
@@ -100,27 +101,29 @@ void gameloop()
 
 			if (event.type == sf::Event::KeyPressed)
 			{
-				logger->start("keyboard processing");
+			//	//logger->start("keyboard processing");
 				if (event.key.code == sf::Keyboard::Escape) { return; }
 				if (event.key.code == sf::Keyboard::Left) { game->user_turn_on_engine('L'); }
 				if (event.key.code == sf::Keyboard::Right) { game->user_turn_on_engine('R'); }
-				logger->stop("keyboard processing");
+				if (event.key.code == sf::Keyboard::Up) { game->user_turn_on_engine('F'); }
+				if (event.key.code == sf::Keyboard::Down) { game->user_turn_on_engine('B'); }
+				//logger->stop("keyboard processing");
 			}
 		}
 
 		// check all timed events.
-		logger->start("timed events");
+		//logger->start("timed events");
 		int time_elapsed = mainclock.getElapsedTime().asMicroseconds();
 		for (int i = 0; i < timers.size(); i++) { timers[i]->on_time(time_elapsed); }
-		logger->stop("timed events");
+		//logger->stop("timed events");
 
-		logger->start("logger output");
+		//logger->start("logger output");
 		gamegraphics->show_message(logger->output());
-		logger->stop("logger output");
+		//logger->stop("logger output");
 
-		logger->start("screen redrawn");
+		//logger->start("screen redrawn");
 		gamegraphics->redraw_game_screen();
-		logger->stop("screen redrawn");
+		//logger->stop("screen redrawn");
 
 		// STUB! to see the crash of mainflyer. Should be animated crash instead.
 		if (game->game_over) 
@@ -129,7 +132,7 @@ void gameloop()
 			while (pause.getElapsedTime().asSeconds() < 1) {}
 			return; 
 		}
-		
+		logger->stop("one game loop");
 	}
 }
 

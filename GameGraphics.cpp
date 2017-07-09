@@ -34,6 +34,20 @@ GameGraphics::GameGraphics()
 	flyershape = sf::CircleShape(6, 3);
 //	flyershape.setScale(0.8f, 1.f);
 	flyershape.setOrigin(6, 6);
+
+
+	// moved to reset
+	/*foreground = new sf::RenderTexture();
+	foreground->create(config->WIDTH * 3, config->HEIGHT * 3);
+	secondary_foreground = new sf::RenderTexture();
+	secondary_foreground->create(config->WIDTH * 3, config->HEIGHT * 3);
+	sf::View fv (foreground->getView());
+	fv.move(
+		static_cast<float>(-config->WIDTH * 1.5), 
+		static_cast<float>(-config->HEIGHT * 1.5)
+		);
+	foreground->setView(fv);
+	secondary_foreground->setView(fv);*/
 }
 
 /**------------------------------------------------------------
@@ -46,16 +60,31 @@ GameGraphics::~GameGraphics()
 	delete foreground;
 }
 
-
 void GameGraphics::reset()
 {
+	foreground_stop = true;
+	if (foreground_redrawing_thread.joinable()) { foreground_redrawing_thread.join(); }
+
+	delete foreground;
+	delete secondary_foreground;
+	foreground = new sf::RenderTexture();
+	foreground->create(config->WIDTH * 3, config->HEIGHT * 3);
+	secondary_foreground = new sf::RenderTexture();
+	secondary_foreground->create(config->WIDTH * 3, config->HEIGHT * 3);
+	sf::View fv (foreground->getView());
+	fv.move(
+		static_cast<float>(-config->WIDTH * 1.5), 
+		static_cast<float>(-config->HEIGHT * 1.5)
+		);
+	foreground->setView(fv);
+	secondary_foreground->setView(fv);
+
 	screen_shift = Point(0, 0);
+	foreground_shift = Point(0, 0);
 	message = "";
 
 	while(!graphics_queue.empty()) { graphics_queue.pop(); }
 
-	foreground_stop = true;
-	if (foreground_redrawing_thread.joinable()) { foreground_redrawing_thread.join(); }
 	foreground_stop = false;
 	foreground_redrawing_thread.swap(std::thread(&GameGraphics::reset_foreground, this));
 }
@@ -77,74 +106,68 @@ void GameGraphics::show_start_screen()
   -----------------------------------------------------------*/
 void GameGraphics::redraw_game_screen()
 {
-	logger->start("window cleared");
+	//logger->start("window cleared");
 	window->clear(sf::Color::Black);
-	logger->stop("window cleared");
+	//logger->stop("window cleared");
 
 	update_screen_shift();
 
-	logger->start("background drawing");
+	//logger->start("background drawing");
 	background->draw();
-	logger->stop("background drawing");
+	//logger->stop("background drawing");
 
-	logger->start("stars drawing");
+	//logger->start("stars drawing");
 	draw_stars(); 
-	logger->stop("stars drawing");
+	//logger->stop("stars drawing");
 
-	logger->start("flyers drawing");
+	//logger->start("flyers drawing");
 	for (int i = 0; i < game->n_bots(); i++) { draw_flyer(game->bot(i), 'B'); }
 	draw_flyer(game->player(), 'M');
+	//logger->stop("flyers drawing");
+
 	show_flyer_stats();
 	if (show_acceleration_vector) { draw_acceleration_vector(); }
-	logger->stop("flyers drawing");
-
-	logger->start("window displayed");
+	
+	//logger->start("window displayed");
 	window->display();
-	logger->stop("window displayed");
+	//logger->stop("window displayed");
 }
 
 void GameGraphics::reset_foreground()
 {
 	while (!foreground_stop)
 	{
-		sf::RenderTexture* new_foreground = new sf::RenderTexture();
 		Point new_shift = screen_shift;
-		new_foreground->create(config->WIDTH * 3, config->HEIGHT * 3);
-		new_foreground->clear(sf::Color::Transparent);
-	
-		sf::View fv (new_foreground->getView());
-		fv.move(
-			static_cast<float>(-config->WIDTH * 1.5), 
-			static_cast<float>(-config->HEIGHT * 1.5)
-			);
-		new_foreground->setView(fv);
+		secondary_foreground->clear(sf::Color::Transparent);
 
 		for (int i = 0; i < game->n_stars(); i++)
 		{
-			// right now stars are back to circles - that makes them in place
+			// right now stars are back to circles - that makes them in the right place...
 			sf::CircleShape star_shadow(static_cast<float>(game->star(i).size));
 			star_shadow.setOrigin(
 				static_cast<float>(game->star(i).size), 
 				static_cast<float>(game->star(i).size)
 				);
-			star_shadow.setFillColor(sf::Color(100, 100, 0));
+			star_shadow.setFillColor(sf::Color(200, 200, 50));
 			star_shadow.setPosition(
 				static_cast<float>(game->star(i).position.x - new_shift.x),
 				static_cast<float>(game->star(i).position.y - new_shift.y)
 				);
-			new_foreground->draw(star_shadow);
+			secondary_foreground->draw(star_shadow);
 			// ...and no need to set them right until we start to really generate them
 		}
-		new_foreground->display();
+		secondary_foreground->display();
 
-		sf::Sprite* new_sprite = new sf::Sprite(new_foreground->getTexture());
+		//sf::Sprite* new_sprite = new sf::Sprite(secondary_foreground->getTexture());
 
-		std::lock_guard<std::mutex> lock_foreground_refreshing(foreground_mutex);
+		std::lock_guard<std::mutex> lock_foreground(foreground_mutex);
+		sf::RenderTexture* temp = foreground;
+		foreground = secondary_foreground;
+		secondary_foreground = temp;
+
 		foreground_shift = new_shift;
-		delete foreground;
-		delete foreground_sprite;
-		foreground = new_foreground;
-		foreground_sprite = new_sprite;
+		//delete foreground_sprite;
+		//foreground_sprite = new_sprite;
 	}
 }
 
@@ -187,24 +210,22 @@ void GameGraphics::show_message(std::string s)
   -----------------------------------------------------------*/
 void GameGraphics::draw_stars()
 {
-	if (!foreground || !foreground_sprite) { return; }
-
-	logger->start("mutex set");
+	//logger->start("mutex set");
 	foreground_mutex.lock();
-	logger->stop("mutex set");
+	//logger->stop("mutex set");
 
+	sf::Sprite foresprite = sf::Sprite(foreground->getTexture());
 	Point current_shift = foreground_shift - screen_shift;
 
-	logger->start("sprite drawing");
-	foreground_sprite->setOrigin(
-		static_cast<float>(foreground_sprite->getGlobalBounds().width / 2 - current_shift.x), 
-		static_cast<float>(foreground_sprite->getGlobalBounds().height / 2 - current_shift.y)
+	//logger->start("sprite drawing");
+	foresprite.setOrigin(
+		static_cast<float>(foresprite.getGlobalBounds().width / 2 - current_shift.x), 
+		static_cast<float>(foresprite.getGlobalBounds().height / 2 - current_shift.y)
 		);
 	
-	window->draw(*foreground_sprite);
-	logger->stop("sprite drawing");
+	window->draw(foresprite);
+	//logger->stop("sprite drawing");
 	foreground_mutex.unlock();
-
 }
 
 /**------------------------------------------------------------
@@ -253,12 +274,20 @@ void GameGraphics::draw_acceleration_vector()
   -----------------------------------------------------------*/
 void GameGraphics::show_flyer_stats()
 {
+	//logger->start("stats::string total");
 	std::stringstream ss;
 	ss << "distance: " << (int)(game->distance()) 
 		<< "\n\n" << message;
-	text.setString(ss.str());
+	std::string s = ss.str();
+
+	//logger->start("stats::string setting");
+	text.setString(/*ss.str()*/s);
+	//logger->stop("stats::string setting");
 	
+	//logger->start("stats::string drawing");
 	window->draw(text);
+	//logger->stop("stats::string drawing");
+	//logger->stop("stats::string total");
 }
 
 /**------------------------------------------------------------
