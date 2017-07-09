@@ -1,0 +1,1413 @@
+ : 0
+Configuration read : 1
+GameGraphics created : 0
+Game created : 0
+Back created : 212
+Window created : 118
+----------------------------------------- : 0
+>> waiting for user choice <<  : 383
+Pre-game resets done : 2
+Game started : 292
+-------------------------------------------- : 0
+Timed events checked : 30
+Window cleared : 5
+Flyers drawn : 1851
+Sprite (b) drawn : 4
+Window displayed : 5
+Window cleared : 53
+Sprite (f) drawn : 256
+Flyers drawn : 13
+Window displayed : 2
+Window displayed : 44
+Window displayed : 8
+Window cleared : 53
+Sprite (f) drawn : 263
+Flyers drawn : 2
+Timed events checked : 2
+Flyers drawn : 13
+Window displayed : 9
+Window cleared : 40
+Sprite (f) drawn : 132
+Flyers drawn : 2
+Window displayed : 5
+Flyers drawn : 2
+Window displayed : 7
+Window displayed : 77
+Star changed : 35
+Sprite (b) drawn : 124
+Flyers drawn : 13
+Window displayed : 12
+Window cleared : 114
+Sprite (b) drawn : 203
+Sprite (b) drawn : 39
+Sprite (f) drawn : 97
+Window cleared : 9
+Flyers drawn : 72
+Window cleared : 84
+Flyers drawn : 12
+Flyers drawn : 2
+Sprite (b) drawn : 8
+Mutex set : 81
+Sprite (f) drawn : 22
+Timed events checked : 2
+Window cleared : 6
+Window displayed : 11
+Star changed : 25
+Sprite (b) drawn : 56
+Window cleared : 6
+Flyers drawn : 2
+Window displayed : 11
+Window cleared : 24
+Sprite (f) drawn : 53
+Window displayed : 2
+Window cleared : 10
+Window displayed : 58
+Window displayed : 8
+Window cleared : 21
+Sprite (f) drawn : 42
+Flyers drawn : 7
+Window displayed : 8
+Window cleared : 46
+Sprite (f) drawn : 38
+Flyers drawn : 4
+Window displayed : 8
+Window cleared : 59
+Flyers drawn : 5
+Sprite (b) drawn : 8
+Mutex set : 18
+Sprite (f) drawn : 36
+Window cleared : 6
+Window displayed : 8
+Window cleared : 17
+Sprite (f) drawn : 35
+Window cleared : 9
+Flyers drawn : 22
+Window displayed : 13
+Window cleared : 17
+Sprite (f) drawn : 33
+Sprite (b) drawn : 6
+Sprite (b) drawn : 9
+Mutex set : 18
+Sprite (f) drawn : 30
+Window cleared : 7
+Window displayed : 11
+Window cleared : 17
+Sprite (f) drawn : 32
+Flyers drawn : 5
+Sprite (b) drawn : 33
+Mutex set : 16
+Sprite (f) drawn : 42
+Flyers drawn : 7
+Sprite (b) drawn : 25
+Mutex set : 80
+Sprite (f) drawn : 32
+Flyers drawn : 5
+Sprite (b) drawn : 8
+Mutex set : 15
+Sprite (f) drawn : 31
+Flyers drawn : 5
+Flyers drawn : 72
+Sprite (b) drawn : 3
+Sprite (b) drawn : 7
+Mutex set : 15
+Sprite (f) drawn : 29
+Flyers drawn : 5
+Window displayed : 7
+Window cleared : 14
+Sprite (f) drawn : 29
+Sprite (f) drawn : 2
+Window displayed : 8
+Window cleared : 14
+Sprite (b) drawn : 29
+Flyers drawn : 4
+Sprite (b) drawn : 9
+Mutex set : 14
+Sprite (f) drawn : 29
+Flyers drawn : 7
+Timed events checked : 76
+Window displayed : 9
+Window cleared : 13
+Sprite (f) drawn : 28
+Flyers drawn : 8
+>> waiting for user choice <<  : 2202
+Pre-game resets done : 64
+Game started : 300
+-------------------------------------------- : 0
+Timed events checked : 6
+Window cleared : 26
+Flyers drawn : 5
+Sprite (b) drawn : 42
+Sprite (f) drawn : 27
+Flyers drawn : 4
+Flyers drawn : 49
+Flyers drawn : 4
+Window displayed : 25
+>> waiting for user choice <<  : 1653
+Pre-game resets done : 45
+Game started : 212
+-------------------------------------------- : 0
+Timed events checked : 4
+Window displayed : 3
+Window cleared : 11
+Sprite (f) drawn : 26
+Flyers drawn : 4
+Window displayed : 26
+Window displayed : 4
+Window cleared : 10
+Sprite (f) drawn : 29
+Flyers drawn : 3
+Window displayed : 5
+Window cleared : 10
+Sprite (f) drawn : 25
+Flyers drawn : 3
+Window displayed : 12
+Window cleared : 10
+Sprite (f) drawn : 25
+Flyers drawn : 3
+Window displayed : 10
+Window cleared : 10
+Sprite (f) drawn : 26
+Flyers drawn : 3
+Window displayed : 8
+Window cleared : 37
+Flyers drawn : 4
+Window displayed : 8
+Window cleared : 10
+Sprite (f) drawn : 26
+Flyers drawn : 4
+Flyers drawn : 2
+Window displayed : 14
+Sprite (b) drawn : 19
+Mutex set : 4
+Sprite (f) drawn : 22
+Flyers drawn : 4
+Window displayed : 14
+Window cleared : 9
+Sprite (f) drawn : 26
+Flyers drawn : 4
+Window displayed : 8
+Window cleared : 11
+Sprite (f) drawn : 25
+Flyers drawn : 4
+Window displayed : 9
+Window cleared : 49
+Sprite (f) drawn : 26
+Flyers drawn : 4
+Window displayed : 10
+Window cleared : 9
+Sprite (f) drawn : 26
+Flyers drawn : 5
+Window displayed : 2
+Window displayed : 2
+Window displayed : 10
+Window cleared : 10
+Sprite (f) drawn : 27
+Flyers drawn : 4
+Flyers drawn : 2
+Sprite (f) drawn : 16
+Window displayed : 10
+Window cleared : 9
+Sprite (f) drawn : 26
+Flyers drawn : 4
+Window displayed : 8
+Window cleared : 10
+Sprite (f) drawn : 29
+Window displayed : 2
+Window cleared : 4
+Sprite (b) drawn : 8
+Mutex set : 11
+Sprite (f) drawn : 27
+Flyers drawn : 5
+Window displayed : 8
+Window cleared : 10
+Sprite (f) drawn : 28
+Flyers drawn : 6
+Window displayed : 8
+Window cleared : 9
+Sprite (f) drawn : 27
+Flyers drawn : 5
+Flyers drawn : 2
+Window displayed : 8
+Timed events checked : 10
+Window cleared : 27
+Flyers drawn : 5
+Flyers drawn : 26
+Window displayed : 8
+Window cleared : 10
+Sprite (f) drawn : 27
+Flyers drawn : 5
+Flyers drawn : 2
+Window displayed : 95
+Star changed : 10
+Window cleared : 28
+Flyers drawn : 6
+Window displayed : 2
+Window displayed : 10
+Window cleared : 10
+Sprite (f) drawn : 27
+Flyers drawn : 5
+Window displayed : 9
+Window cleared : 10
+Sprite (f) drawn : 28
+Flyers drawn : 6
+Sprite (b) drawn : 9
+Mutex set : 10
+Sprite (f) drawn : 38
+Window displayed : 9
+Window cleared : 9
+Sprite (f) drawn : 28
+Flyers drawn : 5
+Flyers drawn : 2
+Window displayed : 3
+Flyers drawn : 32
+Window cleared : 23
+Sprite (b) drawn : 6
+Window displayed : 8
+Window cleared : 9
+Sprite (f) drawn : 27
+Flyers drawn : 5
+Window displayed : 8
+Window cleared : 9
+Sprite (f) drawn : 26
+Flyers drawn : 4
+Window displayed : 8
+Window cleared : 9
+Sprite (f) drawn : 27
+Flyers drawn : 5
+Sprite (b) drawn : 8
+Mutex set : 36
+Sprite (f) drawn : 26
+Flyers drawn : 4
+Window displayed : 9
+Timed events checked : 12
+Window cleared : 24
+Window cleared : 4
+Sprite (b) drawn : 9
+Mutex set : 10
+Sprite (f) drawn : 26
+Flyers drawn : 6
+Window displayed : 9
+Window cleared : 9
+Sprite (f) drawn : 49
+Sprite (b) drawn : 19
+Sprite (f) drawn : 26
+Flyers drawn : 69
+Window displayed : 5
+Window displayed : 8
+Timed events checked : 10
+Window cleared : 26
+Flyers drawn : 4
+Sprite (b) drawn : 8
+Mutex set : 9
+Sprite (f) drawn : 26
+Flyers drawn : 4
+Window displayed : 8
+Window cleared : 9
+Sprite (f) drawn : 26
+Flyers drawn : 4
+Window cleared : 19
+Sprite (f) drawn : 26
+Flyers drawn : 4
+Window displayed : 8
+Window cleared : 9
+Sprite (b) drawn : 25
+Flyers drawn : 3
+Window displayed : 9
+Window cleared : 9
+Sprite (f) drawn : 26
+Flyers drawn : 4
+Window displayed : 8
+Window cleared : 9
+Sprite (f) drawn : 25
+Flyers drawn : 4
+Window displayed : 9
+Window cleared : 9
+Sprite (f) drawn : 25
+Flyers drawn : 3
+Window displayed : 8
+Window cleared : 9
+Sprite (b) drawn : 25
+Sprite (b) drawn : 3
+>> waiting for user choice <<  : 1748
+Pre-game resets done : 65
+Game started : 301
+-------------------------------------------- : 0
+Window cleared : 2
+Sprite (b) drawn : 4
+Mutex set : 9
+Sprite (f) drawn : 24
+Sprite (b) drawn : 2
+Window displayed : 27
+Flyers drawn : 15
+Window cleared : 21
+Window cleared : 2
+Window displayed : 11
+Window cleared : 9
+Sprite (f) drawn : 45
+Window displayed : 4
+Window cleared : 9
+Sprite (b) drawn : 24
+Window cleared : 2
+Window displayed : 8
+Window cleared : 9
+Sprite (f) drawn : 24
+Sprite (f) drawn : 2
+Window displayed : 8
+Window cleared : 9
+Sprite (b) drawn : 24
+Sprite (b) drawn : 2
+Window displayed : 8
+Window cleared : 9
+Sprite (f) drawn : 23
+Flyers drawn : 3
+Window displayed : 7
+Timed events checked : 9
+Window cleared : 23
+Window cleared : 2
+Window displayed : 8
+Window cleared : 9
+Sprite (b) drawn : 24
+Sprite (b) drawn : 2
+Flyers drawn : 15
+Window cleared : 8
+Sprite (f) drawn : 23
+Flyers drawn : 3
+Sprite (b) drawn : 10
+Mutex set : 9
+Sprite (f) drawn : 23
+Sprite (f) drawn : 3
+Window displayed : 7
+Window displayed : 10
+Window cleared : 9
+Sprite (b) drawn : 25
+Flyers drawn : 5
+Window displayed : 9
+Window cleared : 9
+Sprite (b) drawn : 24
+Sprite (b) drawn : 3
+Sprite (b) drawn : 11
+Mutex set : 9
+Sprite (f) drawn : 25
+Flyers drawn : 4
+Window displayed : 8
+Window cleared : 9
+Sprite (f) drawn : 25
+Flyers drawn : 4
+Window displayed : 8
+Window cleared : 9
+Sprite (f) drawn : 25
+Window displayed : 41
+Timed events checked : 4
+Window cleared : 25
+Window cleared : 3
+Window displayed : 7
+Timed events checked : 9
+Sprite (b) drawn : 25
+Flyers drawn : 5
+Window displayed : 8
+Window cleared : 9
+Sprite (f) drawn : 25
+Flyers drawn : 4
+Window displayed : 9
+Window cleared : 9
+Sprite (f) drawn : 24
+Flyers drawn : 4
+Window displayed : 10
+Window cleared : 9
+Sprite (f) drawn : 24
+Flyers drawn : 5
+Window displayed : 9
+Window cleared : 9
+Sprite (b) drawn : 25
+Sprite (f) drawn : 3
+Flyers drawn : 65
+Window displayed : 6
+Window cleared : 8
+Sprite (b) drawn : 24
+Sprite (f) drawn : 3
+Window displayed : 8
+Window cleared : 9
+Sprite (f) drawn : 24
+Sprite (b) drawn : 3
+Window displayed : 8
+Window cleared : 9
+Sprite (b) drawn : 26
+Sprite (b) drawn : 3
+Window displayed : 8
+Window cleared : 9
+Sprite (f) drawn : 25
+Flyers drawn : 4
+Window displayed : 8
+Window cleared : 8
+Sprite (b) drawn : 24
+Flyers drawn : 3
+Window displayed : 8
+Window cleared : 9
+Sprite (f) drawn : 23
+Sprite (f) drawn : 2
+Window displayed : 30
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 24
+Window cleared : 3
+Window displayed : 9
+Timed events checked : 9
+Window cleared : 25
+Sprite (f) drawn : 3
+Window displayed : 9
+Window cleared : 9
+Sprite (b) drawn : 30
+Window displayed : 10
+Window cleared : 8
+Sprite (b) drawn : 25
+Sprite (b) drawn : 3
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 25
+Flyers drawn : 3
+Window displayed : 8
+Window cleared : 9
+Sprite (f) drawn : 24
+Flyers drawn : 4
+Window displayed : 8
+Window cleared : 9
+Sprite (b) drawn : 25
+Flyers drawn : 4
+Window displayed : 8
+Window cleared : 9
+Sprite (f) drawn : 50
+Window displayed : 13
+Window cleared : 44
+Sprite (b) drawn : 25
+Window cleared : 3
+Window displayed : 8
+Window cleared : 9
+Sprite (b) drawn : 26
+Flyers drawn : 4
+Window cleared : 8
+Sprite (b) drawn : 9
+Sprite (f) drawn : 24
+Flyers drawn : 3
+Sprite (b) drawn : 8
+Mutex set : 9
+Sprite (f) drawn : 23
+Timed events checked : 26
+Sprite (b) drawn : 9
+Mutex set : 9
+Sprite (f) drawn : 23
+Flyers drawn : 3
+Window displayed : 9
+Window cleared : 9
+Sprite (f) drawn : 23
+Window cleared : 2
+Window displayed : 8
+Window cleared : 8
+Sprite (b) drawn : 24
+Flyers drawn : 3
+Sprite (b) drawn : 8
+Mutex set : 9
+Sprite (f) drawn : 48
+Flyers drawn : 10
+Window cleared : 22
+Timed events checked : 22
+Mutex set : 10
+Sprite (f) drawn : 34
+Sprite (b) drawn : 16
+Sprite (f) drawn : 23
+Sprite (f) drawn : 2
+Flyers drawn : 64
+Window displayed : 3
+Window cleared : 8
+Sprite (f) drawn : 24
+Flyers drawn : 4
+Window displayed : 8
+Window cleared : 9
+Sprite (b) drawn : 24
+Sprite (f) drawn : 3
+Window displayed : 8
+Window cleared : 9
+Sprite (b) drawn : 24
+Flyers drawn : 3
+Sprite (b) drawn : 8
+Mutex set : 9
+Sprite (f) drawn : 40
+Flyers drawn : 4
+Window displayed : 17
+Window cleared : 8
+Sprite (f) drawn : 24
+Flyers drawn : 3
+Flyers drawn : 53
+Flyers drawn : 34
+Window displayed : 3
+Window displayed : 9
+Window cleared : 8
+Sprite (b) drawn : 24
+Window cleared : 2
+Window displayed : 9
+Window cleared : 9
+Sprite (f) drawn : 23
+Sprite (b) drawn : 3
+Window displayed : 53
+Timed events checked : 4
+Window cleared : 23
+Window cleared : 2
+Window displayed : 8
+Window cleared : 9
+Sprite (b) drawn : 24
+Flyers drawn : 4
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 26
+Flyers drawn : 4
+Window displayed : 8
+Window cleared : 9
+Sprite (f) drawn : 24
+Flyers drawn : 4
+Window displayed : 8
+Window cleared : 9
+Sprite (b) drawn : 24
+Sprite (b) drawn : 3
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 32
+Flyers drawn : 3
+Window displayed : 8
+Timed events checked : 9
+Window cleared : 24
+Window cleared : 2
+Timed events checked : 40
+Window cleared : 73
+Window cleared : 24
+Sprite (f) drawn : 8
+Sprite (b) drawn : 8
+Mutex set : 9
+Sprite (f) drawn : 24
+Flyers drawn : 4
+Flyers drawn : 48
+Window displayed : 3
+Window displayed : 9
+Window cleared : 8
+Sprite (f) drawn : 24
+Sprite (f) drawn : 3
+Window displayed : 8
+Window cleared : 9
+Sprite (f) drawn : 24
+Flyers drawn : 3
+Sprite (b) drawn : 17
+Sprite (f) drawn : 24
+Flyers drawn : 3
+Window displayed : 8
+Timed events checked : 9
+Window cleared : 25
+Window cleared : 3
+Flyers drawn : 19
+Window cleared : 22
+Window displayed : 11
+Window displayed : 8
+Window cleared : 8
+Sprite (b) drawn : 25
+Flyers drawn : 5
+Sprite (b) drawn : 8
+Mutex set : 9
+Sprite (f) drawn : 25
+Flyers drawn : 5
+Window displayed : 9
+Window cleared : 8
+Sprite (f) drawn : 25
+Flyers drawn : 4
+Window displayed : 9
+Window cleared : 8
+Sprite (b) drawn : 25
+Flyers drawn : 4
+Window displayed : 3
+Window displayed : 9
+Window cleared : 9
+Sprite (f) drawn : 24
+Flyers drawn : 4
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 24
+Sprite (b) drawn : 3
+Window cleared : 32
+Window displayed : 8
+Window cleared : 9
+Sprite (f) drawn : 24
+Flyers drawn : 4
+Window displayed : 8
+Timed events checked : 9
+Window cleared : 23
+Flyers drawn : 3
+Window displayed : 2
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 24
+Flyers drawn : 4
+Window displayed : 8
+Window cleared : 9
+Sprite (b) drawn : 24
+Flyers drawn : 4
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 24
+Flyers drawn : 4
+Flyers drawn : 54
+Window cleared : 3
+Sprite (b) drawn : 8
+Mutex set : 9
+Sprite (f) drawn : 24
+Flyers drawn : 4
+Window displayed : 9
+Window cleared : 9
+Sprite (b) drawn : 24
+Flyers drawn : 3
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 24
+Flyers drawn : 4
+Window displayed : 9
+Window cleared : 8
+Sprite (b) drawn : 24
+Sprite (b) drawn : 3
+Sprite (b) drawn : 8
+Mutex set : 14
+Sprite (f) drawn : 27
+Flyers drawn : 3
+Window displayed : 34
+Sprite (b) drawn : 8
+Mutex set : 9
+Sprite (f) drawn : 25
+Flyers drawn : 4
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 24
+Flyers drawn : 4
+Flyers drawn : 2
+Window displayed : 6
+Window displayed : 8
+Window cleared : 9
+Sprite (f) drawn : 23
+Flyers drawn : 4
+Window displayed : 9
+Window cleared : 9
+Sprite (b) drawn : 24
+Flyers drawn : 4
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 24
+Flyers drawn : 4
+Window displayed : 24
+Sprite (b) drawn : 52
+Window cleared : 3
+Sprite (b) drawn : 24
+Sprite (f) drawn : 23
+Sprite (f) drawn : 2
+Window displayed : 5
+Window displayed : 8
+Window cleared : 9
+Sprite (f) drawn : 24
+Sprite (b) drawn : 3
+Sprite (b) drawn : 8
+Mutex set : 9
+Sprite (f) drawn : 24
+Sprite (b) drawn : 3
+Window displayed : 8
+Window cleared : 9
+Sprite (f) drawn : 23
+Sprite (b) drawn : 3
+Window displayed : 8
+Window cleared : 9
+Sprite (b) drawn : 25
+Sprite (b) drawn : 3
+Window displayed : 44
+Window cleared : 8
+Sprite (b) drawn : 24
+Sprite (f) drawn : 3
+Window displayed : 8
+Window cleared : 8
+Sprite (b) drawn : 23
+Sprite (f) drawn : 4
+Window displayed : 8
+Window cleared : 9
+Sprite (f) drawn : 24
+Flyers drawn : 4
+Sprite (b) drawn : 8
+Mutex set : 9
+Sprite (f) drawn : 23
+Flyers drawn : 3
+Sprite (b) drawn : 9
+Mutex set : 9
+Sprite (f) drawn : 23
+Flyers drawn : 4
+Sprite (b) drawn : 8
+Mutex set : 9
+Sprite (f) drawn : 23
+Flyers drawn : 3
+Sprite (b) drawn : 8
+Mutex set : 9
+Sprite (f) drawn : 24
+Flyers drawn : 50
+Window displayed : 4
+Sprite (b) drawn : 22
+Window cleared : 3
+Window displayed : 9
+Window cleared : 9
+Sprite (f) drawn : 23
+Sprite (f) drawn : 3
+Window displayed : 8
+Timed events checked : 9
+Window cleared : 23
+Window cleared : 3
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 23
+Flyers drawn : 3
+Window displayed : 8
+Window cleared : 8
+Sprite (b) drawn : 24
+Sprite (b) drawn : 3
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 24
+Flyers drawn : 3
+Sprite (f) drawn : 29
+Flyers drawn : 31
+Flyers drawn : 3
+Window displayed : 2
+Sprite (b) drawn : 8
+Mutex set : 10
+Sprite (f) drawn : 22
+Sprite (b) drawn : 3
+Window displayed : 8
+Window cleared : 9
+Sprite (f) drawn : 23
+Flyers drawn : 63
+Window displayed : 30
+Window cleared : 9
+Sprite (b) drawn : 64
+Sprite (f) drawn : 23
+Flyers drawn : 3
+Window displayed : 9
+Window cleared : 8
+Sprite (b) drawn : 88
+Sprite (f) drawn : 23
+Flyers drawn : 3
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 23
+Window cleared : 3
+Window displayed : 18
+Window displayed : 8
+Window cleared : 9
+Sprite (b) drawn : 25
+Flyers drawn : 4
+Sprite (b) drawn : 8
+Mutex set : 9
+Sprite (f) drawn : 24
+Flyers drawn : 4
+Window displayed : 5
+Window displayed : 9
+Window cleared : 8
+Sprite (b) drawn : 24
+Window cleared : 3
+Window displayed : 8
+Window cleared : 112
+Sprite (b) drawn : 24
+Window cleared : 11
+Sprite (b) drawn : 8
+Mutex set : 9
+Sprite (f) drawn : 23
+Flyers drawn : 4
+Window displayed : 8
+Window cleared : 9
+Sprite (b) drawn : 23
+Flyers drawn : 3
+Window displayed : 9
+Timed events checked : 9
+Window cleared : 38
+Mutex set : 10
+Window cleared : 23
+Sprite (b) drawn : 3
+Window displayed : 9
+Window cleared : 67
+Sprite (f) drawn : 23
+Sprite (b) drawn : 3
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 23
+Window cleared : 2
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 23
+Window cleared : 2
+Window displayed : 8
+Window cleared : 9
+Sprite (f) drawn : 24
+Flyers drawn : 4
+Window displayed : 9
+Window cleared : 339
+Sprite (b) drawn : 24
+Window cleared : 3
+Sprite (b) drawn : 17
+Mutex set : 5
+Sprite (f) drawn : 21
+Sprite (b) drawn : 19
+Window displayed : 31
+Window cleared : 8
+Sprite (f) drawn : 23
+Sprite (b) drawn : 3
+Window displayed : 9
+Window cleared : 8
+Sprite (f) drawn : 23
+Flyers drawn : 3
+Window displayed : 13
+Window cleared : 8
+Sprite (f) drawn : 23
+Sprite (b) drawn : 3
+Sprite (b) drawn : 8
+Mutex set : 8
+Sprite (f) drawn : 24
+Flyers drawn : 4
+Window displayed : 2
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 24
+Window cleared : 3
+Window displayed : 8
+Window cleared : 8
+Sprite (b) drawn : 24
+Flyers drawn : 3
+Window displayed : 9
+Timed events checked : 9
+Window cleared : 24
+Window cleared : 3
+Window displayed : 9
+Window cleared : 8
+Sprite (b) drawn : 24
+Sprite (f) drawn : 2
+Window displayed : 9
+Window cleared : 8
+Sprite (f) drawn : 23
+Sprite (f) drawn : 3
+Sprite (b) drawn : 627
+Mutex set : 4
+Sprite (f) drawn : 23
+Window cleared : 2
+Sprite (b) drawn : 8
+Mutex set : 8
+Sprite (f) drawn : 23
+Flyers drawn : 3
+Sprite (b) drawn : 8
+Mutex set : 8
+Sprite (f) drawn : 23
+Window cleared : 3
+Window displayed : 9
+Window cleared : 8
+Sprite (b) drawn : 25
+Sprite (b) drawn : 3
+Window displayed : 9
+Window cleared : 8
+Sprite (f) drawn : 24
+Flyers drawn : 4
+Window displayed : 2
+Flyers drawn : 51
+Window displayed : 9
+Window cleared : 8
+Sprite (f) drawn : 24
+Flyers drawn : 4
+Window displayed : 8
+Window cleared : 8
+Sprite (b) drawn : 23
+Sprite (f) drawn : 2
+Window displayed : 9
+Timed events checked : 8
+Sprite (b) drawn : 24
+Sprite (b) drawn : 3
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 24
+Flyers drawn : 4
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 24
+Flyers drawn : 4
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 23
+Sprite (b) drawn : 3
+Window displayed : 6
+Sprite (b) drawn : 8
+Mutex set : 8
+Sprite (f) drawn : 24
+Flyers drawn : 14
+Sprite (b) drawn : 8
+Mutex set : 9
+Sprite (f) drawn : 23
+Flyers drawn : 3
+Window displayed : 9
+Window cleared : 8
+Sprite (f) drawn : 24
+Flyers drawn : 3
+Window displayed : 9
+Window cleared : 8
+Sprite (f) drawn : 23
+Flyers drawn : 4
+Window displayed : 9
+Window cleared : 8
+Sprite (f) drawn : 23
+Window cleared : 2
+Window displayed : 8
+Window cleared : 8
+Sprite (b) drawn : 23
+Sprite (f) drawn : 3
+Window displayed : 13
+Sprite (b) drawn : 8
+Mutex set : 8
+Sprite (f) drawn : 39
+Window displayed : 8
+Window cleared : 9
+Sprite (b) drawn : 23
+Window cleared : 2
+Window displayed : 9
+Window cleared : 8
+Sprite (f) drawn : 35
+Window displayed : 9
+Window cleared : 8
+Sprite (b) drawn : 23
+Window cleared : 3
+Sprite (b) drawn : 8
+Mutex set : 8
+Sprite (f) drawn : 23
+Sprite (b) drawn : 3
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 23
+Flyers drawn : 4
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 24
+Flyers drawn : 4
+Window displayed : 9
+Timed events checked : 9
+Mutex set : 4
+Sprite (f) drawn : 22
+Flyers drawn : 3
+Window displayed : 83
+Timed events checked : 5
+Window cleared : 24
+Sprite (b) drawn : 3
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 33
+Window displayed : 9
+Window cleared : 8
+Sprite (f) drawn : 23
+Flyers drawn : 4
+Sprite (b) drawn : 9
+Mutex set : 8
+Sprite (f) drawn : 24
+Window cleared : 2
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 23
+Flyers drawn : 4
+Window displayed : 8
+Window cleared : 8
+Sprite (b) drawn : 24
+Sprite (f) drawn : 3
+Window displayed : 9
+Window cleared : 8
+Sprite (f) drawn : 23
+Sprite (f) drawn : 2
+Flyers drawn : 21
+Window cleared : 21
+Window cleared : 2
+Window displayed : 8
+Window cleared : 8
+Sprite (b) drawn : 24
+Sprite (b) drawn : 3
+Window displayed : 10
+Window cleared : 8
+Sprite (b) drawn : 24
+Flyers drawn : 4
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 24
+Sprite (b) drawn : 3
+Window displayed : 12
+Window cleared : 8
+Sprite (b) drawn : 24
+Window cleared : 2
+Window displayed : 9
+Window cleared : 737
+Sprite (b) drawn : 23
+Window cleared : 2
+Sprite (b) drawn : 28
+Sprite (f) drawn : 23
+Flyers drawn : 3
+Window displayed : 9
+Timed events checked : 8
+Window cleared : 23
+Window cleared : 2
+Window displayed : 8
+Window cleared : 60
+Window cleared : 3
+Sprite (b) drawn : 16
+Sprite (f) drawn : 24
+Flyers drawn : 3
+Window displayed : 9
+Window cleared : 8
+Sprite (f) drawn : 23
+Sprite (b) drawn : 3
+Window displayed : 9
+Window cleared : 8
+Sprite (f) drawn : 23
+Flyers drawn : 4
+Window displayed : 9
+Star changed : 9
+Sprite (b) drawn : 24
+Sprite (f) drawn : 3
+Timed events checked : 22
+Window cleared : 4
+Sprite (f) drawn : 22
+Window cleared : 2
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 23
+Sprite (f) drawn : 3
+Window displayed : 9
+Window cleared : 8
+Sprite (f) drawn : 23
+Sprite (b) drawn : 11
+Window displayed : 9
+Window cleared : 8
+Sprite (b) drawn : 24
+Flyers drawn : 4
+Window displayed : 13
+Window cleared : 30
+Sprite (b) drawn : 5
+Window cleared : 23
+Window cleared : 3
+Window displayed : 8
+Window cleared : 8
+Sprite (b) drawn : 24
+Window displayed : 5
+Timed events checked : 102
+Window displayed : 3
+Window cleared : 22
+Window cleared : 2
+Window displayed : 8
+Window cleared : 8
+Sprite (b) drawn : 24
+Flyers drawn : 3
+Window displayed : 8
+Window cleared : 8
+Sprite (b) drawn : 24
+Window cleared : 3
+Window displayed : 8
+Window cleared : 8
+Sprite (b) drawn : 24
+Sprite (b) drawn : 3
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 23
+Window cleared : 2
+Sprite (b) drawn : 8
+Mutex set : 8
+Sprite (f) drawn : 23
+Window cleared : 2
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 24
+Flyers drawn : 4
+Timed events checked : 19
+Window cleared : 2
+Sprite (b) drawn : 24
+Window cleared : 2
+Window displayed : 9
+Window cleared : 8
+Sprite (b) drawn : 24
+Flyers drawn : 3
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 23
+Window cleared : 2
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 23
+Flyers drawn : 3
+Window displayed : 9
+Window cleared : 8
+Sprite (b) drawn : 23
+Window cleared : 2
+Window displayed : 9
+Window cleared : 167
+Sprite (b) drawn : 9
+Mutex set : 18
+Sprite (f) drawn : 23
+Window cleared : 3
+Window displayed : 9
+Window displayed : 8
+Window cleared : 8
+Sprite (b) drawn : 24
+Flyers drawn : 4
+Window displayed : 9
+Window cleared : 8
+Sprite (f) drawn : 23
+Flyers drawn : 3
+Window displayed : 9
+Window cleared : 8
+Sprite (f) drawn : 23
+Sprite (b) drawn : 3
+Window displayed : 8
+Window cleared : 8
+Sprite (b) drawn : 24
+Flyers drawn : 5
+Sprite (b) drawn : 8
+Mutex set : 8
+Sprite (f) drawn : 23
+Sprite (b) drawn : 3
+Flyers drawn : 59
+Window displayed : 8
+Window cleared : 8
+Sprite (b) drawn : 25
+Window cleared : 2
+Window displayed : 9
+Window cleared : 9
+Sprite (b) drawn : 24
+Window cleared : 2
+Window displayed : 9
+Window cleared : 8
+Sprite (f) drawn : 31
+Window displayed : 9
+Window cleared : 9
+Sprite (f) drawn : 23
+Sprite (f) drawn : 3
+Window displayed : 9
+Window cleared : 8
+Sprite (b) drawn : 23
+Window cleared : 14
+Sprite (b) drawn : 16
+Sprite (f) drawn : 23
+Window cleared : 3
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 23
+Sprite (b) drawn : 3
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 35
+Sprite (b) drawn : 3
+Timed events checked : 12
+Window cleared : 206
+Mutex set : 23
+Sprite (f) drawn : 23
+Window cleared : 3
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 23
+Window cleared : 23
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 23
+Flyers drawn : 3
+Window displayed : 49
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 23
+Sprite (f) drawn : 3
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 37
+Timed events checked : 15
+Window cleared : 3
+Sprite (b) drawn : 23
+Sprite (f) drawn : 3
+Window displayed : 9
+Window cleared : 8
+Sprite (f) drawn : 24
+Flyers drawn : 4
+Window displayed : 8
+Window cleared : 8
+Sprite (b) drawn : 24
+Sprite (b) drawn : 3
+Window displayed : 13
+Window cleared : 8
+Sprite (f) drawn : 23
+Flyers drawn : 3
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 23
+Sprite (b) drawn : 3
+Flyers drawn : 9
+Window displayed : 3
+Window cleared : 8
+Sprite (b) drawn : 24
+Sprite (f) drawn : 3
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 23
+Window cleared : 3
+Window displayed : 9
+Window cleared : 8
+Sprite (f) drawn : 22
+Sprite (b) drawn : 3
+Window displayed : 9
+Timed events checked : 9
+Window cleared : 23
+Window cleared : 2
+Sprite (b) drawn : 8
+Mutex set : 8
+Sprite (f) drawn : 23
+Flyers drawn : 3
+Window displayed : 2
+Window displayed : 9
+Window cleared : 156
+Sprite (b) drawn : 24
+Window cleared : 3
+Sprite (b) drawn : 23
+Sprite (f) drawn : 24
+Flyers drawn : 4
+Window displayed : 9
+Window cleared : 8
+Sprite (f) drawn : 23
+Window cleared : 2
+Window displayed : 14
+Window cleared : 8
+Sprite (f) drawn : 23
+Sprite (b) drawn : 3
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 23
+Window cleared : 3
+Window displayed : 9
+Window cleared : 8
+Sprite (f) drawn : 23
+Sprite (f) drawn : 2
+Window displayed : 8
+Timed events checked : 9
+Window cleared : 24
+Window cleared : 3
+Window displayed : 9
+Window cleared : 8
+Sprite (b) drawn : 23
+Sprite (f) drawn : 3
+Flyers drawn : 21
+Window cleared : 23
+Sprite (b) drawn : 2
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 23
+Window cleared : 2
+Window displayed : 9
+Window cleared : 8
+Sprite (f) drawn : 23
+Window cleared : 3
+Window displayed : 9
+Window cleared : 265
+Sprite (f) drawn : 24
+Flyers drawn : 4
+Sprite (b) drawn : 16
+Sprite (f) drawn : 24
+Flyers drawn : 4
+Window displayed : 9
+Window cleared : 8
+Sprite (f) drawn : 23
+Flyers drawn : 38
+Window displayed : 4
+Window cleared : 27
+Sprite (f) drawn : 3
+Window displayed : 9
+Window cleared : 8
+Sprite (f) drawn : 23
+Window cleared : 2
+Sprite (b) drawn : 8
+Mutex set : 8
+Sprite (f) drawn : 24
+Flyers drawn : 4
+Window displayed : 8
+Window cleared : 53
+Sprite (b) drawn : 3
+Sprite (f) drawn : 22
+Flyers drawn : 4
+Sprite (b) drawn : 8
+Mutex set : 8
+Sprite (f) drawn : 49
+Window cleared : 80
+Sprite (f) drawn : 33
+Flyers drawn : 3
+Window displayed : 33
+Sprite (b) drawn : 8
+Mutex set : 8
+Sprite (f) drawn : 24
+Sprite (f) drawn : 3
+Window displayed : 8
+Window cleared : 8
+Sprite (b) drawn : 24
+Sprite (b) drawn : 3
+Window displayed : 41
+Window displayed : 9
+Window cleared : 8
+Sprite (b) drawn : 23
+Sprite (b) drawn : 3
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 22
+Window cleared : 2
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 23
+Sprite (b) drawn : 3
+Window displayed : 8
+Window cleared : 8
+Sprite (b) drawn : 23
+Sprite (f) drawn : 3
+Window displayed : 8
+Window cleared : 8
+Sprite (b) drawn : 24
+Star changed : 3
+Sprite (b) drawn : 8
+Mutex set : 13
+Sprite (f) drawn : 19
+Sprite (f) drawn : 3
+Window displayed : 21
+Timed events checked : 4
+Window cleared : 23
+Window cleared : 2
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn : 23
+Sprite (b) drawn : 3
+Window displayed : 9
+Window cleared : 8
+Sprite (f) drawn : 23
+Window cleared : 3
+Window displayed : 8
+Window cleared : 8
+Sprite (b) drawn : 25
+Window cleared : 2
+Window displayed : 8
+Window cleared : 8
+Sprite (b) drawn : 24
+Window cleared : 3
+Window displayed : 9
+Window cleared : 8
+Sprite (f) drawn : 23
+Window cleared : 3
+Window displayed : 8
+Window cleared : 8
+Sprite (b) drawn : 23
+Sprite (b) drawn : 3
+Timed events checked : 65
+Window cleared : 7
+Sprite (b) drawn : 8
+Sprite (f) drawn : 23
+Window cleared : 2
+Window displayed : 8
+Timed events checked : 8
+Window cleared : 12
+Mutex set : 29
+Sprite (b) drawn : 23
+Sprite (b) drawn : 3
+Window displayed : 8
+Window cleared : 8
+Sprite (f) drawn

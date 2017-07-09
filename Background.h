@@ -14,7 +14,8 @@ public:
 	void reset();
 
 	sf::RenderTexture galaxy;
-	Point back_shift;
+	sf::Sprite* background_sprite;
+	Point background_shift;
 
 	void draw();
 

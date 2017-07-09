@@ -2,11 +2,11 @@
 
 #include <SFML\Graphics.hpp>
 
-class InterimScreen
+class MenuScreen
 {
 public:
-	InterimScreen(void);
-	~InterimScreen(void);
+	MenuScreen(void);
+	~MenuScreen(void);
 
 	void show(int dist);  // <-- STUB - must be Achievement class
 

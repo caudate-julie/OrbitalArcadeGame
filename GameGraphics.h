@@ -3,6 +3,7 @@
 #include <string>
 #include <memory>
 #include <queue>
+#include <thread>
 #include <mutex>
 
 #include "Point.h"
@@ -31,7 +32,7 @@ public:
 	// whole screens
 	void show_start_screen();
 	void redraw_game_screen();
-	void reset_forestar_layer();
+	void reset_foreground();
 	
 	// running debug output
 	void show_message(std::string s);
@@ -42,11 +43,16 @@ private:
 	sf::Text text;
 	sf::Font font;
 	Point screen_shift;            // joins screen and galaxy position
-	Point forestars_shift;         // joins foreground stars and galaxy
+	Point foreground_shift;         // joins foreground stars and galaxy
 	std::string message;           // running debug output
 	bool show_acceleration_vector;
 
-	sf::RenderTexture forestars;
+	std::thread foreground_redrawing_thread;
+	std::mutex foreground_mutex;
+	bool foreground_stop;
+
+	sf::RenderTexture* foreground;
+	sf::Sprite* foreground_sprite;
 	sf::CircleShape flyershape;
 
 	// single element drawing
@@ -57,6 +63,5 @@ private:
 
 	//Point get_screen_position(const Point& galaxy_coord) const;
 	void update_screen_shift();
-
 };
 

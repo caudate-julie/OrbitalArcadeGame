@@ -1,4 +1,4 @@
-#include "InterimScreen.h"
+#include "MenuScreen.h"
 
 #include <string>
 
@@ -9,17 +9,17 @@ using std::string;
 extern Game* game;
 extern sf::RenderWindow* window;
 
-InterimScreen::InterimScreen(void)
+MenuScreen::MenuScreen(void)
 {
 	
 }
 
 
-InterimScreen::~InterimScreen(void)
+MenuScreen::~MenuScreen(void)
 {
 }
 
-void InterimScreen::show(int dist)
+void MenuScreen::show(int dist)
 {
 	window->clear(sf::Color(44, 20, 53, 255));
 	showMenu(dist);  // <-- also STUB
@@ -27,7 +27,7 @@ void InterimScreen::show(int dist)
 }
 
 
-void InterimScreen::showMenu(int dist)
+void MenuScreen::showMenu(int dist)
 {
 	string menutext = "space - start a new game\n\n"
 		              "    d     - set difficulty\n\n"

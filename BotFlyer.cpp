@@ -14,18 +14,18 @@ extern GameGraphics* gamegraphics;
   Creates a new bot. Count is for debug output.
   -----------------------------------------------------------*/
 BotFlyer::BotFlyer(void) 
-	: prediction()
-	, crashed(false)
-	, stop_thread(false)
+	: im_crashed(false)
 	, recommendation('N')
+//	, prediction()             //  <-- FRIEND PREDICTION
+//	, stop_thread(false)       //  <-- FRIEND PREDICTION
 {}
 
 /**------------------------------------------------------------
   Void destructor.
   -----------------------------------------------------------*/
 BotFlyer::~BotFlyer(void) {
-	this->stop_thread = true;
-	if (this->prediction.joinable()) this->prediction.join();
+	//this->stop_thread = true;      //  <-- FRIEND PREDICTION
+	//if (this->prediction.joinable()) this->prediction.join();  //  <-- FRIEND PREDICTION
 }
 
 /**------------------------------------------------------------
@@ -33,14 +33,14 @@ BotFlyer::~BotFlyer(void) {
   game is finally constructed with star list, and bot can
   start predicting its flight.
   -----------------------------------------------------------*/
-void BotFlyer::start()
+/*void BotFlyer::start()			//  <-- FRIEND PREDICTION
 {
 	prediction.swap(std::thread(&BotFlyer::predict, this));
-}
+}*/
 
 /**------------------------------------------------------------
   Bot decides whether it should turn on engine.
-  It looks at the last recommendation given by the thread and
+  It looks at the *last recommendation given by the thread and
   implements it.
   -----------------------------------------------------------*/
 void BotFlyer::action()
@@ -75,6 +75,7 @@ BotFlyer& BotFlyer::operator=(const BotFlyer& other)
 	{
 		position = other.position;
 		velocity = other.velocity;
+		im_crashed = other.im_crashed;
 	}
 	return *this;
 }
@@ -82,37 +83,6 @@ BotFlyer& BotFlyer::operator=(const BotFlyer& other)
 /**============================================================
   ===================== PRIVATE MEMBERS =======================
   ===========================================================*/
-
-/**------------------------------------------------------------
-  This is a function to predict flight, running into separate
-  thread. The result goes into this->recommendation.
-  Also it checks for already-crashed to relieve main thread.
-  -----------------------------------------------------------*/
-void BotFlyer::predict()
-{
- 	while (!this->stop_thread) 
-	{
-		if (game->crashed(position, config->FLYER_SIZE)) { crashed = true; }
-		int flat_crash = mock_flight(position, velocity);
-		if (flat_crash >= config->BOT_MAX_STEPS) 
-		{ 
-			recommendation = 'N';
-			continue; 
-		}
-		// no crash happened - no interaction needed.
-	
-		int left_crash = mock_flight(position, velocity + engine_acceleration('L'));
-		int right_crash = mock_flight(position, velocity + engine_acceleration('R'));
-
-		if ((left_crash <= flat_crash) && (right_crash <= flat_crash)) 
-		{
-			recommendation = 'N';
-			continue;  // flat flight is longest.
-		}
-		recommendation = (left_crash > right_crash) ? 'L' : 'R';
-	}
-	int k = 5;
-}
 
 /**------------------------------------------------------------
   Flat flight from given point with given velocity, MAX_STEP
@@ -131,3 +101,39 @@ int BotFlyer::mock_flight(Point p, Point v) const
 	}
 	return step + 1;
 }
+
+/**------------------------------------------------------------
+  This is a function to predict flight, running into separate
+  thread. The result goes into this->recommendation.
+  Also it checks for already-crashed to relieve main thread.
+  -----------------------------------------------------------*/
+/*void BotFlyer::predict()				//  <-- FRIEND PREDICTION
+{
+	sf::Clock clock;
+	 while (!this->stop_thread) 
+	{
+		clock.restart();
+		if (game->crashed(position, config->FLYER_SIZE)) { im_crashed = true; }
+
+		int flat_crash = mock_flight(position, velocity);
+		if (flat_crash >= config->BOT_MAX_STEPS) 
+		{ 
+			recommendation = 'N';
+			continue; 
+		}
+		// no crash happened - no interaction needed.
+	
+		int left_crash = mock_flight(position, velocity + engine_acceleration('L'));
+		int right_crash = mock_flight(position, velocity + engine_acceleration('R'));
+
+		if ((left_crash <= flat_crash) && (right_crash <= flat_crash)) 
+		{
+			recommendation = 'N';
+			continue;  // flat flight is longest.
+		}
+		int time = clock.getElapsedTime().asMicroseconds();
+		recommendation = (left_crash > right_crash) ? 'L' : 'R';
+	}
+	int k = 5;
+}*/
+

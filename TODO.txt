@@ -8,17 +8,17 @@
 	vector of backgrounds
 	generating back and double buffering
 	generating back in separate thread
+	generating forestars in separate thread
 	flyers crash
-?=>	bots crash
 	achievement class
 	vector_show_mode - to configs
 	make iterator for stars and bots
-	merge draw_flyer and draw_star
 	invisible stars - pointers
-	sf::View for frontground
+	? sf::View for frontground
 	while-load screen
 	l10n =)
 =>	queue of events (like crashes)
+	? do bots plain and constantly crashing
 
 NICE GRAPHICS PART
 	nice stars

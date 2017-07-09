@@ -13,18 +13,19 @@ public:
 	~BotFlyer(void) override;
 	virtual GalaxyObject info() const;
 
-	bool crashed;
+	bool im_crashed;
+	//bool stop_thread;   //  <-- FRIEND PREDICTION
 
-	void start();
+	//void start();       //  <-- FRIEND PREDICTION
 	void action();
 
 	BotFlyer& operator=(const BotFlyer& other);
 
 private:
-	std::thread prediction;
-	bool stop_thread;
 	char recommendation;
+	//std::thread prediction;  //  <-- FRIEND PREDICTION
 
-	void predict();
+	//void predict();       //  <-- FRIEND PREDICTION
+	friend void predict(int i);
 	int mock_flight(Point p, Point v) const;
 };

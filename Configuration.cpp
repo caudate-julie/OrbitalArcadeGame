@@ -164,7 +164,7 @@ void Configuration::default_values()
 	bot_number_ = 5;
 	bot_action_ = 10000;
 	bot_scope_ = (width_ > height_) ? width_ : height_;
-	bot_max_steps_ = 400;
+	bot_max_steps_ = 200;
 	player_is_bot_ = false;
 
 	output_dist_coeff_ = 20;

@@ -10,8 +10,12 @@
 #include "Flyer.h"
 #include "BotFlyer.h"
 #include "QueuedForGraphics.h"
+#include "Logger.h"
 
 extern Configuration* config;
+extern Logger* logger;
+
+Game* game = nullptr;
 
 /**------------------------------------------------------------
   Creates new game with a flyer in the middle and several
@@ -19,6 +23,8 @@ extern Configuration* config;
   -----------------------------------------------------------*/
 Game::Game()
 	: game_over(player_crashed)
+	, stop_threads(false)
+
 {
 	//reset();
 }
@@ -26,7 +32,13 @@ Game::Game()
 /**------------------------------------------------------------
   Destructor =)
   -----------------------------------------------------------*/
-Game::~Game(void) { }
+Game::~Game(void) 
+{
+	stop_threads = true;
+	for (int i = 0; i < bot_threads.size(); i++) bot_threads[i].join();
+	delete mainflyer;
+	for (int i = 0; i < config->BOT_NUMBER; i++) if (bots[i]) delete bots[i];
+}
 
 void Game::reset()
 {
@@ -36,15 +48,23 @@ void Game::reset()
 		change_star(i, true); 
 	}
 
-	mainflyer = std::move(unique_ptr<Flyer>(config->PLAYER_IS_BOT ? new BotFlyer() : new Flyer()));
+	stop_threads = true;
+	for (int i = 0; i < bot_threads.size(); i++) bot_threads[i].join();
+	stop_threads = false;       //  <-- FRIEND PREDICTION
+
+	//mainflyer = std::move(unique_ptr<Flyer>(config->PLAYER_IS_BOT ? new BotFlyer() : new Flyer()));
+	mainflyer = config->PLAYER_IS_BOT ? new BotFlyer() : new Flyer();   // <-- UNIQUES TO POINTERS
 	dist = 0;
 	player_crashed = false;
 
-	bots.resize(config->BOT_NUMBER);
+	bots.resize(config->BOT_NUMBER + (config->PLAYER_IS_BOT ? 1 : 0));
 	for (int i = 0; i < config->BOT_NUMBER; i++)
 	{ 
 		change_bot(i); 
 	}
+//	if (config->PLAYER_IS_BOT) { bots[bots.size() - 1] = (static_cast<unique_ptr<BotFlyer>>(mainflyer)); }
+	if (config->PLAYER_IS_BOT) { bots[bots.size() - 1] = (static_cast<BotFlyer*>(mainflyer)); }
+	bot_threads.resize(config->BOT_NUMBER + (config->PLAYER_IS_BOT ? 1 : 0));
 }
 
 /**------------------------------------------------------------
@@ -52,7 +72,7 @@ void Game::reset()
   -----------------------------------------------------------*/
 GalaxyObject  Game::player() const     { return mainflyer->info(); }
 int Game::n_stars() const              { return static_cast<int>(stars.size()); }
-int Game::n_bots() const               { return static_cast<int>(bots.size()); }
+int Game::n_bots() const               { return static_cast<int>(config->BOT_NUMBER); }
 GalaxyObject  Game::star(int i) const  { return stars[i].info(); }
 GalaxyObject  Game::bot(int i) const   { return bots[i]->info(); }
 int Game::distance() const             { return static_cast<int>(dist / config->OUTPUT_DIST_COEFF); }
@@ -62,11 +82,16 @@ int Game::distance() const             { return static_cast<int>(dist / config->
   -----------------------------------------------------------*/
 void Game::start()
 {
-	if (config->PLAYER_IS_BOT) { (static_cast<BotFlyer*>(mainflyer.get()))-> start(); }
+	for(int i = 0; i < bot_threads.size(); i++)
+	{
+		bot_threads[i].swap(std::thread(predict, i));
+	}
+	//  <-- FRIEND PREDICTION
+	/*if (config->PLAYER_IS_BOT) { (static_cast<BotFlyer*>(mainflyer.get()))-> start(); }
 	for (int i = 0; i < bots.size(); i++) 
 	{
 		bots[i]->start();
-	}
+	}*/
 }
 
 /**------------------------------------------------------------
@@ -83,7 +108,8 @@ void Game::make_move()
 	for (int i = 0; i < bots.size(); i++) 
 	{
 		bots[i]->move(summ_acceleration(bots[i]->position));
-		if (bots[i]->crashed) { change_bot(i); }
+		bool smb_crashed = bots[i]->im_crashed;
+		if (bots[i]->im_crashed) { change_bot(i); }
 	}
 }
 
@@ -92,7 +118,9 @@ void Game::make_move()
   -----------------------------------------------------------*/
 void Game::call_bots_action()
 {
-	if (config->PLAYER_IS_BOT) { (static_cast<BotFlyer*>(mainflyer.get()))->action(); }
+	// <-- UNIQUES TO POINTERS
+	//if (config->PLAYER_IS_BOT) { (static_cast<BotFlyer*>(mainflyer.get()))->action(); }
+	if (config->PLAYER_IS_BOT) { static_cast<BotFlyer*>(mainflyer)->action(); }
 	for (int i = 0; i < bots.size(); i++) { bots[i]->action(); }
 }
 
@@ -126,7 +154,11 @@ bool Game::revise_stars()
 	{
 		if ((bots[i]->position - mainflyer->position).module() > config->BOT_SCOPE)
 		{
+			logger->start("bot changed");
 			change_bot(i);
+			logger->stop("bot changed");
+			//bots[i]->start();							//  <-- FRIEND PREDICTION
+			//logger->logif("New bot thread started");	//  <-- FRIEND PREDICTION
 		}
 	}
 	return changed;
@@ -154,7 +186,6 @@ bool Game::crashed(const Point& coord, double min_distance) const
 Point Game::acceleration(const Point& flyer_coord, const Point& star_coord, double mass) const
 {
 	Point r = flyer_coord - star_coord;
-	double power = pow(r.module(), 3);
 	return r * (- mass / pow(r.module(), 3) * config->G_CONST);
 }
 
@@ -211,15 +242,19 @@ void Game::change_star(int index, bool initial)
   -----------------------------------------------------------*/
 void Game::change_bot(int index)
 {
+	BotFlyer* f = nullptr;                          // <-- UNIQUES TO POINTERS
 	while (true) 
 	{
-		unique_ptr<BotFlyer> f (new BotFlyer());
+		//unique_ptr<BotFlyer> f (new BotFlyer());  // <-- UNIQUES TO POINTERS
+		delete f;							// <-- UNIQUES TO POINTERS
+		f = new BotFlyer();							// <-- UNIQUES TO POINTERS
+		
 		double angle = d_random(0., M_PI * 2);
 		f->position = Point(angle) * config->BOT_SCOPE + mainflyer->position;
 		f->velocity = -Point(angle) * config->INIT_VELOCITY;
 		if (!crashed(f->position, config->FLYER_SIZE))
 		{
-			bots[index] = std::move(f);
+			bots[index] = f; //std::move(f);		// <-- UNIQUES TO POINTERS
 			return;
 		}
 	}
@@ -235,4 +270,43 @@ bool Game::in_sight_semisphere(const Point& direction) const
 		  + mainflyer->velocity.y * direction.y) > 0;
 }
 
-Game* game = nullptr;
+
+/**------------------------------------------------------------
+  This is a function to predict flight, running into separate
+  thread. The result goes into this->recommendation.
+  Also it checks for already-crashed to relieve main thread.
+  -----------------------------------------------------------*/
+void predict(int i)				//  <-- FRIEND PREDICTION
+{
+	 while (!game->stop_threads) 
+	{
+		if (game->crashed(game->bots[i]->position, config->FLYER_SIZE)) 
+		{ 
+			game->bots[i]->im_crashed = true; 
+		}
+
+		Point position = game->bots[i]->position;
+		Point velocity = game->bots[i]->velocity;
+
+		int flat_crash = game->bots[i]->mock_flight(position, game->bots[i]->velocity);
+		if (flat_crash >= config->BOT_MAX_STEPS) 
+		{ 
+			game->bots[i]->recommendation = 'N';
+			continue; 
+		}
+		// no crash happened - no interaction needed.
+	
+		Point left_turn = game->bots[i]->engine_acceleration('L');
+		Point right_turn = game->bots[i]->engine_acceleration('R');
+
+		int left_crash = game->bots[i]->mock_flight(position, velocity + left_turn);
+		int right_crash = game->bots[i]->mock_flight(position, velocity + right_turn);
+
+		if ((left_crash <= flat_crash) && (right_crash <= flat_crash)) 
+		{
+			game->bots[i]->recommendation = 'N';
+			continue;  // flat flight is longest.
+		}
+		game->bots[i]->recommendation = (left_crash > right_crash) ? 'L' : 'R';
+	}
+}

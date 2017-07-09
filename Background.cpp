@@ -4,9 +4,11 @@
 
 #include "auxiliary.h"
 #include "GameGraphics.h"
+#include "Logger.h"
 
 extern Configuration* config;
 extern sf::RenderWindow* window;
+extern Logger* logger;
 
 /**------------------------------------------------------------
   
@@ -15,7 +17,7 @@ Background::Background(void)
 {
 	galaxy.create(config->WIDTH * 3, config->HEIGHT * 3);
 	
-	back_shift = Point(0, 0);
+	background_shift = Point(0, 0);
 	add_corner = Point((config->WIDTH), (config->HEIGHT));
 
 	int BACK_STAR_N = 50000;
@@ -44,7 +46,7 @@ Background::~Background(void) {  }
 
 void Background::reset()
 {
-	back_shift = Point(0, 0);
+	background_shift = Point(0, 0);
 }
 
 /**------------------------------------------------------------
@@ -52,13 +54,15 @@ void Background::reset()
   -----------------------------------------------------------*/
 void Background::draw()
 {
+	logger->start("sprite drawing");
 	sf::Sprite sprite(galaxy.getTexture(), sf::IntRect(
 												 sf::Vector2<int>(config->WIDTH * 1.5, config->HEIGHT * 1.5)
-												 + (sf::Vector2<int>)(back_shift * 0.2).vector(),
+												 + (sf::Vector2<int>)(background_shift * 0.2).vector(),
 												 sf::Vector2<int>(config->WIDTH, config->HEIGHT)
 												 ));
 	sprite.setOrigin(sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height / 2);
 	window->draw(sprite);
+	logger->stop("sprite drawing");
 }
 
 /**============================================================
