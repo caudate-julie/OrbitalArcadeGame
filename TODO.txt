@@ -8,13 +8,10 @@
 	vector of backgrounds
 	generating back and double buffering
 	generating back in separate thread
-	generating forestars in separate thread
 	flyers crash
 	achievement class
 	vector_show_mode - to configs
 	make iterator for stars and bots
-	invisible stars - pointers
-	? sf::View for frontground
 	while-load screen
 	l10n =)
 =>	queue of events (like crashes)

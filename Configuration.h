@@ -40,7 +40,8 @@ public:
 
 	// other
 	const double& OUTPUT_DIST_COEFF; // recalculate distance for conveniency of screen showing
-	
+	const int& INDICATOR_MARGIN;  // where indicators of invisible stars appear
+	const double& INDICATOR_COEFF;
 
 	// reassignment functions
 	void set_screen_size(int width, int height);
@@ -75,6 +76,8 @@ private:
 	bool player_is_bot_;
 
 	double output_dist_coeff_;
+	int indicator_margin_;
+	double indicator_coeff_;
 
 	// inner auxiliary functions
 	void default_values();

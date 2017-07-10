@@ -42,8 +42,9 @@ Configuration::Configuration()
 		BOT_MAX_STEPS(bot_max_steps_),
 		PLAYER_IS_BOT(player_is_bot_),
 
-		OUTPUT_DIST_COEFF(output_dist_coeff_)
-
+		OUTPUT_DIST_COEFF(output_dist_coeff_),
+		INDICATOR_MARGIN(indicator_margin_),
+		INDICATOR_COEFF(indicator_coeff_)
 {
 	default_values();
 	std::ifstream conf_file;
@@ -70,7 +71,7 @@ Configuration::Configuration()
 		if (key.str() == "width_") { width_ = std::stoi(value.str()); }
 		else if (key.str() == "height_") { height_ = std::stoi(value.str()); }
 		else if (key.str() == "margin_") { margin_ = std::stoi(value.str()); }
-
+		
 		else if (key.str() == "flyer_size_") { flyer_size_ = std::stod(value.str()); }
 		else if (key.str() == "star_min_size_") { star_min_size_ = std::stod(value.str()); }
 		else if (key.str() == "star_max_size_") { star_max_size_ = std::stod(value.str()); }
@@ -93,6 +94,8 @@ Configuration::Configuration()
 		else if (key.str() == "player_is_bot_") { player_is_bot_ = (bool)std::stoi(value.str()); }
 
 		else if (key.str() == "output_dist_coeff_") { output_dist_coeff_ = std::stod(value.str()); }
+		else if (key.str() == "indicator_margin_") { indicator_margin_ = std::stoi(value.str()); }
+		else if (key.str() == "indicator_coeff_") { indicator_coeff_ = std::stod(value.str()); }
 	}
 	conf_file.close();
 }
@@ -106,6 +109,7 @@ void Configuration::set_screen_size(int width, int height)
 	width_ = width;
 	height_ = height;
 	margin_ = ((width < height) ? width : height) / 4;
+	indicator_margin_ = margin_ / 6;
 	set_star_generation_consts();
 }
 
@@ -169,5 +173,6 @@ void Configuration::default_values()
 
 	output_dist_coeff_ = 20;
 	star_revise_time_ = 5;
+	indicator_coeff_ = 1.4;
 }
 

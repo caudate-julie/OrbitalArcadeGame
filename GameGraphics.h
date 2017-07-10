@@ -61,8 +61,11 @@ private:
 	void draw_flyer(const GalaxyObject flyer, char type);
 	void show_flyer_stats();
 	void draw_acceleration_vector();
+	void draw_star_indicators();
 
 	//Point get_screen_position(const Point& galaxy_coord) const;
 	void update_screen_shift();
+	bool to_be_indicated(double first_coord, double first_measure, double second_coord,  double second_measure) const;
+	Point calculate_indicator(const Point& screen_coords) const;
 };
 

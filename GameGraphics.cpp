@@ -127,6 +127,8 @@ void GameGraphics::redraw_game_screen()
 
 	show_flyer_stats();
 	if (show_acceleration_vector) { draw_acceleration_vector(); }
+
+	draw_star_indicators();
 	
 	//logger->start("window displayed");
 	window->display();
@@ -290,6 +292,26 @@ void GameGraphics::show_flyer_stats()
 	//logger->stop("stats::string total");
 }
 
+void GameGraphics::draw_star_indicators()
+{
+	for (int i = 0; i < game->n_stars(); i++)
+	{
+		Point star_position = game->star(i).position - screen_shift;
+		if (
+			to_be_indicated(star_position.x, config->WIDTH, star_position.y, config->HEIGHT)
+			|| to_be_indicated(star_position.y, config->HEIGHT, star_position.x, config->WIDTH)
+			)
+		{ 
+			Point coords = calculate_indicator(star_position); 
+			sf::CircleShape indicator(3);
+			indicator.setFillColor(sf::Color::Red);
+			indicator.setOrigin(3, 3);
+			indicator.setPosition(coords.x, coords.y);
+			window->draw(indicator);
+		}
+	}
+}
+
 /**------------------------------------------------------------
   If flyer is going out of borders, screen moves with it.
   -----------------------------------------------------------*/
@@ -307,6 +329,30 @@ void GameGraphics::update_screen_shift()
 	Point move(x_move, y_move);
 	screen_shift += move;
 	background->background_shift += move;
+}
+
+bool GameGraphics::to_be_indicated(double first_coord, double first_measure, 
+								   double second_coord, double second_measure) const
+{
+	return abs(first_coord) > (first_measure / 2 - config->INDICATOR_MARGIN / 2)
+		   && abs(first_coord) < (first_measure / 2 * config->INDICATOR_COEFF)
+		   && abs(second_coord) <= (second_measure / 2 + config->INDICATOR_MARGIN);
+}
+
+Point GameGraphics::calculate_indicator(const Point& screen_coords) const
+{
+	float coeff_x = 1;
+	float coeff_y = 1;
+	if (screen_coords.x < -config->WIDTH / 2 + config->INDICATOR_MARGIN) 
+		coeff_x = (-config->WIDTH / 2 + config->INDICATOR_MARGIN) / screen_coords.x;
+	else if (screen_coords.x > config->WIDTH / 2 - config->INDICATOR_MARGIN)
+		coeff_x = (config->WIDTH / 2 - config->INDICATOR_MARGIN) / screen_coords.x;
+	if (screen_coords.y < -config->HEIGHT / 2 + config->INDICATOR_MARGIN) 
+		coeff_x = (-config->HEIGHT / 2 + config->INDICATOR_MARGIN) / screen_coords.y;
+	else if (screen_coords.y > config->HEIGHT / 2 - config->INDICATOR_MARGIN)
+		coeff_x = (config->HEIGHT / 2 - config->INDICATOR_MARGIN) / screen_coords.y;
+
+	return screen_coords * ((coeff_x < coeff_y) ? coeff_x : coeff_y);
 }
 
 
