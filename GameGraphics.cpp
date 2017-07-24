@@ -14,8 +14,13 @@ extern Game* game;
 extern sf::RenderWindow* window;
 extern Logger* logger;
 
+/////////////////////////////////////////
+//      Constructor, destructor,       //
+//      interim resets                 //
+/////////////////////////////////////////
+
 /**------------------------------------------------------------
-  Creates new GameGraphics, sets up the window->
+  Creates new GameGraphics, sets up reused characteristics.
   -----------------------------------------------------------*/
 GameGraphics::GameGraphics() 
 	: foreground_redrawing_thread()
@@ -24,54 +29,40 @@ GameGraphics::GameGraphics()
 	text = sf::Text();
 	text.setFont(font);
 	text.setCharacterSize(14);
-	text.setPosition(
-		static_cast<float>(-config->WIDTH / 2 + 5), 
-		static_cast<float>(-config->HEIGHT / 2 + 5)
-		);
 
 	show_acceleration_vector = true;
 
-	flyershape = sf::CircleShape(6, 3);
-//	flyershape.setScale(0.8f, 1.f);
-	flyershape.setOrigin(6, 6);
+	flyershape = sf::CircleShape(config->FLYER_SIZE, 3);
+	flyershape.setOrigin(config->FLYER_SIZE, config->FLYER_SIZE);
 
-
-	// moved to reset
-	/*foreground = new sf::RenderTexture();
-	foreground->create(config->WIDTH * 3, config->HEIGHT * 3);
+	foreground = new sf::RenderTexture();
 	secondary_foreground = new sf::RenderTexture();
-	secondary_foreground->create(config->WIDTH * 3, config->HEIGHT * 3);
-	sf::View fv (foreground->getView());
-	fv.move(
-		static_cast<float>(-config->WIDTH * 1.5), 
-		static_cast<float>(-config->HEIGHT * 1.5)
-		);
-	foreground->setView(fv);
-	secondary_foreground->setView(fv);*/
+	reset_screen_size_settings();
 }
 
 /**------------------------------------------------------------
-  Destructor =)
+  Destructor: stops thread, deletes texture pointers.
   -----------------------------------------------------------*/
 GameGraphics::~GameGraphics() 
 {
 	foreground_stop = true;
 	if (foreground_redrawing_thread.joinable()) { foreground_redrawing_thread.join(); }
 	delete foreground;
+	delete secondary_foreground;
 }
 
+/**------------------------------------------------------------
+  Resets characteristics before every new game.
+  -----------------------------------------------------------*/
 void GameGraphics::reset()
 {
 	foreground_stop = true;
 	if (foreground_redrawing_thread.joinable()) { foreground_redrawing_thread.join(); }
 
-	delete foreground;
-	delete secondary_foreground;
-	foreground = new sf::RenderTexture();
+	// textures should be recreated before every game - or they behave STRANGE.
 	foreground->create(config->WIDTH * 3, config->HEIGHT * 3);
-	secondary_foreground = new sf::RenderTexture();
 	secondary_foreground->create(config->WIDTH * 3, config->HEIGHT * 3);
-	sf::View fv (foreground->getView());
+	sf::View fv (foreground->getDefaultView());
 	fv.move(
 		static_cast<float>(-config->WIDTH * 1.5), 
 		static_cast<float>(-config->HEIGHT * 1.5)
@@ -89,9 +80,23 @@ void GameGraphics::reset()
 	foreground_redrawing_thread.swap(std::thread(&GameGraphics::reset_foreground, this));
 }
 
-/////////////////////
-// Drawing screens //
-/////////////////////
+/**------------------------------------------------------------
+  Constant settings that should change if window sizes changed.
+  Resetting the window itself is done in main thread.
+  Also textures are recreated at reset. Window size is only
+  changed between games, so reset will be called after it.
+  -----------------------------------------------------------*/
+void GameGraphics::reset_screen_size_settings()
+{
+	text.setPosition(
+		static_cast<float>(-config->WIDTH / 2 + 5), 
+		static_cast<float>(-config->HEIGHT / 2 + 5)
+		);
+}
+
+/////////////////////////////////////////
+//         Drawing screens             //
+/////////////////////////////////////////
 
 /**------------------------------------------------------------
   Start screen (nothing here).
@@ -135,16 +140,24 @@ void GameGraphics::redraw_game_screen()
 	//logger->stop("window displayed");
 }
 
+/**------------------------------------------------------------
+  In-thread function to redraw foreground (ingame stars).
+  Should sleep, but right now doesn't.
+  Except for creating / deleting, this is the only function to
+  work with secondary foreground.
+  -----------------------------------------------------------*/
 void GameGraphics::reset_foreground()
 {
 	while (!foreground_stop)
 	{
-		Point new_shift = screen_shift;
+		//logger->start("foreground cycle");
+		Point new_shift = screen_shift;  // screen shift may change while redrawing goes
+		//logger->start("foreground reset");
 		secondary_foreground->clear(sf::Color::Transparent);
 
 		for (int i = 0; i < game->n_stars(); i++)
 		{
-			// right now stars are back to circles - that makes them in the right place...
+			// right now stars are back to circles - that puts them in the right place...
 			sf::CircleShape star_shadow(static_cast<float>(game->star(i).size));
 			star_shadow.setOrigin(
 				static_cast<float>(game->star(i).size), 
@@ -156,11 +169,9 @@ void GameGraphics::reset_foreground()
 				static_cast<float>(game->star(i).position.y - new_shift.y)
 				);
 			secondary_foreground->draw(star_shadow);
-			// ...and no need to set them right until we start to really generate them
 		}
 		secondary_foreground->display();
-
-		//sf::Sprite* new_sprite = new sf::Sprite(secondary_foreground->getTexture());
+		//logger->stop("foreground reset");
 
 		std::lock_guard<std::mutex> lock_foreground(foreground_mutex);
 		sf::RenderTexture* temp = foreground;
@@ -168,14 +179,12 @@ void GameGraphics::reset_foreground()
 		secondary_foreground = temp;
 
 		foreground_shift = new_shift;
-		//delete foreground_sprite;
-		//foreground_sprite = new_sprite;
+		//logger->stop("foreground cycle");
 	}
 }
 
 /**------------------------------------------------------------
-  End screen. Probably should be in separate class -
-  too many elements.
+  End screen (nothing here as well).
   -----------------------------------------------------------*/
 void GameGraphics::show_end_screen(int dist) 
 {
@@ -190,8 +199,8 @@ void GameGraphics::show_end_screen(int dist)
 }
 
 /**------------------------------------------------------------
-  Once again, this is auxiliary function to show running debug
-  output. Every debug message holdsis shown here until next 
+  Auxiliary function to show running debug output. 
+  Every debug message is shown here until the next 
   debug message appears.
   -----------------------------------------------------------*/
 void GameGraphics::show_message(std::string s)
@@ -203,17 +212,17 @@ void GameGraphics::show_message(std::string s)
   ===================== PRIVATE MEMBERS =======================
   ===========================================================*/
 
-/////////////////////////////////
-// Drawing individual elements //
-/////////////////////////////////
+/////////////////////////////////////////
+//     Drawing individual elements     //
+/////////////////////////////////////////
 
 /**------------------------------------------------------------
-  Draws a star.
+  Draws foreground layer with ingame stars.
   -----------------------------------------------------------*/
 void GameGraphics::draw_stars()
 {
 	//logger->start("mutex set");
-	foreground_mutex.lock();
+	std::lock_guard<std::mutex> lock_foreground(foreground_mutex);
 	//logger->stop("mutex set");
 
 	sf::Sprite foresprite = sf::Sprite(foreground->getTexture());
@@ -227,11 +236,11 @@ void GameGraphics::draw_stars()
 	
 	window->draw(foresprite);
 	//logger->stop("sprite drawing");
-	foreground_mutex.unlock();
 }
 
 /**------------------------------------------------------------
-  Draws a flyer.
+  Draws a flyer. Char type defines color: red for player ('M'),
+  purple for bots ('B').
   -----------------------------------------------------------*/
 void GameGraphics::draw_flyer(const GalaxyObject flyer, char type)
 {
@@ -251,35 +260,37 @@ void GameGraphics::draw_flyer(const GalaxyObject flyer, char type)
 }
 
 /**------------------------------------------------------------
-  Draws single vector.
+  Draws acceleration vector for main flyer.
   -----------------------------------------------------------*/
 void GameGraphics::draw_acceleration_vector()
 {
-	Point p = game->summ_acceleration(game->player().position);
+	// acceleration vector itself - should be magnified (otherwise it's just too short)
+	// and placed at player's position.
+	Point p = game->summ_acceleration(game->player().position);  
 	Point position = game->player().position - screen_shift;
 	sf::Vertex line[] = { sf::Vertex(), sf::Vertex() };
 	line[0].position = position.vector();
 	line[0].color = sf::Color::White;
-	position += p * 1000;
+	position += p * 1000;    // <-- this is an arbitrary magnifier
 	line[1].position = position.vector();
 	line[1].color = sf::Color::White;
 	window->draw(line, 2, sf::Lines);
 }
 
-//////////////////////
-// Auxiliary stuff  //
-//////////////////////
+/////////////////////////////////////////
+//          Auxiliary stuff            //
+/////////////////////////////////////////
 
 /**------------------------------------------------------------
-  Shows some stats (distance at the moment) and running debug
-  output.
+  Shows distance and running debug output.
+  May show other stats as well.
   -----------------------------------------------------------*/
 void GameGraphics::show_flyer_stats()
 {
 	//logger->start("stats::string total");
 	std::stringstream ss;
 	ss << "distance: " << (int)(game->distance()) 
-		<< "\n\n" << message;
+	   << "\n\n" << message;
 	std::string s = ss.str();
 
 	//logger->start("stats::string setting");
@@ -292,6 +303,10 @@ void GameGraphics::show_flyer_stats()
 	//logger->stop("stats::string total");
 }
 
+/**------------------------------------------------------------
+  Draws points showing where are invisible stars, if they are
+  close enough to window borders.
+  -----------------------------------------------------------*/
 void GameGraphics::draw_star_indicators()
 {
 	for (int i = 0; i < game->n_stars(); i++)
@@ -302,7 +317,7 @@ void GameGraphics::draw_star_indicators()
 			|| to_be_indicated(star_position.y, config->HEIGHT, star_position.x, config->WIDTH)
 			)
 		{ 
-			Point coords = calculate_indicator(star_position); 
+			Point coords = calculate_indicator_position(star_position); 
 			sf::CircleShape indicator(3);
 			indicator.setFillColor(sf::Color::Red);
 			indicator.setOrigin(3, 3);
@@ -331,29 +346,32 @@ void GameGraphics::update_screen_shift()
 	background->background_shift += move;
 }
 
+/**------------------------------------------------------------
+  Measures if invisible star should be indicated.
+  Star center should be beyond screen, but not too far.
+  Method is called twice - for horisontal and vertical coords.
+  -----------------------------------------------------------*/
 bool GameGraphics::to_be_indicated(double first_coord, double first_measure, 
 								   double second_coord, double second_measure) const
 {
-	return abs(first_coord) > (first_measure / 2 - config->INDICATOR_MARGIN / 2)
+	return abs(first_coord) > (first_measure / 2)
 		   && abs(first_coord) < (first_measure / 2 * config->INDICATOR_COEFF)
 		   && abs(second_coord) <= (second_measure / 2 + config->INDICATOR_MARGIN);
 }
 
-Point GameGraphics::calculate_indicator(const Point& screen_coords) const
+/**------------------------------------------------------------
+  This is a simple proportion: both coordinates should be
+  within screen and one should be at "indicator frame" - at
+  INDICATOR_MARGIN distance from screen borders.
+  -----------------------------------------------------------*/
+Point GameGraphics::calculate_indicator_position(const Point& screen_coords) const
 {
-	float coeff_x = 1;
-	float coeff_y = 1;
-	if (screen_coords.x < -config->WIDTH / 2 + config->INDICATOR_MARGIN) 
-		coeff_x = (-config->WIDTH / 2 + config->INDICATOR_MARGIN) / screen_coords.x;
-	else if (screen_coords.x > config->WIDTH / 2 - config->INDICATOR_MARGIN)
-		coeff_x = (config->WIDTH / 2 - config->INDICATOR_MARGIN) / screen_coords.x;
-	if (screen_coords.y < -config->HEIGHT / 2 + config->INDICATOR_MARGIN) 
-		coeff_x = (-config->HEIGHT / 2 + config->INDICATOR_MARGIN) / screen_coords.y;
-	else if (screen_coords.y > config->HEIGHT / 2 - config->INDICATOR_MARGIN)
-		coeff_x = (config->HEIGHT / 2 - config->INDICATOR_MARGIN) / screen_coords.y;
+	// if coordinate is in bounds, coefficient will be more than 1.
+	// We pick the smallest.
+	float coeff_x = (config->WIDTH / 2 - config->INDICATOR_MARGIN) / abs(screen_coords.x);
+	float coeff_y = (config->HEIGHT / 2 - config->INDICATOR_MARGIN) / abs(screen_coords.y);
 
 	return screen_coords * ((coeff_x < coeff_y) ? coeff_x : coeff_y);
 }
-
 
 GameGraphics* gamegraphics = nullptr;

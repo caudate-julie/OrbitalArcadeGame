@@ -113,7 +113,7 @@ void gameloop()
 
 		// check all timed events.
 		//logger->start("timed events");
-		int time_elapsed = mainclock.getElapsedTime().asMicroseconds();
+		int time_elapsed = static_cast<int>(mainclock.getElapsedTime().asMicroseconds());
 		for (int i = 0; i < timers.size(); i++) { timers[i]->on_time(time_elapsed); }
 		//logger->stop("timed events");
 

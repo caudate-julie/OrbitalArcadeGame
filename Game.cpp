@@ -280,6 +280,7 @@ void predict(int i)				//  <-- FRIEND PREDICTION
 {
 	 while (!game->stop_threads) 
 	{
+		//logger->start("bot prediction");
 		if (game->crashed(game->bots[i]->position, config->FLYER_SIZE)) 
 		{ 
 			game->bots[i]->im_crashed = true; 
@@ -288,19 +289,25 @@ void predict(int i)				//  <-- FRIEND PREDICTION
 		Point position = game->bots[i]->position;
 		Point velocity = game->bots[i]->velocity;
 
+		//logger->start("flat flight");
 		int flat_crash = game->bots[i]->mock_flight(position, game->bots[i]->velocity);
 		if (flat_crash >= config->BOT_MAX_STEPS) 
 		{ 
 			game->bots[i]->recommendation = 'N';
 			continue; 
 		}
+		//logger->stop("flat flight");
 		// no crash happened - no interaction needed.
 	
+		//logger->start("acceleration");
 		Point left_turn = game->bots[i]->engine_acceleration('L');
 		Point right_turn = game->bots[i]->engine_acceleration('R');
+		//logger->stop("acceleration");
 
+		//logger->start("turn_flight");
 		int left_crash = game->bots[i]->mock_flight(position, velocity + left_turn);
 		int right_crash = game->bots[i]->mock_flight(position, velocity + right_turn);
+		//logger->stop("turn_flight");
 
 		if ((left_crash <= flat_crash) && (right_crash <= flat_crash)) 
 		{
@@ -308,5 +315,6 @@ void predict(int i)				//  <-- FRIEND PREDICTION
 			continue;  // flat flight is longest.
 		}
 		game->bots[i]->recommendation = (left_crash > right_crash) ? 'L' : 'R';
+		//logger->stop("bot prediction");
 	}
 }

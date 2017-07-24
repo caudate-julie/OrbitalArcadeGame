@@ -7,7 +7,7 @@ public:
 	//~QueuedForGraphics(void);
 	virtual void run() = 0;
 };
- /*
+
 class QueuedStarUpdate : public QueuedForGraphics
 {
 public:
@@ -26,4 +26,4 @@ public:
 
 private:
 
-};*/
+};

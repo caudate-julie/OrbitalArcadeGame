@@ -28,6 +28,7 @@ public:
 	std::mutex queue_mutex;
 
 	void reset();
+	void reset_screen_size_settings();
 
 	// whole screens
 	void show_start_screen();
@@ -66,6 +67,6 @@ private:
 	//Point get_screen_position(const Point& galaxy_coord) const;
 	void update_screen_shift();
 	bool to_be_indicated(double first_coord, double first_measure, double second_coord,  double second_measure) const;
-	Point calculate_indicator(const Point& screen_coords) const;
+	Point calculate_indicator_position(const Point& screen_coords) const;
 };
 

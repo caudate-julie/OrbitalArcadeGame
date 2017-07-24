@@ -5,7 +5,7 @@
 #include <map>
 #include <chrono>
 
-const int FRAMES = 200;
+const int FRAMES = 100;
 typedef std::chrono::high_resolution_clock clocks;
 
 class Logger

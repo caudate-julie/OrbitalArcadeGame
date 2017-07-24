@@ -62,12 +62,11 @@ void Background::reset()
 void Background::draw()
 {
 	//logger->start("sprite drawing");
-	sf::Sprite sprite(primary_galaxy->getTexture(), sf::IntRect(
-												 sf::Vector2<int>(config->WIDTH * 1.5, config->HEIGHT * 1.5)
-												 + (sf::Vector2<int>)(background_shift * 0.2).vector(),
-												 sf::Vector2<int>(config->WIDTH, config->HEIGHT)
-												 ));
-	sprite.setOrigin(sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height / 2);
+	sf::Sprite sprite(primary_galaxy->getTexture());
+	sprite.setOrigin(
+		static_cast<float>(sprite.getGlobalBounds().width / 2 + background_shift.x * 0.2), 
+		static_cast<float>(sprite.getGlobalBounds().height / 2+ background_shift.y * 0.2)
+		);
 	window->draw(sprite);
 	//logger->stop("sprite drawing");
 }

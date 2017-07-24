@@ -2,16 +2,16 @@
 	add ending screen
 	on_close 
 	configs as map<str, ???>
-	save config function
+	? save config function
 	exceptions in opening and closing file
 	config reading - make better
-	vector of backgrounds
+	? vector of backgrounds
 	generating back and double buffering
 	generating back in separate thread
 	flyers crash
 	achievement class
 	vector_show_mode - to configs
-	make iterator for stars and bots
+	? make iterator for stars and bots
 	while-load screen
 	l10n =)
 =>	queue of events (like crashes)

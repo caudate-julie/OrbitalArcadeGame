@@ -52,7 +52,7 @@ Configuration::Configuration()
 	{
 		conf_file.open("config.txt");
 	}
-	catch (const std::exception& e)
+	catch (const std::exception&)
 	{
 		// DO SMTH!
 		return;
@@ -60,42 +60,47 @@ Configuration::Configuration()
 	std::string line;
 	while (getline(conf_file, line))
 	{
-		if (line.size() <= 1 || line[0] == '#') continue;    // <-- comment symbol
-		std::stringstream key;
-		std::stringstream value;
-		int i = 0;
-		while (i < line.size() && line[i] != ' ') { key << line[i++]; }
-		i++;
-		while (i < line.size()) { value << line[i++]; }
+		try
+		{
+			if (line.size() <= 1 || line[0] == '#') continue;    // <-- comment symbol
+			std::stringstream key;
+			std::stringstream value;
+			int i = 0;
+			while (i < line.size() && line[i] != ' ') { key << line[i++]; }
+			i++;
+			while (i < line.size()) { value << line[i++]; }
 
-		if (key.str() == "width_") { width_ = std::stoi(value.str()); }
-		else if (key.str() == "height_") { height_ = std::stoi(value.str()); }
-		else if (key.str() == "margin_") { margin_ = std::stoi(value.str()); }
+			if (key.str() == "width_") { width_ = std::stoi(value.str()); }
+			else if (key.str() == "height_") { height_ = std::stoi(value.str()); }
+			else if (key.str() == "margin_") { margin_ = std::stoi(value.str()); }
 		
-		else if (key.str() == "flyer_size_") { flyer_size_ = std::stod(value.str()); }
-		else if (key.str() == "star_min_size_") { star_min_size_ = std::stod(value.str()); }
-		else if (key.str() == "star_max_size_") { star_max_size_ = std::stod(value.str()); }
+			else if (key.str() == "flyer_size_") { flyer_size_ = std::stod(value.str()); }
+			else if (key.str() == "star_min_size_") { star_min_size_ = std::stod(value.str()); }
+			else if (key.str() == "star_max_size_") { star_max_size_ = std::stod(value.str()); }
 
-		else if (key.str() == "star_revise_time_") { star_revise_time_ = std::stoi(value.str()); }
-		else if (key.str() == "star_density_") { star_density_ = std::stod(value.str()); }
-		else if (key.str() == "star_min_space_") { star_min_space_ = std::stod(value.str()); }
-		else if (key.str() == "star_number_") { star_number_ = std::stoi(value.str()); }
-		else if (key.str() == "star_scope_") { star_scope_= std::stod(value.str()); }
+			else if (key.str() == "star_revise_time_") { star_revise_time_ = std::stoi(value.str()); }
+			else if (key.str() == "star_density_") { star_density_ = std::stod(value.str()); }
+			else if (key.str() == "star_min_space_") { star_min_space_ = std::stod(value.str()); }
+			else if (key.str() == "star_number_") { star_number_ = std::stoi(value.str()); }
+			else if (key.str() == "star_scope_") { star_scope_= std::stod(value.str()); }
 
-		else if (key.str() == "time_unit_") { time_unit_ = std::stoi(value.str()); }
-		else if (key.str() == "g_const_") { g_const_ = std::stod(value.str()); }
-		else if (key.str() == "engine_") { engine_ = std::stod(value.str()); }
-		else if (key.str() == "init_velocity_") { init_velocity_ = std::stod(value.str()); }
+			else if (key.str() == "time_unit_") { time_unit_ = std::stoi(value.str()); }
+			else if (key.str() == "g_const_") { g_const_ = std::stod(value.str()); }
+			else if (key.str() == "engine_") { engine_ = std::stod(value.str()); }
+			else if (key.str() == "init_velocity_") { init_velocity_ = std::stod(value.str()); }
 
-		else if (key.str() == "bot_number_") { bot_number_ = std::stoi(value.str()); }
-		else if (key.str() == "bot_action_") { bot_action_ = std::stoi(value.str()); }
-		else if (key.str() == "bot_scope_") { bot_scope_ = std::stod(value.str()); }
-		else if (key.str() == "bot_max_steps_") { bot_max_steps_ = std::stoi(value.str()); }
-		else if (key.str() == "player_is_bot_") { player_is_bot_ = (bool)std::stoi(value.str()); }
+			else if (key.str() == "bot_number_") { bot_number_ = std::stoi(value.str()); }
+			else if (key.str() == "bot_action_") { bot_action_ = std::stoi(value.str()); }
+			else if (key.str() == "bot_scope_") { bot_scope_ = std::stod(value.str()); }
+			else if (key.str() == "bot_max_steps_") { bot_max_steps_ = std::stoi(value.str()); }
+			else if (key.str() == "player_is_bot_") { player_is_bot_ = std::stoi(value.str()); }
 
-		else if (key.str() == "output_dist_coeff_") { output_dist_coeff_ = std::stod(value.str()); }
-		else if (key.str() == "indicator_margin_") { indicator_margin_ = std::stoi(value.str()); }
-		else if (key.str() == "indicator_coeff_") { indicator_coeff_ = std::stod(value.str()); }
+			else if (key.str() == "output_dist_coeff_") { output_dist_coeff_ = std::stod(value.str()); }
+			else if (key.str() == "indicator_margin_") { indicator_margin_ = std::stoi(value.str()); }
+			else if (key.str() == "indicator_coeff_") { indicator_coeff_ = std::stod(value.str()); }
+		} catch (std::exception&) {
+			// do nothing =)
+		}
 	}
 	conf_file.close();
 }
@@ -168,7 +173,7 @@ void Configuration::default_values()
 	bot_number_ = 5;
 	bot_action_ = 10000;
 	bot_scope_ = (width_ > height_) ? width_ : height_;
-	bot_max_steps_ = 200;
+	bot_max_steps_ = 50;
 	player_is_bot_ = false;
 
 	output_dist_coeff_ = 20;
