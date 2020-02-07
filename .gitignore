@@ -2,3 +2,5 @@
 *.aps
 *.rc
 x64
+Debug
+Release
